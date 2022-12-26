@@ -1,16 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 113.47 143.09">
-  <defs>
-    <style>
-      .cls-1 {
-        fill: #fafafa;
-      }
-    </style>
-  </defs>
-  <g id="Layer_1-2" data-name="Layer 1">
-    <g>
-      <polygon class="cls-1" points="30.64 54.93 113.47 138.15 108.17 143.09 72.54 143.09 0 70.55 0 39.31 38.77 0 74.44 0 79.74 5.29 30.64 54.93"/>
-      <polygon class="cls-1" points=".11 132.95 11.09 143.09 43.25 143.09 48.54 138.15 5.84 96.1 .11 101.95 .11 132.95"/>
-    </g>
-  </g>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" id="Layer_2" data-name="Layer 2" viewBox="0 0 113.47 143.09"><defs><style>.cls-1{fill:#fafafa}</style></defs><g id="Layer_1-2" data-name="Layer 1"><g><polygon points="30.64 54.93 113.47 138.15 108.17 143.09 72.54 143.09 0 70.55 0 39.31 38.77 0 74.44 0 79.74 5.29 30.64 54.93" class="cls-1"/><polygon points=".11 132.95 11.09 143.09 43.25 143.09 48.54 138.15 5.84 96.1 .11 101.95 .11 132.95" class="cls-1"/></g></g></svg>
