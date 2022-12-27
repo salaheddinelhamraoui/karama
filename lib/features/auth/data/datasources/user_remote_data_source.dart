@@ -13,7 +13,7 @@ const BASE_URL = "https://xyxm-adm5-et4s.n7.xano.io/api:BG09bi8f";
 class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   final http.Client client;
 
-  UserRemoteDataSourceImpl(this.client);
+  UserRemoteDataSourceImpl({required this.client});
 
   @override
   Future<UserModel> sinIn(mobileNumber) async {

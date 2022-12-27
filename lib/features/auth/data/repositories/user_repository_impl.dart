@@ -9,10 +9,13 @@ import '../datasources/user_remote_data_source.dart';
 
 class UserRepositoryImpl implements UserRepository {
   final UserLocalDataSource localDataSource;
+  final UserRemoteDataSource remoteDataSource;
   final NetworkInfo networkInfo;
 
   UserRepositoryImpl(
-      {required this.localDataSource, required this.networkInfo});
+      {required this.localDataSource,
+      required this.remoteDataSource,
+      required this.networkInfo});
 
   @override
   Future<Either<Failure, User>> loginUser(String mobileNumber) {

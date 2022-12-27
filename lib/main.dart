@@ -5,11 +5,14 @@ import 'core/app_theme.dart';
 import 'features/auth/presentation/pages/registration/registration_widget.dart';
 import 'features/auth/presentation/pages/welcome/welcome_widget.dart';
 import 'package:go_router/go_router.dart';
+import 'injection_container.dart' as di;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await FlutterFlowTheme.initialize();
+  WidgetsFlutterBinding.ensureInitialized();
+  await di.init();
 
   runApp(MyApp());
 }
