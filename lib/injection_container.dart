@@ -8,6 +8,7 @@ import 'features/auth/data/datasources/user_local_data_source.dart';
 import 'features/auth/data/datasources/user_remote_data_source.dart';
 import 'features/auth/data/repositories/user_repository_impl.dart';
 import 'features/auth/domain/repositories/user_repository.dart';
+import 'features/auth/domain/usecases/get_user.dart';
 import 'features/auth/domain/usecases/login_user.dart';
 import 'features/auth/domain/usecases/setup_user.dart';
 import 'features/auth/domain/usecases/signup_user.dart';
@@ -20,11 +21,12 @@ Future<void> init() async {
 // Features - posts
 
 // Bloc
-  sl.registerFactory(() => AuthBloc());
+  sl.registerFactory(() => AuthBloc(loginUser: sl(), getUser: sl()));
 
 // Usecases
 
   sl.registerLazySingleton(() => LoginUserUseCase(sl()));
+  sl.registerLazySingleton(() => GetUserUseCase(sl()));
   sl.registerLazySingleton(() => SetUpUserUseCase(sl()));
   sl.registerLazySingleton(() => SignUpUserUseCase(sl()));
   sl.registerLazySingleton(() => VerifyUserUseCase(sl()));

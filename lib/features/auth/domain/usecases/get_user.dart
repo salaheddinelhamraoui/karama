@@ -3,13 +3,12 @@ import 'package:karama/core/error/failure.dart';
 import 'package:karama/features/auth/domain/entities/user.dart';
 import 'package:karama/features/auth/domain/repositories/user_repository.dart';
 
-class LoginUserUseCase {
+class GetUserUseCase {
   final UserRepository repository;
 
-  LoginUserUseCase(this.repository);
+  GetUserUseCase(this.repository);
 
-  Future<Either<Failure, User>> call(
-      String mobileNumber, String password) async {
-    return await repository.loginUser(mobileNumber, password);
+  Future<Either<Failure, User>> call() async {
+    return await repository.getUser();
   }
 }

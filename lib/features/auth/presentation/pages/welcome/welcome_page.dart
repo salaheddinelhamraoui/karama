@@ -1,3 +1,4 @@
+import 'package:go_router/go_router.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart'
     as smooth_page_indicator;
 import 'package:flutter/material.dart';
@@ -28,6 +29,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       key: scaffoldKey,
       backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
       body: SafeArea(
@@ -166,7 +168,9 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 10),
                   child: FFButtonWidget(
-                    onPressed: () {},
+                    onPressed: () {
+                      context.go('/login');
+                    },
                     text: 'Verify',
                     options: FFButtonOptions(
                       width: 150,

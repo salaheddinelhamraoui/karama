@@ -8,3 +8,13 @@ abstract class AuthEvent extends Equatable {
 }
 
 class getUserEvent extends AuthEvent {}
+
+class LogInEvent extends AuthEvent {
+  final String mobileNumber;
+  final String password;
+
+  const LogInEvent({required this.mobileNumber, required this.password});
+
+  @override
+  List<Object> get props => [mobileNumber];
+}

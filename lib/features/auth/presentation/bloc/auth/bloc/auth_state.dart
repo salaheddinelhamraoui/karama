@@ -14,7 +14,7 @@ class LoadingUserState extends AuthState {}
 class LoadedUserState extends AuthState {
   final User user;
 
-  LoadedUserState({required this.user});
+  const LoadedUserState({required this.user});
 
   @override
   List<Object> get props => [user];
