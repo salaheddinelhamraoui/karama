@@ -39,8 +39,10 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
           SnackBarMessage().showSuccessSnackBar(
               message: 'Loged Successfully', context: context);
         } else if (state is ErrorUserState) {
-          SnackBarMessage()
-              .showErrorSnackBar(message: state.message, context: context);
+          if (state.message != 'No Data') {
+            SnackBarMessage()
+                .showErrorSnackBar(message: state.message, context: context);
+          }
         }
       },
       builder: (context, state) {
@@ -76,10 +78,10 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
                   child: Container(
                     height: 60,
                     decoration: BoxDecoration(),
-                    child: SvgPicture.asset(
-                      'assets/images/Logo_Karama.svg',
-                      width: 200,
+                    child: Image.asset(
+                      'assets/images/Logo_Karama.png',
                       fit: BoxFit.fitWidth,
+                      width: 200,
                     ),
                   ),
                 ),

@@ -64,10 +64,10 @@ class _RegistrationWidgetState extends State<RegistrationWidget> {
                   child: Container(
                     height: 60,
                     decoration: BoxDecoration(),
-                    child: SvgPicture.asset(
-                      'assets/images/Logo_Karama.svg',
-                      width: 200,
+                    child: Image.asset(
+                      'assets/images/Logo_Karama.png',
                       fit: BoxFit.fitWidth,
+                      width: 200,
                     ),
                   ),
                 ),

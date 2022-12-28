@@ -1,3 +1,5 @@
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+
 import '../app_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -9,12 +11,9 @@ class LoadingWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 20),
       child: Center(
-        child: SizedBox(
-          height: 30,
-          width: 30,
-          child: CircularProgressIndicator(
-            color: FlutterFlowTheme.of(context).primaryColor,
-          ),
+        child: LoadingAnimationWidget.dotsTriangle(
+          color: FlutterFlowTheme.of(context).primaryColor,
+          size: 60,
         ),
       ),
     );
