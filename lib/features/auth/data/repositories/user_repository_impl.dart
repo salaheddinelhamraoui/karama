@@ -28,7 +28,7 @@ class UserRepositoryImpl implements UserRepository {
       localDataSource.cacheUser(user);
       return Right(user);
     } on ServerException {
-      return Left(ServerFailure());
+      return Left(InvalidCredentialsFailure());
     }
   }
 

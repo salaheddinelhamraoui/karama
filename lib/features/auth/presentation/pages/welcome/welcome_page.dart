@@ -38,6 +38,9 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
           context.go('/feeds');
           SnackBarMessage().showSuccessSnackBar(
               message: 'Loged Successfully', context: context);
+        } else if (state is ErrorUserState) {
+          SnackBarMessage()
+              .showErrorSnackBar(message: state.message, context: context);
         }
       },
       builder: (context, state) {
@@ -191,7 +194,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
                     onPressed: () {
                       context.go('/login');
                     },
-                    text: 'Verify',
+                    text: 'Start',
                     options: FFButtonOptions(
                       width: 150,
                       height: 50,

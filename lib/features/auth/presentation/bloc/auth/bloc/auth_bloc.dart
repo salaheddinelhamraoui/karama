@@ -60,6 +60,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         return 'No Data';
       case OfflineFailure:
         return 'Please Check your Internet Connection';
+      case InvalidCredentialsFailure:
+        return 'Invalid Credentials !';
       default:
         return "Unexpected Error , Please try again later .";
     }

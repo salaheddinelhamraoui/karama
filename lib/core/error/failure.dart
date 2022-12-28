@@ -16,3 +16,10 @@ class EmptyCacheFailure extends Failure {
   @override
   List<Object?> get props => [];
 }
+
+class InvalidCredentialsFailure extends Failure {
+  InvalidCredentialsFailure();
+
+  @override
+  List<Object?> get props => [];
+}
