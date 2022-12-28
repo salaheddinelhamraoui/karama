@@ -9,4 +9,5 @@ abstract class UserRepository {
   Future<Either<Failure, String>> verifyUser(String pinCode);
   Future<Either<Failure, User>> setUpUser(User user);
   Future<Either<Failure, User>> getUser();
+  Future<Either<Failure, String>> getToken();
 }

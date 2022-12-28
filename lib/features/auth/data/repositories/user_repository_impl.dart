@@ -43,6 +43,16 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
+  Future<Either<Failure, String>> getToken() async {
+    try {
+      final token = await localDataSource.getCachedToken();
+      return Right(token);
+    } on EmptyCacheException {
+      return Left(EmptyCacheFailure());
+    }
+  }
+
+  @override
   Future<Either<Failure, User>> setUpUser(User user) {
     throw UnimplementedError();
   }

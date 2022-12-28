@@ -13,11 +13,12 @@ class LoadingUserState extends AuthState {}
 
 class LoadedUserState extends AuthState {
   final User user;
+  final String token;
 
-  const LoadedUserState({required this.user});
+  const LoadedUserState({required this.user, required this.token});
 
   @override
-  List<Object> get props => [user];
+  List<Object> get props => [user, token];
 }
 
 class ErrorUserState extends AuthState {

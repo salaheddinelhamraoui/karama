@@ -9,9 +9,12 @@ import '../models/user_model.dart';
 abstract class UserLocalDataSource {
   Future<UserModel> getCachedUser();
   Future<Unit> cacheUser(UserModel userModel);
+  Future<String> getCachedToken();
+  Future<Unit> cacheToken(String token);
 }
 
 const CACHED_USER = "CACHED_USER";
+const CACHED_TOKEN = "CACHED_TOKEN";
 
 class UserLocalDataSourceImpl implements UserLocalDataSource {
   final SharedPreferences sharedPreferences;
@@ -36,9 +39,24 @@ class UserLocalDataSourceImpl implements UserLocalDataSource {
   }
 
   @override
+  Future<String> getCachedToken() async {
+    final token = sharedPreferences.getString(CACHED_TOKEN);
+    if (token == null) {
+      throw EmptyCacheException();
+    } else {
+      return token.toString();
+    }
+  }
+
+  @override
   Future<Unit> cacheUser(UserModel userModel) async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.setString(CACHED_USER, jsonEncode(userModel.toJson()));
+    sharedPreferences.setString(CACHED_USER, jsonEncode(userModel.toJson()));
+    return Future.value(unit);
+  }
+
+  @override
+  Future<Unit> cacheToken(String token) async {
+    sharedPreferences.setString(CACHED_TOKEN, token);
     return Future.value(unit);
   }
 }

@@ -1,6 +1,7 @@
 import 'package:http/http.dart' as http;
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:karama/features/auth/domain/usecases/get_token.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/network/network_info.dart';
@@ -21,7 +22,8 @@ Future<void> init() async {
 // Features - posts
 
 // Bloc
-  sl.registerFactory(() => AuthBloc(loginUser: sl(), getUser: sl()));
+  sl.registerFactory(
+      () => AuthBloc(loginUser: sl(), getUser: sl(), getToken: sl()));
 
 // Usecases
 
@@ -30,6 +32,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => SetUpUserUseCase(sl()));
   sl.registerLazySingleton(() => SignUpUserUseCase(sl()));
   sl.registerLazySingleton(() => VerifyUserUseCase(sl()));
+  sl.registerLazySingleton(() => GetTokenUseCase(sl()));
 
 // Repository
 
@@ -39,7 +42,7 @@ Future<void> init() async {
 // Datasources
 
   sl.registerLazySingleton<UserRemoteDataSource>(
-      () => UserRemoteDataSourceImpl(client: sl()));
+      () => UserRemoteDataSourceImpl(client: sl(), localDataSource: sl()));
   sl.registerLazySingleton<UserLocalDataSource>(
       () => UserLocalDataSourceImpl(sharedPreferences: sl()));
 

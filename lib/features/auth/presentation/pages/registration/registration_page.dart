@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../../core/app_theme.dart';
@@ -59,16 +60,14 @@ class _RegistrationWidgetState extends State<RegistrationWidget> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(80, 0, 80, 0),
+                  padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
                   child: Container(
-                    width: MediaQuery.of(context).size.width,
                     height: 60,
                     decoration: BoxDecoration(),
                     child: SvgPicture.asset(
                       'assets/images/Logo_Karama.svg',
-                      width: 100,
-                      height: 100,
-                      fit: BoxFit.fill,
+                      width: 200,
+                      fit: BoxFit.fitWidth,
                     ),
                   ),
                 ),
@@ -163,8 +162,10 @@ class _RegistrationWidgetState extends State<RegistrationWidget> {
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 10),
                   child: FFButtonWidget(
-                    onPressed: () {},
-                    text: 'Verify',
+                    onPressed: () {
+                      context.go('/verify');
+                    },
+                    text: 'Register',
                     options: FFButtonOptions(
                       width: 150,
                       height: 50,

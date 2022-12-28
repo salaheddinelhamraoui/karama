@@ -5,6 +5,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../../core/app_theme.dart';
@@ -75,10 +76,10 @@ class _LoginWidgetState extends State<LoginWidget> {
                 return BlocBuilder<AuthBloc, AuthState>(
                   builder: (context, state) {
                     if (state is LoadedUserState) {
-                      log('sssssssssssssssss ' + state.user.firstName);
-                      return _body(state.user.firstName);
+                      log('sssssssssssssssss ' + state.token);
+                      return _body(context);
                     }
-                    return _body('');
+                    return _body(context);
                   },
                 );
               },
@@ -89,24 +90,21 @@ class _LoginWidgetState extends State<LoginWidget> {
     );
   }
 
-  Widget _body(data) {
+  Widget _body(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Text(data),
         Padding(
-          padding: EdgeInsetsDirectional.fromSTEB(80, 0, 80, 0),
+          padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
           child: Container(
-            width: MediaQuery.of(context).size.width,
             height: 60,
             decoration: BoxDecoration(),
             child: SvgPicture.asset(
               'assets/images/Logo_Karama.svg',
-              width: 100,
-              height: 100,
-              fit: BoxFit.fill,
+              width: 200,
+              fit: BoxFit.fitWidth,
             ),
           ),
         ),
@@ -206,8 +204,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                   child: Container(
                     width: MediaQuery.of(context).size.width * 0.3,
                     child: TextFormField(
+                      autofocus: false,
                       controller: textController1,
-                      autofocus: true,
                       obscureText: !passwordVisibility1,
                       decoration: InputDecoration(
                         hintText: 'Password',
@@ -271,6 +269,33 @@ class _LoginWidgetState extends State<LoginWidget> {
                   ),
                 ),
               ),
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(15, 20, 15, 0),
+                child:
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  Text(
+                    'Not registered yet ?',
+                    textAlign: TextAlign.center,
+                    style: FlutterFlowTheme.of(context).bodyText1,
+                  ),
+                  InkWell(
+                    onTap: () => {context.go('/register')},
+                    child: Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
+                      child: Text(
+                        'Create Account',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Poppins',
+                          color: FlutterFlowTheme.of(context).secondaryText,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                  )
+                ]),
+              )
             ],
           ),
         ),
@@ -278,7 +303,7 @@ class _LoginWidgetState extends State<LoginWidget> {
           padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 10),
           child: FFButtonWidget(
             onPressed: handleSignIn,
-            text: 'Verify',
+            text: 'Login',
             options: FFButtonOptions(
               width: 150,
               height: 50,
@@ -305,12 +330,9 @@ class _LoginWidgetState extends State<LoginWidget> {
       SnackBarMessage().showErrorSnackBar(
           message: 'Please enter a valid number', context: context);
     } else {
-      // BlocProvider.of<AuthBloc>(context).add(LogInEvent(
-      //     mobileNumber: mobileNumber ?? '',
-      //     password: textController1?.text ?? ''));
-
-      BlocProvider.of<AuthBloc>(context)
-          .add(LogInEvent(mobileNumber: '+212672644416', password: '000011'));
+      BlocProvider.of<AuthBloc>(context).add(LogInEvent(
+          mobileNumber: mobileNumber ?? '',
+          password: textController1?.text ?? ''));
     }
   }
 }

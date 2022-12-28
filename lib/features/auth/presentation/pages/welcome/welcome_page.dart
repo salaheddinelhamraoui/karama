@@ -1,3 +1,4 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart'
     as smooth_page_indicator;
@@ -6,7 +7,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../../core/app_theme.dart';
+import '../../../../../core/util/snackbar_message.dart';
+import '../../../../../core/widgets/loading_widget.dart';
 import '../../../../../flutter_flow/flutter_flow_widgets.dart';
+import '../../bloc/auth/bloc/auth_bloc.dart';
 
 class WelcomeWidget extends StatefulWidget {
   const WelcomeWidget({Key? key}) : super(key: key);
@@ -28,6 +32,24 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
 
   @override
   Widget build(BuildContext context) {
+    return BlocConsumer<AuthBloc, AuthState>(
+      listener: (context, state) {
+        if (state is LoadedUserState) {
+          context.go('/feeds');
+          SnackBarMessage().showSuccessSnackBar(
+              message: 'Loged Successfully', context: context);
+        }
+      },
+      builder: (context, state) {
+        if (state is LoadingUserState) {
+          return LoadingWidget();
+        }
+        return _body();
+      },
+    );
+  }
+
+  Widget _body() {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       key: scaffoldKey,
@@ -47,16 +69,14 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(80, 0, 80, 0),
+                  padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
                   child: Container(
-                    width: MediaQuery.of(context).size.width,
                     height: 60,
                     decoration: BoxDecoration(),
                     child: SvgPicture.asset(
                       'assets/images/Logo_Karama.svg',
-                      width: 100,
-                      height: 100,
-                      fit: BoxFit.fill,
+                      width: 200,
+                      fit: BoxFit.fitWidth,
                     ),
                   ),
                 ),
