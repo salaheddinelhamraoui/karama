@@ -11,10 +11,13 @@ abstract class UserLocalDataSource {
   Future<Unit> cacheUser(UserModel userModel);
   Future<String> getCachedToken();
   Future<Unit> cacheToken(String token);
+  Future<Unit> cacheMobileNumber(String mobileNumber);
+  Future<String> getCachedMobileNumber();
 }
 
 const CACHED_USER = "CACHED_USER";
 const CACHED_TOKEN = "CACHED_TOKEN";
+const CACHED_MOBILE_NUMBER = "CACHED_MOBILE_NUMBER";
 
 class UserLocalDataSourceImpl implements UserLocalDataSource {
   final SharedPreferences sharedPreferences;
@@ -58,5 +61,21 @@ class UserLocalDataSourceImpl implements UserLocalDataSource {
   Future<Unit> cacheToken(String token) async {
     sharedPreferences.setString(CACHED_TOKEN, token);
     return Future.value(unit);
+  }
+
+  @override
+  Future<Unit> cacheMobileNumber(String mobileNumber) {
+    sharedPreferences.setString(CACHED_MOBILE_NUMBER, mobileNumber);
+    return Future.value(unit);
+  }
+
+  @override
+  Future<String> getCachedMobileNumber() async {
+    final mobileNumber = sharedPreferences.getString(CACHED_MOBILE_NUMBER);
+    if (mobileNumber == null) {
+      throw EmptyCacheException();
+    } else {
+      return mobileNumber.toString();
+    }
   }
 }

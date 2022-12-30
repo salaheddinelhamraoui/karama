@@ -18,8 +18,16 @@ class EmptyCacheFailure extends Failure {
 }
 
 class InvalidCredentialsFailure extends Failure {
-  InvalidCredentialsFailure();
+  @override
+  List<Object?> get props => [];
+}
 
+class NotInvitedFailure extends Failure {
+  @override
+  List<Object?> get props => [];
+}
+
+class PhoneVerificationFailure extends Failure {
   @override
   List<Object?> get props => [];
 }

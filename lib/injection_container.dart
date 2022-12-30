@@ -15,6 +15,7 @@ import 'features/auth/domain/usecases/setup_user.dart';
 import 'features/auth/domain/usecases/signup_user.dart';
 import 'features/auth/domain/usecases/verify_user.dart';
 import 'features/auth/presentation/bloc/auth/bloc/auth_bloc.dart';
+import 'features/auth/presentation/bloc/temp/bloc/temp_bloc.dart';
 
 final sl = GetIt.instance;
 
@@ -24,6 +25,8 @@ Future<void> init() async {
 // Bloc
   sl.registerFactory(
       () => AuthBloc(loginUser: sl(), getUser: sl(), getToken: sl()));
+
+  sl.registerFactory(() => TempBloc(signUp: sl()));
 
 // Usecases
 

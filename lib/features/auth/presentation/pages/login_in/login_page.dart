@@ -76,7 +76,6 @@ class _LoginWidgetState extends State<LoginWidget> {
                 return BlocBuilder<AuthBloc, AuthState>(
                   builder: (context, state) {
                     if (state is LoadedUserState) {
-                      log('sssssssssssssssss ' + state.token);
                       return _body(context);
                     }
                     return _body(context);

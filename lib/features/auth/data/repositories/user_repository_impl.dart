@@ -53,17 +53,27 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
+  Future<Either<Failure, String>> signUpUser(String mobileNumber) async {
+    try {
+      final data = await remoteDataSource.signUp(mobileNumber);
+      return Right('');
+    } on ServerException {
+      return Left(NotInvitedFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> verifyUser(String pinCode) async {
+    try {
+      final data = await remoteDataSource.verifyUser(pinCode);
+      return Right('');
+    } on ServerException {
+      return Left(PhoneVerificationFailure());
+    }
+  }
+
+  @override
   Future<Either<Failure, User>> setUpUser(User user) {
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<Either<Failure, Unit>> signUpUser(String mobileNumber) {
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<Either<Failure, String>> verifyUser(String pinCode) {
     throw UnimplementedError();
   }
 }

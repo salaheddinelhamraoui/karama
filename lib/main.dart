@@ -6,6 +6,7 @@ import 'package:karama/features/feeds/presentation/pages/feeds/feeds_page.dart';
 import 'core/app_theme.dart';
 import 'features/auth/domain/usecases/get_user.dart';
 import 'features/auth/presentation/bloc/auth/bloc/auth_bloc.dart';
+import 'features/auth/presentation/bloc/temp/bloc/temp_bloc.dart';
 import 'features/auth/presentation/pages/login_in/login_page.dart';
 import 'features/auth/presentation/pages/phone_verif/phone_verif_page.dart';
 import 'features/auth/presentation/pages/registration/registration_page.dart';
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => di.sl<AuthBloc>()..add(getUserEvent())),
+        BlocProvider(create: (_) => di.sl<TempBloc>())
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,

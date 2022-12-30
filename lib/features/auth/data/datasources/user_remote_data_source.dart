@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
 import 'package:karama/features/auth/data/datasources/user_local_data_source.dart';
 import '../../../../core/error/exceptions.dart';
@@ -8,6 +9,8 @@ import '../models/user_model.dart';
 
 abstract class UserRemoteDataSource {
   Future<UserModel> sinIn(String mobileNumber, String password);
+  Future<Unit> signUp(String mobileNumber);
+  Future<Unit> verifyUser(String pinCode);
 }
 
 const BASE_URL = "https://xyxm-adm5-et4s.n7.xano.io/api:BG09bi8f";
@@ -23,7 +26,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   @override
   Future<UserModel> sinIn(mobileNumber, password) async {
     final Map<String, String> body = {
-      'auth_phone': mobileNumber.substring(1),
+      'auth_phone': mobileNumber,
       'password': password,
     };
 
@@ -54,6 +57,42 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       );
 
       return user;
+    } else {
+      throw ServerException();
+    }
+  }
+
+  Future<Unit> signUp(mobileNumber) async {
+    final response = await client.post(
+      Uri.parse(BASE_URL + "/registre?auth_phone=" + mobileNumber),
+    );
+
+    final data = jsonDecode(response.body);
+    Map<String, dynamic> jsonObject = jsonDecode(response.body);
+
+    if (response.statusCode == 200 && jsonObject['data']['status'] == true) {
+      localDataSource.cacheMobileNumber(mobileNumber);
+      return Future.value(unit);
+    } else {
+      throw ServerException();
+    }
+  }
+
+  Future<Unit> verifyUser(pinCode) async {
+    var mobileNumber = await localDataSource.getCachedMobileNumber();
+
+    if (mobileNumber != null) {
+      final Map<String, String> body = {
+        'phone': mobileNumber,
+        'pin': pinCode,
+      };
+
+      final response = await client.post(
+        Uri.parse(BASE_URL + "/pin_verification"),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode(body),
+      );
+      return Future.value(unit);
     } else {
       throw ServerException();
     }
