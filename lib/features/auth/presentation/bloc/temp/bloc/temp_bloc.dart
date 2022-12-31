@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
+import 'package:karama/features/auth/domain/usecases/get_temp_data.dart';
 import 'package:karama/features/auth/domain/usecases/verify_user.dart';
 
 import '../../../../../../core/error/failure.dart';
@@ -14,11 +15,13 @@ class TempBloc extends Bloc<TempEvent, TempState> {
   final SignUpUserUseCase signUp;
   final VerifyUserUseCase verifyUser;
   final GetVerifyUseCase getVerifyUseCase;
+  final GetTempDataUseCase getTempDataUseCase;
 
   TempBloc(
       {required this.signUp,
       required this.getVerifyUseCase,
-      required this.verifyUser})
+      required this.verifyUser,
+      required this.getTempDataUseCase})
       : super(TempInitial()) {
     on<TempEvent>((event, emit) async {
       if (event is SignUpEvent) {
@@ -27,12 +30,12 @@ class TempBloc extends Bloc<TempEvent, TempState> {
         emit(
           _eitherDoneMessageOrErrorState(failureOrDoneMessage),
         );
-      } else if (event is verifyUserEvent) {
+      } else if (event is VerifyUserEvent) {
         emit(LoadingTempState());
         final failureOrDoneMessage =
             await verifyUser(event.pinCode, event.mobileNumber);
         emit(failureOrDoneMessage.fold(
-          (failure) => ErrorUserState(
+          (failure) => ErrorTempState(
               message: _mapFailureToMessage(failure),
               mobileNumber: event.mobileNumber),
           (token) => TempDataState(
@@ -40,12 +43,24 @@ class TempBloc extends Bloc<TempEvent, TempState> {
               token: token,
               verifyState: true),
         ));
+      } else if (event is ChoosePasswordEvent) {
+        emit(TempDataState(
+            mobileNumber: event.mobileNumber,
+            token: event.token,
+            password: event.password));
+      } else if (event is GetTempDataEvent) {
+        final data = await getTempDataUseCase();
+
+        emit(TempDataState(
+            mobileNumber: data['mobileNumber'] ?? '',
+            token: data['token'],
+            verifyState: data['verifyState'] == 'true'));
       }
     });
   }
   TempState _eitherDoneMessageOrErrorState(Either<Failure, String> either) {
     return either.fold(
-      (failure) => ErrorUserState(message: _mapFailureToMessage(failure)),
+      (failure) => ErrorTempState(message: _mapFailureToMessage(failure)),
       (mobileNumber) => TempDataState(mobileNumber: mobileNumber),
     );
   }

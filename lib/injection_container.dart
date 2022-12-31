@@ -1,6 +1,7 @@
 import 'package:http/http.dart' as http;
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:karama/features/auth/domain/usecases/get_temp_data.dart';
 import 'package:karama/features/auth/domain/usecases/get_token.dart';
 import 'package:karama/features/auth/domain/usecases/get_verify_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -27,8 +28,11 @@ Future<void> init() async {
   sl.registerFactory(
       () => AuthBloc(loginUser: sl(), getUser: sl(), getToken: sl()));
 
-  sl.registerFactory(
-      () => TempBloc(signUp: sl(), getVerifyUseCase: sl(), verifyUser: sl()));
+  sl.registerFactory(() => TempBloc(
+      signUp: sl(),
+      getVerifyUseCase: sl(),
+      verifyUser: sl(),
+      getTempDataUseCase: sl()));
 
 // Usecases
 
@@ -39,6 +43,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => VerifyUserUseCase(sl()));
   sl.registerLazySingleton(() => GetVerifyUseCase(sl()));
   sl.registerLazySingleton(() => GetTokenUseCase(sl()));
+  sl.registerLazySingleton(() => GetTempDataUseCase(sl()));
 
 // Repository
 

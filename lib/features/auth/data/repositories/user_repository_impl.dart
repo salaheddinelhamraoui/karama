@@ -87,4 +87,9 @@ class UserRepositoryImpl implements UserRepository {
   Future<Either<Failure, User>> setUpUser(User user) {
     throw UnimplementedError();
   }
+
+  @override
+  Future<Map<String, String>> getTempData() async {
+    return await localDataSource.getTempData();
+  }
 }

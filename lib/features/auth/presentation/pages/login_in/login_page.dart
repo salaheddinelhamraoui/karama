@@ -279,7 +279,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                       style: FlutterFlowTheme.of(context).bodyText1,
                     ),
                     InkWell(
-                      onTap: () => {context.go('/profileSetup')},
+                      onTap: () => {context.go('/register')},
                       child: Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
                         child: Text(

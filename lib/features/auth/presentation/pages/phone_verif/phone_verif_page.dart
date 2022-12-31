@@ -61,11 +61,10 @@ class _PhoneVerifWidgetState extends State<PhoneVerifWidget> {
                 listener: (context, state) {
                   if (state is TempDataState) {
                     if (state.verifyState == null) {
-                      print('false');
                     } else {
-                      print('true');
+                      context.go('/passSettings');
                     }
-                  } else if (state is ErrorUserState) {
+                  } else if (state is ErrorTempState) {
                     SnackBarMessage().showErrorSnackBar(
                         message: state.message, context: context);
                   }
@@ -75,7 +74,7 @@ class _PhoneVerifWidgetState extends State<PhoneVerifWidget> {
                     return _body(state);
                   } else if (state is LoadingTempState) {
                     return LoadingWidget();
-                  } else if (state is ErrorUserState) {
+                  } else if (state is ErrorTempState) {
                     return _body(state);
                   }
                   return Container();
@@ -226,7 +225,7 @@ class _PhoneVerifWidgetState extends State<PhoneVerifWidget> {
           .showErrorSnackBar(message: 'Invalid Pincode', context: context);
     } else {
       BlocProvider.of<TempBloc>(context)
-          .add(verifyUserEvent(mobileNumber: mobileNumber, pinCode: pinCode));
+          .add(VerifyUserEvent(mobileNumber: mobileNumber, pinCode: pinCode));
     }
   }
 }

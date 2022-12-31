@@ -66,7 +66,7 @@ class _RegistrationWidgetState extends State<RegistrationWidget> {
             ),
             child: BlocConsumer<TempBloc, TempState>(
               listener: (context, state) {
-                if (state is ErrorUserState) {
+                if (state is ErrorTempState) {
                   SnackBarMessage().showErrorSnackBar(
                       message: state.message, context: context);
                 } else if (state is TempDataState) {

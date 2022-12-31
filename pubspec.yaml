@@ -43,6 +43,7 @@ dependencies:
   go_router: ^6.0.0
   loading_animation_widget: ^1.2.0+4
   image_picker: ^0.8.6
+  country_state_city_picker: ^1.2.8
 
 dev_dependencies:
   flutter_test:

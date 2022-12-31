@@ -15,16 +15,20 @@ class TempDataState extends TempState {
   final String mobileNumber;
   final String? token;
   final bool? verifyState;
+  final String? password;
 
   const TempDataState(
-      {required this.mobileNumber, this.token, this.verifyState});
+      {required this.mobileNumber,
+      this.token,
+      this.verifyState,
+      this.password});
 }
 
-class ErrorUserState extends TempState {
+class ErrorTempState extends TempState {
   final String message;
   final String? mobileNumber;
 
-  const ErrorUserState({required this.message, this.mobileNumber});
+  const ErrorTempState({required this.message, this.mobileNumber});
 
   @override
   List<Object> get props => [message];

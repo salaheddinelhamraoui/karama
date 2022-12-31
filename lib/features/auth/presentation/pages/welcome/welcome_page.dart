@@ -11,6 +11,7 @@ import '../../../../../core/util/snackbar_message.dart';
 import '../../../../../core/widgets/loading_widget.dart';
 import '../../../../../flutter_flow/flutter_flow_widgets.dart';
 import '../../bloc/auth/bloc/auth_bloc.dart';
+import '../../bloc/temp/bloc/temp_bloc.dart';
 
 class WelcomeWidget extends StatefulWidget {
   const WelcomeWidget({Key? key}) : super(key: key);
@@ -32,25 +33,34 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AuthBloc, AuthState>(
+    return BlocListener<TempBloc, TempState>(
       listener: (context, state) {
-        if (state is LoadedUserState) {
-          context.go('/feeds');
-          SnackBarMessage().showSuccessSnackBar(
-              message: 'Loged Successfully', context: context);
-        } else if (state is ErrorUserState) {
-          if (state.message != 'No Data') {
-            SnackBarMessage()
-                .showErrorSnackBar(message: state.message, context: context);
+        if (state is TempDataState) {
+          if (state.verifyState != null && state.verifyState == true) {
+            context.go('/passSettings');
           }
         }
       },
-      builder: (context, state) {
-        if (state is LoadingUserState) {
-          return LoadingWidget();
-        }
-        return _body();
-      },
+      child: BlocConsumer<AuthBloc, AuthState>(
+        listener: (context, state) {
+          if (state is LoadedUserState) {
+            context.go('/feeds');
+            SnackBarMessage().showSuccessSnackBar(
+                message: 'Logged Successfully', context: context);
+          } else if (state is ErrorUserState) {
+            if (state.message != 'No Data') {
+              SnackBarMessage()
+                  .showErrorSnackBar(message: state.message, context: context);
+            }
+          }
+        },
+        builder: (context, state) {
+          if (state is LoadingUserState) {
+            return LoadingWidget();
+          }
+          return _body();
+        },
+      ),
     );
   }
 

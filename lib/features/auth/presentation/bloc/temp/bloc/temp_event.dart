@@ -25,14 +25,25 @@ class SignUpEvent extends TempEvent {
   List<Object> get props => [mobileNumber];
 }
 
-class getCachedVerifyUserStateEvent extends TempEvent {}
-
-class verifyUserEvent extends TempEvent {
+class VerifyUserEvent extends TempEvent {
   final String mobileNumber;
   final String pinCode;
 
-  verifyUserEvent({required this.mobileNumber, required this.pinCode});
+  VerifyUserEvent({required this.mobileNumber, required this.pinCode});
 
   @override
   List<Object> get props => [mobileNumber, pinCode];
 }
+
+class ChoosePasswordEvent extends TempEvent {
+  final String mobileNumber;
+  final String token;
+  final String password;
+
+  ChoosePasswordEvent(
+      {required this.mobileNumber,
+      required this.password,
+      required this.token});
+}
+
+class GetTempDataEvent extends TempEvent {}

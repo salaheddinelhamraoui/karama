@@ -85,9 +85,6 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   }
 
   Future<String> verifyUser(pinCode, mobileNumber) async {
-    print(1111);
-    print(pinCode);
-    print(mobileNumber);
     if (mobileNumber != null) {
       final Map<String, String> body = {
         'phone': mobileNumber,

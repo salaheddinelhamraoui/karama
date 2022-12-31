@@ -15,6 +15,7 @@ abstract class UserLocalDataSource {
   Future<String> getCachedMobileNumber();
   Future<Unit> cacheVerifyUserState(bool state);
   Future<String> getCachedVerifyUserState();
+  Future<Map<String, String>> getTempData();
 }
 
 const CACHED_USER = "CACHED_USER";
@@ -96,5 +97,18 @@ class UserLocalDataSourceImpl implements UserLocalDataSource {
     } else {
       return verifyState;
     }
+  }
+
+  @override
+  Future<Map<String, String>> getTempData() async {
+    final verifyState = sharedPreferences.getString(CACHED_VERIFY_STATE);
+    final token = sharedPreferences.getString(CACHED_TOKEN);
+    final mobileNumber = sharedPreferences.getString(CACHED_MOBILE_NUMBER);
+
+    return {
+      'mobileNumber': mobileNumber ?? '',
+      'token': token ?? '',
+      'verifyState': verifyState ?? ''
+    };
   }
 }

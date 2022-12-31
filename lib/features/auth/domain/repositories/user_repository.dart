@@ -12,4 +12,5 @@ abstract class UserRepository {
   Future<Either<Failure, User>> getUser();
   Future<Either<Failure, String>> getToken();
   Future<Either<Failure, String>> getCachedVerifyUserState();
+  Future<Map<String, String>> getTempData();
 }
