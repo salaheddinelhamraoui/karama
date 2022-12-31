@@ -1,8 +1,12 @@
+import 'dart:io';
+
+import 'package:flutter/widgets.dart';
 import '../../../../../core/app_theme.dart';
 import '../../../../../flutter_flow/flutter_flow_radio_button.dart';
 import '../../../../../flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ProfileSetupWidget extends StatefulWidget {
   const ProfileSetupWidget({Key? key}) : super(key: key);
@@ -12,11 +16,13 @@ class ProfileSetupWidget extends StatefulWidget {
 }
 
 class _ProfileSetupWidgetState extends State<ProfileSetupWidget> {
+  ImagePicker picker = ImagePicker();
   String? radioButtonValue;
   TextEditingController? textController1;
   TextEditingController? textController2;
   TextEditingController? textController3;
   TextEditingController? textController4;
+  XFile? image;
   final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -58,7 +64,7 @@ class _ProfileSetupWidgetState extends State<ProfileSetupWidget> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(15, 0, 15, 0),
+                  padding: EdgeInsetsDirectional.fromSTEB(15, 20, 15, 0),
                   child: Container(
                     width: MediaQuery.of(context).size.width,
                     height: 70,
@@ -84,13 +90,55 @@ class _ProfileSetupWidgetState extends State<ProfileSetupWidget> {
                 ),
                 Container(
                   width: MediaQuery.of(context).size.width,
+                  height: 100,
+                  decoration: BoxDecoration(
+                    color: FlutterFlowTheme.of(context).secondaryBackground,
+                  ),
+                  child: Align(
+                    alignment: AlignmentDirectional(0, 0),
+                    child: Stack(
+                      children: [
+                        Align(
+                          alignment: AlignmentDirectional(0, 0),
+                          child: Container(
+                            clipBehavior: Clip.antiAlias,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                            ),
+                            width: 100,
+                            height: 100,
+                            child: image == null
+                                ? Image.asset(
+                                    'assets/images/user_avatar.png',
+                                    fit: BoxFit.contain,
+                                  )
+                                : Image.file(File(image!.path)),
+                          ),
+                        ),
+                        Align(
+                          alignment: AlignmentDirectional(0.24, 1),
+                          child: GestureDetector(
+                            onTap: pickImage,
+                            child: Icon(
+                              Icons.edit_outlined,
+                              color: Colors.black,
+                              size: 24,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height * 0.5,
                   decoration: BoxDecoration(),
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(15, 0, 15, 0),
+                        padding: EdgeInsetsDirectional.fromSTEB(15, 20, 15, 0),
                         child: Container(
                           width: MediaQuery.of(context).size.width,
                           decoration: BoxDecoration(
@@ -445,5 +493,12 @@ class _ProfileSetupWidgetState extends State<ProfileSetupWidget> {
         ),
       ),
     );
+  }
+
+  void pickImage() async {
+    XFile? imageData = await picker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      image = imageData;
+    });
   }
 }
