@@ -42,6 +42,7 @@ class _ProfileSetupWidgetState extends State<ProfileSetupWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       key: scaffoldKey,
       backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
       body: SafeArea(
@@ -60,7 +61,7 @@ class _ProfileSetupWidgetState extends State<ProfileSetupWidget> {
                   padding: EdgeInsetsDirectional.fromSTEB(15, 0, 15, 0),
                   child: Container(
                     width: MediaQuery.of(context).size.width,
-                    height: 60,
+                    height: 70,
                     decoration: BoxDecoration(),
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
@@ -83,7 +84,7 @@ class _ProfileSetupWidgetState extends State<ProfileSetupWidget> {
                 ),
                 Container(
                   width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height * 0.6,
+                  height: MediaQuery.of(context).size.height * 0.5,
                   decoration: BoxDecoration(),
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
@@ -229,7 +230,7 @@ class _ProfileSetupWidgetState extends State<ProfileSetupWidget> {
                             mainAxisSize: MainAxisSize.max,
                             children: [
                               FlutterFlowRadioButton(
-                                options: ['Male', ''].toList(),
+                                options: ['Male', 'Female', "Other"].toList(),
                                 onChanged: (val) =>
                                     setState(() => radioButtonValue = val),
                                 optionHeight: 25,

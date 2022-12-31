@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -67,15 +69,16 @@ class _RegistrationWidgetState extends State<RegistrationWidget> {
                 if (state is ErrorUserState) {
                   SnackBarMessage().showErrorSnackBar(
                       message: state.message, context: context);
+                } else if (state is TempDataState) {
+                  context.go('/verify');
                 }
               },
               builder: (context, state) {
+                log(state.toString());
                 if (state is LoadingTempState) {
                   return LoadingWidget();
-                } else if (state is TempDataState) {
-                  return _body(state);
                 }
-                return _body('');
+                return _body();
               },
             ),
           ),
@@ -84,7 +87,7 @@ class _RegistrationWidgetState extends State<RegistrationWidget> {
     );
   }
 
-  Widget _body(state) {
+  Widget _body() {
     return Column(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -102,7 +105,6 @@ class _RegistrationWidgetState extends State<RegistrationWidget> {
             ),
           ),
         ),
-        state == '' ? Text('') : Text(state.mobileNumber),
         Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height * 0.6,

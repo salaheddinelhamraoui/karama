@@ -8,7 +8,9 @@ import 'features/auth/domain/usecases/get_user.dart';
 import 'features/auth/presentation/bloc/auth/bloc/auth_bloc.dart';
 import 'features/auth/presentation/bloc/temp/bloc/temp_bloc.dart';
 import 'features/auth/presentation/pages/login_in/login_page.dart';
+import 'features/auth/presentation/pages/pass_settings/pass_settings.dart';
 import 'features/auth/presentation/pages/phone_verif/phone_verif_page.dart';
+import 'features/auth/presentation/pages/profile_setup/profile_setup_page.dart';
 import 'features/auth/presentation/pages/registration/registration_page.dart';
 import 'features/auth/presentation/pages/welcome/welcome_page.dart';
 import 'package:go_router/go_router.dart';
@@ -66,6 +68,16 @@ class MyApp extends StatelessWidget {
             path: 'feeds',
             builder: (BuildContext context, GoRouterState state) =>
                 const FeedsPage(),
+          ),
+          GoRoute(
+            path: 'passSettings',
+            builder: (BuildContext context, GoRouterState state) =>
+                const PassSettingWidget(),
+          ),
+          GoRoute(
+            path: 'profileSetup',
+            builder: (BuildContext context, GoRouterState state) =>
+                const ProfileSetupWidget(),
           ),
         ],
         path: '/',

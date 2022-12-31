@@ -1,8 +1,11 @@
-import '../../../../../core/app_theme.dart';
-import '../../../../../flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../../../../../core/app_theme.dart';
+import '../../../../../core/util/snackbar_message.dart';
+import '../../../../../flutter_flow/flutter_flow_widgets.dart';
 
 class PassSettingWidget extends StatefulWidget {
   const PassSettingWidget({Key? key}) : super(key: key);
@@ -39,6 +42,7 @@ class _PassSettingWidgetState extends State<PassSettingWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       key: scaffoldKey,
       backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
       body: SafeArea(
@@ -58,14 +62,12 @@ class _PassSettingWidgetState extends State<PassSettingWidget> {
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(80, 0, 80, 0),
                   child: Container(
-                    width: MediaQuery.of(context).size.width,
                     height: 60,
                     decoration: BoxDecoration(),
-                    child: SvgPicture.asset(
-                      'assets/images/Logo_Karama.svg',
-                      width: 100,
-                      height: 100,
-                      fit: BoxFit.fill,
+                    child: Image.asset(
+                      'assets/images/Logo_Karama.png',
+                      fit: BoxFit.fitWidth,
+                      width: 200,
                     ),
                   ),
                 ),
@@ -80,7 +82,7 @@ class _PassSettingWidgetState extends State<PassSettingWidget> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Pleass set your password',
+                          'Please set your password',
                           textAlign: TextAlign.start,
                           style: FlutterFlowTheme.of(context).subtitle1,
                         ),
@@ -268,7 +270,7 @@ class _PassSettingWidgetState extends State<PassSettingWidget> {
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 10),
                   child: FFButtonWidget(
-                    onPressed: () {},
+                    onPressed: handleSetPassword,
                     text: 'Next',
                     options: FFButtonOptions(
                       width: 150,
@@ -294,5 +296,14 @@ class _PassSettingWidgetState extends State<PassSettingWidget> {
         ),
       ),
     );
+  }
+
+  void handleSetPassword() {
+    if (textController1?.text != textController2?.text) {
+      SnackBarMessage().showErrorSnackBar(
+          message: 'Passwords do NOT match', context: context);
+    } else {
+      context.go('/profileSetup');
+    }
   }
 }

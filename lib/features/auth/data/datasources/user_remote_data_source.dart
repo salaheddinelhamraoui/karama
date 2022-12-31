@@ -10,7 +10,7 @@ import '../models/user_model.dart';
 abstract class UserRemoteDataSource {
   Future<UserModel> sinIn(String mobileNumber, String password);
   Future<Unit> signUp(String mobileNumber);
-  Future<Unit> verifyUser(String pinCode);
+  Future<String> verifyUser(String pinCode, String mobileNumber);
 }
 
 const BASE_URL = "https://xyxm-adm5-et4s.n7.xano.io/api:BG09bi8f";
@@ -63,8 +63,14 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   }
 
   Future<Unit> signUp(mobileNumber) async {
+    final Map<String, String> body = {
+      'auth_phone': mobileNumber,
+    };
+
     final response = await client.post(
-      Uri.parse(BASE_URL + "/registre?auth_phone=" + mobileNumber),
+      Uri.parse(BASE_URL + "/registre"),
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode(body),
     );
 
     final data = jsonDecode(response.body);
@@ -78,9 +84,10 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
     }
   }
 
-  Future<Unit> verifyUser(pinCode) async {
-    var mobileNumber = await localDataSource.getCachedMobileNumber();
-
+  Future<String> verifyUser(pinCode, mobileNumber) async {
+    print(1111);
+    print(pinCode);
+    print(mobileNumber);
     if (mobileNumber != null) {
       final Map<String, String> body = {
         'phone': mobileNumber,
@@ -92,7 +99,21 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
         headers: {"Content-Type": "application/json"},
         body: jsonEncode(body),
       );
-      return Future.value(unit);
+
+      final data = jsonDecode(response.body);
+      Map<String, dynamic> jsonObject = jsonDecode(response.body);
+
+      if (response.statusCode == 200 && jsonObject['data']['status'] == true) {
+        var token = jsonObject['data']['result'];
+
+        localDataSource.cacheToken(token);
+
+        localDataSource.cacheVerifyUserState(true);
+
+        return token;
+      } else {
+        throw ServerException();
+      }
     } else {
       throw ServerException();
     }

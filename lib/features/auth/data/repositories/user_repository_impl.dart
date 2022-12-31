@@ -53,20 +53,31 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
+  Future<Either<Failure, String>> getCachedVerifyUserState() async {
+    try {
+      final state = await localDataSource.getCachedVerifyUserState();
+      return Right(state);
+    } on EmptyCacheException {
+      return Left(EmptyCacheFailure());
+    }
+  }
+
+  @override
   Future<Either<Failure, String>> signUpUser(String mobileNumber) async {
     try {
       final data = await remoteDataSource.signUp(mobileNumber);
-      return Right('');
+      return Right(mobileNumber);
     } on ServerException {
       return Left(NotInvitedFailure());
     }
   }
 
   @override
-  Future<Either<Failure, String>> verifyUser(String pinCode) async {
+  Future<Either<Failure, String>> verifyUser(
+      String pinCode, String mobileNumber) async {
     try {
-      final data = await remoteDataSource.verifyUser(pinCode);
-      return Right('');
+      final token = await remoteDataSource.verifyUser(pinCode, mobileNumber);
+      return Right(token);
     } on ServerException {
       return Left(PhoneVerificationFailure());
     }

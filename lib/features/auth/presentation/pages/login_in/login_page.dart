@@ -270,30 +270,32 @@ class _LoginWidgetState extends State<LoginWidget> {
               ),
               Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(15, 20, 15, 0),
-                child:
-                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  Text(
-                    'Not registered yet ?',
-                    textAlign: TextAlign.center,
-                    style: FlutterFlowTheme.of(context).bodyText1,
-                  ),
-                  InkWell(
-                    onTap: () => {context.go('/register')},
-                    child: Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
-                      child: Text(
-                        'Create Account',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Poppins',
-                          color: FlutterFlowTheme.of(context).secondaryText,
-                          fontSize: 14,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Not registered yet ?',
+                      textAlign: TextAlign.center,
+                      style: FlutterFlowTheme.of(context).bodyText1,
+                    ),
+                    InkWell(
+                      onTap: () => {context.go('/register')},
+                      child: Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
+                        child: Text(
+                          'Create Account',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Poppins',
+                            color: FlutterFlowTheme.of(context).secondaryText,
+                            fontSize: 14,
+                          ),
                         ),
                       ),
                     ),
-                  )
-                ]),
+                  ],
+                ),
               )
             ],
           ),

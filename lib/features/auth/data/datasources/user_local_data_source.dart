@@ -13,11 +13,14 @@ abstract class UserLocalDataSource {
   Future<Unit> cacheToken(String token);
   Future<Unit> cacheMobileNumber(String mobileNumber);
   Future<String> getCachedMobileNumber();
+  Future<Unit> cacheVerifyUserState(bool state);
+  Future<String> getCachedVerifyUserState();
 }
 
 const CACHED_USER = "CACHED_USER";
 const CACHED_TOKEN = "CACHED_TOKEN";
 const CACHED_MOBILE_NUMBER = "CACHED_MOBILE_NUMBER";
+const CACHED_VERIFY_STATE = "CACHED_VERIFY_STATE";
 
 class UserLocalDataSourceImpl implements UserLocalDataSource {
   final SharedPreferences sharedPreferences;
@@ -76,6 +79,22 @@ class UserLocalDataSourceImpl implements UserLocalDataSource {
       throw EmptyCacheException();
     } else {
       return mobileNumber.toString();
+    }
+  }
+
+  @override
+  Future<Unit> cacheVerifyUserState(bool state) async {
+    sharedPreferences.setString(CACHED_VERIFY_STATE, state.toString());
+    return Future.value(unit);
+  }
+
+  @override
+  Future<String> getCachedVerifyUserState() async {
+    final verifyState = sharedPreferences.getString(CACHED_VERIFY_STATE);
+    if (verifyState == null) {
+      throw EmptyCacheException();
+    } else {
+      return verifyState;
     }
   }
 }
