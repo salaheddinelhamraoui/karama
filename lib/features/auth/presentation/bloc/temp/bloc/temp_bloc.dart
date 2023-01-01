@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
@@ -47,6 +49,7 @@ class TempBloc extends Bloc<TempEvent, TempState> {
               verifyState: true),
         ));
       } else if (event is ChoosePasswordEvent) {
+        emit(LoadingTempState());
         emit(TempDataState(
             mobileNumber: event.mobileNumber,
             token: event.token,
@@ -59,6 +62,8 @@ class TempBloc extends Bloc<TempEvent, TempState> {
             token: data['token'],
             verifyState: data['verifyState'] == 'true'));
       } else if (event is SubmitOnboardingDataEvent) {
+        log(event.toString());
+        emit(LoadingTempState());
         final state = await submitOnboardingDataUseCase(
             event.avatar,
             event.firstName,
@@ -74,12 +79,16 @@ class TempBloc extends Bloc<TempEvent, TempState> {
         emit(state.fold(
           (failure) => ErrorTempState(
               message: _mapFailureToMessage(failure),
-              mobileNumber: event.mobileNumber),
+              mobileNumber: event.mobileNumber,
+              password: event.password,
+              token: event.token),
           (state) => state == 'done'
               ? SignUpDoneState()
               : ErrorTempState(
                   message: _mapFailureToMessage(ServerFailure()),
-                  mobileNumber: event.mobileNumber),
+                  mobileNumber: event.mobileNumber,
+                  password: event.password,
+                  token: event.token),
         ));
       }
     });
@@ -94,7 +103,7 @@ class TempBloc extends Bloc<TempEvent, TempState> {
   String _mapFailureToMessage(Failure failure) {
     switch (failure.runtimeType) {
       case ServerFailure:
-        return 'Please try again later .';
+        return 'Please try again later.';
       case EmptyCacheFailure:
         return 'No Data';
       case OfflineFailure:
@@ -106,7 +115,7 @@ class TempBloc extends Bloc<TempEvent, TempState> {
       case PhoneVerificationFailure:
         return 'Unable to verify mobile phone number';
       default:
-        return "Unexpected Error , Please try again later .";
+        return "Unexpected Error, Please try again later";
     }
   }
 }

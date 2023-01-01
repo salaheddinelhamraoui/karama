@@ -153,8 +153,11 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
     };
 
     final response = await client.post(
-      Uri.parse(BASE_URL + "/onboarding"),
-      headers: {"Content-Type": "application/json"},
+      Uri.parse("https://xyxm-adm5-et4s.n7.xano.io/api:VYETVf0h/onboarding"),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $token",
+      },
       body: jsonEncode(body),
     );
 

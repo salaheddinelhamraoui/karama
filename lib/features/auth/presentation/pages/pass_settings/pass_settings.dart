@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -59,7 +61,11 @@ class _PassSettingWidgetState extends State<PassSettingWidget> {
                 color: FlutterFlowTheme.of(context).secondaryBackground,
               ),
               child: BlocConsumer<TempBloc, TempState>(
-                listener: (context, state) {},
+                listener: (context, state) {
+                  if (state is TempDataState) {
+                    context.go('/profileSetup');
+                  }
+                },
                 builder: (context, state) {
                   print(state);
                   if (state is TempDataState) {
@@ -311,11 +317,11 @@ class _PassSettingWidgetState extends State<PassSettingWidget> {
       SnackBarMessage().showErrorSnackBar(
           message: 'Passwords do NOT match', context: context);
     } else {
+      print('fuck');
       BlocProvider.of<TempBloc>(context).add(ChoosePasswordEvent(
           mobileNumber: state.mobileNumber,
           token: state.token,
           password: textController1!.text));
-      context.go('/profileSetup');
     }
   }
 }

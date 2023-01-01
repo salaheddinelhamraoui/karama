@@ -55,7 +55,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   String _mapFailureToMessage(Failure failure) {
     switch (failure.runtimeType) {
       case ServerFailure:
-        return 'Please try again later .';
+        return 'Please try again later';
       case EmptyCacheFailure:
         return 'No Data';
       case OfflineFailure:

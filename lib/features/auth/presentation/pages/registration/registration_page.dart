@@ -74,7 +74,6 @@ class _RegistrationWidgetState extends State<RegistrationWidget> {
                 }
               },
               builder: (context, state) {
-                log(state.toString());
                 if (state is LoadingTempState) {
                   return LoadingWidget();
                 }

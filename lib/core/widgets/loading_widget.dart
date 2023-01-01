@@ -8,12 +8,16 @@ class LoadingWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 20),
-      child: Center(
-        child: LoadingAnimationWidget.dotsTriangle(
-          color: FlutterFlowTheme.of(context).primaryColor,
-          size: 60,
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 20),
+        child: Center(
+          child: LoadingAnimationWidget.dotsTriangle(
+            color: FlutterFlowTheme.of(context).primaryColor,
+            size: 60,
+          ),
         ),
       ),
     );

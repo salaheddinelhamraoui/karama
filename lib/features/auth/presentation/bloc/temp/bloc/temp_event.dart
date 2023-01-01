@@ -54,7 +54,6 @@ class SubmitOnboardingDataEvent extends TempEvent {
   final String lastName;
   final String gender;
   final String country;
-  final String male;
   final String state;
   final String city;
   final String token;
@@ -62,15 +61,14 @@ class SubmitOnboardingDataEvent extends TempEvent {
   final String password;
 
   SubmitOnboardingDataEvent(
-      this.avatar,
-      this.firstName,
-      this.lastName,
-      this.gender,
-      this.country,
-      this.male,
-      this.state,
-      this.city,
-      this.token,
-      this.mobileNumber,
-      this.password);
+      {required this.avatar,
+      required this.firstName,
+      required this.lastName,
+      required this.gender,
+      required this.country,
+      required this.state,
+      required this.city,
+      required this.token,
+      required this.mobileNumber,
+      required this.password});
 }

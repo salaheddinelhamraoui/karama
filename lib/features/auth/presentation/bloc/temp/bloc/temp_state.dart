@@ -29,8 +29,11 @@ class SignUpDoneState extends TempState {}
 class ErrorTempState extends TempState {
   final String message;
   final String? mobileNumber;
+  final String? token;
+  final String? password;
 
-  const ErrorTempState({required this.message, this.mobileNumber});
+  const ErrorTempState(
+      {required this.message, this.mobileNumber, this.token, this.password});
 
   @override
   List<Object> get props => [message];
