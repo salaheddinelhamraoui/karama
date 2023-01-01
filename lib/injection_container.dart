@@ -15,6 +15,7 @@ import 'features/auth/domain/usecases/get_user.dart';
 import 'features/auth/domain/usecases/login_user.dart';
 import 'features/auth/domain/usecases/setup_user.dart';
 import 'features/auth/domain/usecases/signup_user.dart';
+import 'features/auth/domain/usecases/submit_onboarding_data.dart';
 import 'features/auth/domain/usecases/verify_user.dart';
 import 'features/auth/presentation/bloc/auth/bloc/auth_bloc.dart';
 import 'features/auth/presentation/bloc/temp/bloc/temp_bloc.dart';
@@ -22,17 +23,21 @@ import 'features/auth/presentation/bloc/temp/bloc/temp_bloc.dart';
 final sl = GetIt.instance;
 
 Future<void> init() async {
-// Features - posts
+// Features - Auth + Temp
 
 // Bloc
   sl.registerFactory(
       () => AuthBloc(loginUser: sl(), getUser: sl(), getToken: sl()));
 
-  sl.registerFactory(() => TempBloc(
+  sl.registerFactory(
+    () => TempBloc(
       signUp: sl(),
       getVerifyUseCase: sl(),
       verifyUser: sl(),
-      getTempDataUseCase: sl()));
+      getTempDataUseCase: sl(),
+      submitOnboardingDataUseCase: sl(),
+    ),
+  );
 
 // Usecases
 
@@ -44,6 +49,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetVerifyUseCase(sl()));
   sl.registerLazySingleton(() => GetTokenUseCase(sl()));
   sl.registerLazySingleton(() => GetTempDataUseCase(sl()));
+  sl.registerLazySingleton(() => SubmitOnboardingDataUseCase(sl()));
 
 // Repository
 

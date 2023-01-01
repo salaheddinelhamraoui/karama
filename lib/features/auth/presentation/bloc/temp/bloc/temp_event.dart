@@ -47,3 +47,30 @@ class ChoosePasswordEvent extends TempEvent {
 }
 
 class GetTempDataEvent extends TempEvent {}
+
+class SubmitOnboardingDataEvent extends TempEvent {
+  final String avatar;
+  final String firstName;
+  final String lastName;
+  final String gender;
+  final String country;
+  final String male;
+  final String state;
+  final String city;
+  final String token;
+  final String mobileNumber;
+  final String password;
+
+  SubmitOnboardingDataEvent(
+      this.avatar,
+      this.firstName,
+      this.lastName,
+      this.gender,
+      this.country,
+      this.male,
+      this.state,
+      this.city,
+      this.token,
+      this.mobileNumber,
+      this.password);
+}

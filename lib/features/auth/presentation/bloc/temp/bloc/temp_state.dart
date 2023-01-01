@@ -24,6 +24,8 @@ class TempDataState extends TempState {
       this.password});
 }
 
+class SignUpDoneState extends TempState {}
+
 class ErrorTempState extends TempState {
   final String message;
   final String? mobileNumber;

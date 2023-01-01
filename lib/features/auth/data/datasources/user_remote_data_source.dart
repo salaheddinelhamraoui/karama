@@ -11,6 +11,17 @@ abstract class UserRemoteDataSource {
   Future<UserModel> sinIn(String mobileNumber, String password);
   Future<Unit> signUp(String mobileNumber);
   Future<String> verifyUser(String pinCode, String mobileNumber);
+  Future<String> submitOnboardingData(
+      String avatar,
+      String firstName,
+      String lastName,
+      String gender,
+      String country,
+      String state,
+      String city,
+      String token,
+      String mobileNumber,
+      String password);
 }
 
 const BASE_URL = "https://xyxm-adm5-et4s.n7.xano.io/api:BG09bi8f";
@@ -111,6 +122,47 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       } else {
         throw ServerException();
       }
+    } else {
+      throw ServerException();
+    }
+  }
+
+  @override
+  Future<String> submitOnboardingData(
+      String avatar,
+      String firstName,
+      String lastName,
+      String gender,
+      String country,
+      String state,
+      String city,
+      String token,
+      String mobileNumber,
+      String password) async {
+    final Map<String, String> body = {
+      'first_name': firstName,
+      'last_name': lastName,
+      'gender': gender,
+      'city': city,
+      'state': state,
+      'country': country,
+      'avatar': avatar,
+      'phone': mobileNumber,
+      'password': password,
+      'token': token
+    };
+
+    final response = await client.post(
+      Uri.parse(BASE_URL + "/onboarding"),
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode(body),
+    );
+
+    final data = jsonDecode(response.body);
+    Map<String, dynamic> jsonObject = jsonDecode(response.body);
+
+    if (response.statusCode == 200 && jsonObject['data']['status'] == true) {
+      return 'done';
     } else {
       throw ServerException();
     }

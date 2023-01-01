@@ -353,7 +353,7 @@ class _ProfileSetupWidgetState extends State<ProfileSetupWidget> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 10),
+                    padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 0),
                     child: FFButtonWidget(
                       onPressed: handleSubmit,
                       text: 'Submit',
@@ -371,6 +371,25 @@ class _ProfileSetupWidgetState extends State<ProfileSetupWidget> {
                         borderSide: BorderSide(
                           color: Colors.transparent,
                           width: 1,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(25, 20, 25, 20),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                        color: FlutterFlowTheme.of(context).secondaryBackground,
+                      ),
+                      child: const Text(
+                        'You will be redirected to the login page after submitting this form.',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          color: Color(0xFF95A1AC),
+                          fontWeight: FontWeight.w300,
+                          fontSize: 12,
                         ),
                       ),
                     ),

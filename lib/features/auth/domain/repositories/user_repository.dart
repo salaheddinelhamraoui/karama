@@ -13,4 +13,15 @@ abstract class UserRepository {
   Future<Either<Failure, String>> getToken();
   Future<Either<Failure, String>> getCachedVerifyUserState();
   Future<Map<String, String>> getTempData();
+  Future<Either<Failure, String>> submitOnboardingData(
+      String avatar,
+      String firstName,
+      String lastName,
+      String gender,
+      String country,
+      String state,
+      String city,
+      String token,
+      String mobileNumber,
+      String password);
 }

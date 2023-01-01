@@ -92,4 +92,34 @@ class UserRepositoryImpl implements UserRepository {
   Future<Map<String, String>> getTempData() async {
     return await localDataSource.getTempData();
   }
+
+  @override
+  Future<Either<Failure, String>> submitOnboardingData(
+      String avatar,
+      String firstName,
+      String lastName,
+      String gender,
+      String country,
+      String state,
+      String city,
+      String token,
+      String mobileNumber,
+      String password) async {
+    try {
+      final result = await remoteDataSource.submitOnboardingData(
+          avatar,
+          firstName,
+          lastName,
+          gender,
+          country,
+          state,
+          city,
+          token,
+          mobileNumber,
+          password);
+      return Right(result);
+    } on ServerException {
+      return Left(ServerFailure());
+    }
+  }
 }

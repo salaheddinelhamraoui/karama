@@ -7,6 +7,7 @@ import 'package:karama/features/auth/domain/usecases/verify_user.dart';
 import '../../../../../../core/error/failure.dart';
 import '../../../../domain/usecases/get_verify_state.dart';
 import '../../../../domain/usecases/signup_user.dart';
+import '../../../../domain/usecases/submit_onboarding_data.dart';
 
 part 'temp_event.dart';
 part 'temp_state.dart';
@@ -16,12 +17,14 @@ class TempBloc extends Bloc<TempEvent, TempState> {
   final VerifyUserUseCase verifyUser;
   final GetVerifyUseCase getVerifyUseCase;
   final GetTempDataUseCase getTempDataUseCase;
+  final SubmitOnboardingDataUseCase submitOnboardingDataUseCase;
 
   TempBloc(
       {required this.signUp,
       required this.getVerifyUseCase,
       required this.verifyUser,
-      required this.getTempDataUseCase})
+      required this.getTempDataUseCase,
+      required this.submitOnboardingDataUseCase})
       : super(TempInitial()) {
     on<TempEvent>((event, emit) async {
       if (event is SignUpEvent) {
@@ -55,6 +58,29 @@ class TempBloc extends Bloc<TempEvent, TempState> {
             mobileNumber: data['mobileNumber'] ?? '',
             token: data['token'],
             verifyState: data['verifyState'] == 'true'));
+      } else if (event is SubmitOnboardingDataEvent) {
+        final state = await submitOnboardingDataUseCase(
+            event.avatar,
+            event.firstName,
+            event.lastName,
+            event.gender,
+            event.country,
+            event.state,
+            event.city,
+            event.token,
+            event.mobileNumber,
+            event.password);
+
+        emit(state.fold(
+          (failure) => ErrorTempState(
+              message: _mapFailureToMessage(failure),
+              mobileNumber: event.mobileNumber),
+          (state) => state == 'done'
+              ? SignUpDoneState()
+              : ErrorTempState(
+                  message: _mapFailureToMessage(ServerFailure()),
+                  mobileNumber: event.mobileNumber),
+        ));
       }
     });
   }
