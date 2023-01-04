@@ -4,6 +4,7 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:karama/features/auth/domain/usecases/get_temp_data.dart';
 import 'package:karama/features/auth/domain/usecases/get_token.dart';
 import 'package:karama/features/auth/domain/usecases/get_verify_state.dart';
+import 'package:karama/features/requests/domain/usecases/get_tags.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/network/network_info.dart';
@@ -19,6 +20,10 @@ import 'features/auth/domain/usecases/submit_onboarding_data.dart';
 import 'features/auth/domain/usecases/verify_user.dart';
 import 'features/auth/presentation/bloc/auth/bloc/auth_bloc.dart';
 import 'features/auth/presentation/bloc/temp/bloc/temp_bloc.dart';
+import 'features/requests/data/datasources/tag_remote_data_source.dart';
+import 'features/requests/data/repositories/tag_category_repository_impl.dart';
+import 'features/requests/domain/repositories/tag_repository.dart';
+import 'features/requests/presentation/bloc/bloc/tags_bloc.dart';
 
 final sl = GetIt.instance;
 
@@ -66,6 +71,26 @@ Future<void> init() async {
 // Core
 
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
+
+// Features - Requests
+
+// bloc
+
+  sl.registerFactory(() => TagsBloc(getTags: sl()));
+
+// Usecases
+  sl.registerLazySingleton(() => GetTagsUseCase(sl()));
+
+// Repository
+
+  sl.registerLazySingleton<TagRepository>(
+      () => TagCategoryRepositoryImpl(remoteDataSource: sl()));
+
+// Datasources
+  sl.registerLazySingleton<TagRemoteDataSource>(
+      () => TagRemoteDataSourceImpl(client: sl()));
+
+// Core
 
 // External
 

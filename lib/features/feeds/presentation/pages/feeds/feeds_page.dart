@@ -40,62 +40,66 @@ class _FeedsPageState extends State<FeedsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: GNav(
-          rippleColor: Colors.grey[300]!,
-          hoverColor: Colors.grey[100]!,
-          gap: 8,
-          activeColor: Colors.black,
-          iconSize: 24,
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-          duration: const Duration(milliseconds: 400),
-          tabBackgroundColor: FlutterFlowTheme.of(context).gray,
-          color: Colors.black,
-          tabs: const [
-            GButton(
-              icon: LineIcons.syncIcon,
-              text: 'Actions',
-            ),
-            GButton(
-              icon: LineIcons.home,
-              text: 'Feeds',
-            ),
-            GButton(
-              icon: LineIcons.blog,
-              text: 'Notifications',
-            ),
-            GButton(
-              icon: LineIcons.users,
-              text: 'Contacts',
-            ),
-            GButton(
-              icon: LineIcons.user,
-              text: 'Profile',
-            ),
-          ],
-          selectedIndex: _selectedIndex,
-          onTabChange: (index) async {
-            if (index == 0) {
-              await showModalBottomSheet(
-                isScrollControlled: true,
-                backgroundColor: Colors.transparent,
-                enableDrag: false,
-                context: context,
-                builder: (context) {
-                  return Padding(
-                    padding: MediaQuery.of(context).viewInsets,
-                    child: ActionsBottomSheet(),
-                  );
-                },
-              ).then((value) => setState(() {}));
-            } else {
-              setState(() {
-                _selectedIndex = index;
-              });
-            }
-          }),
-      body: SafeArea(
-        child: _body(_selectedIndex, context),
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        bottomNavigationBar: GNav(
+            rippleColor: Colors.grey[300]!,
+            hoverColor: Colors.grey[100]!,
+            gap: 8,
+            activeColor: Colors.black,
+            iconSize: 24,
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+            duration: const Duration(milliseconds: 400),
+            tabBackgroundColor: FlutterFlowTheme.of(context).gray,
+            color: Colors.black,
+            tabs: const [
+              GButton(
+                icon: LineIcons.syncIcon,
+                text: 'Actions',
+              ),
+              GButton(
+                icon: LineIcons.home,
+                text: 'Feeds',
+              ),
+              GButton(
+                icon: LineIcons.blog,
+                text: 'Notifications',
+              ),
+              GButton(
+                icon: LineIcons.users,
+                text: 'Contacts',
+              ),
+              GButton(
+                icon: LineIcons.user,
+                text: 'Profile',
+              ),
+            ],
+            selectedIndex: _selectedIndex,
+            onTabChange: (index) async {
+              if (index == 0) {
+                await showModalBottomSheet(
+                  isScrollControlled: true,
+                  backgroundColor: Colors.transparent,
+                  enableDrag: false,
+                  context: context,
+                  builder: (context) {
+                    return Padding(
+                      padding: MediaQuery.of(context).viewInsets,
+                      child: ActionsBottomSheet(),
+                    );
+                  },
+                ).then((value) => setState(() {}));
+              } else {
+                setState(() {
+                  _selectedIndex = index;
+                });
+              }
+            }),
+        body: SafeArea(
+          child: _body(_selectedIndex, context),
+        ),
       ),
     );
   }
