@@ -88,7 +88,7 @@ Future<void> init() async {
 
 // Datasources
   sl.registerLazySingleton<TagRemoteDataSource>(
-      () => TagRemoteDataSourceImpl(client: sl()));
+      () => TagRemoteDataSourceImpl(client: sl(), sharedPreferences: sl()));
 
 // Core
 

@@ -14,9 +14,9 @@ class TagCategoryRepositoryImpl implements TagRepository {
   TagCategoryRepositoryImpl({required this.remoteDataSource});
 
   @override
-  Future<Either<Failure, List<TagCategory>>> getTags(String token) async {
+  Future<Either<Failure, List<TagCategory>>> getTags() async {
     try {
-      final data = await remoteDataSource.getTags(token);
+      final data = await remoteDataSource.getTags();
       return Right(data);
     } on ServerException {
       return Left(ServerFailure());

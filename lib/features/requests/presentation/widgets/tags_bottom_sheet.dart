@@ -3,9 +3,14 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/app_theme.dart';
 import '../../../../flutter_flow/flutter_flow_widgets.dart';
+import '../../domain/entities/tag_category.dart';
 
 class TagsSheetWidget extends StatefulWidget {
-  const TagsSheetWidget({Key? key}) : super(key: key);
+  final List<TagCategory> tags;
+  const TagsSheetWidget({
+    Key? key,
+    required this.tags,
+  }) : super(key: key);
 
   @override
   _TagsSheetWidgetState createState() => _TagsSheetWidgetState();
@@ -13,6 +18,8 @@ class TagsSheetWidget extends StatefulWidget {
 
 class _TagsSheetWidgetState extends State<TagsSheetWidget> {
   TextEditingController? textController;
+  final int selectedPersonalCategory = 0;
+  final int selectedProCategory = 0;
 
   @override
   void initState() {
@@ -32,7 +39,7 @@ class _TagsSheetWidgetState extends State<TagsSheetWidget> {
       width: double.infinity,
       decoration: BoxDecoration(
         color: FlutterFlowTheme.of(context).primaryBackground,
-        borderRadius: BorderRadius.only(
+        borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(0),
           bottomRight: Radius.circular(0),
           topLeft: Radius.circular(25),
@@ -60,28 +67,28 @@ class _TagsSheetWidgetState extends State<TagsSheetWidget> {
                       hintText: 'Tag Name',
                       hintStyle: FlutterFlowTheme.of(context).bodyText2,
                       enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
+                        borderSide: const BorderSide(
                           color: Color(0x00000000),
                           width: 1,
                         ),
                         borderRadius: BorderRadius.circular(5),
                       ),
                       focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
+                        borderSide: const BorderSide(
                           color: Color(0x00000000),
                           width: 1,
                         ),
                         borderRadius: BorderRadius.circular(5),
                       ),
                       errorBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
+                        borderSide: const BorderSide(
                           color: Color(0x00000000),
                           width: 1,
                         ),
                         borderRadius: BorderRadius.circular(5),
                       ),
                       focusedErrorBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
+                        borderSide: const BorderSide(
                           color: Color(0x00000000),
                           width: 1,
                         ),
@@ -89,7 +96,7 @@ class _TagsSheetWidgetState extends State<TagsSheetWidget> {
                       ),
                       filled: true,
                       fillColor: FlutterFlowTheme.of(context).gray,
-                      suffixIcon: Icon(
+                      suffixIcon: const Icon(
                         Icons.highlight_off_sharp,
                         color: Color(0xFF757575),
                         size: 22,
@@ -168,14 +175,15 @@ class _TagsSheetWidgetState extends State<TagsSheetWidget> {
                     Padding(
                       padding: EdgeInsetsDirectional.fromSTEB(15, 0, 15, 0),
                       child: Container(
+                        height: 32,
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(),
-                        child: SingleChildScrollView(
+                        child: ListView.builder(
                           scrollDirection: Axis.horizontal,
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Padding(
+                          itemCount: widget.tags.length,
+                          itemBuilder: (context, index) {
+                            if (widget.tags[index].type == 1) {
+                              return Padding(
                                 padding:
                                     EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
                                 child: Container(
@@ -186,156 +194,75 @@ class _TagsSheetWidgetState extends State<TagsSheetWidget> {
                                   child: Padding(
                                     padding: EdgeInsetsDirectional.fromSTEB(
                                         8, 4, 8, 4),
-                                    child: Text(
-                                      'Surf Coach',
-                                      textAlign: TextAlign.center,
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyText1
-                                          .override(
-                                            fontFamily: 'Poppins',
-                                            color: FlutterFlowTheme.of(context)
-                                                .primaryText,
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w300,
-                                            useGoogleFonts: false,
-                                          ),
+                                    child: InkWell(
+                                      onTap: () {},
+                                      child: Text(
+                                        widget.tags[index].name,
+                                        textAlign: TextAlign.center,
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyText1
+                                            .override(
+                                              fontFamily: 'Poppins',
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primaryText,
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w300,
+                                              useGoogleFonts: false,
+                                            ),
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              Padding(
-                                padding:
-                                    EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: FlutterFlowTheme.of(context).gray,
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        8, 4, 8, 4),
-                                    child: Text(
-                                      'Surf Coach',
-                                      textAlign: TextAlign.center,
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyText1
-                                          .override(
-                                            fontFamily: 'Poppins',
-                                            color: FlutterFlowTheme.of(context)
-                                                .primaryText,
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w300,
-                                            useGoogleFonts: false,
-                                          ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+                              );
+                            } else {
+                              return SizedBox();
+                            }
+                          },
                         ),
                       ),
                     ),
                     Padding(
                       padding: EdgeInsetsDirectional.fromSTEB(15, 10, 15, 0),
                       child: Container(
+                        height: 25,
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(),
-                        child: SingleChildScrollView(
+                        child: ListView.builder(
                           scrollDirection: Axis.horizontal,
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding:
-                                    EdgeInsetsDirectional.fromSTEB(0, 0, 6, 0),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: FlutterFlowTheme.of(context)
-                                        .secondaryText,
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        8, 4, 8, 4),
-                                    child: Text(
-                                      'Surf Coach',
-                                      textAlign: TextAlign.center,
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyText1
-                                          .override(
-                                            fontFamily: 'Poppins',
-                                            color: FlutterFlowTheme.of(context)
-                                                .primaryBtnText,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w300,
-                                            useGoogleFonts: false,
-                                          ),
-                                    ),
+                          itemCount: widget.tags[0].tags.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(0, 0, 6, 0),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: FlutterFlowTheme.of(context)
+                                      .secondaryText,
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      8, 4, 8, 4),
+                                  child: Text(
+                                    widget.tags[0]
+                                        .tags[selectedPersonalCategory].tagName,
+                                    textAlign: TextAlign.center,
+                                    style: FlutterFlowTheme.of(context)
+                                        .bodyText1
+                                        .override(
+                                          fontFamily: 'Poppins',
+                                          color: FlutterFlowTheme.of(context)
+                                              .primaryBtnText,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w300,
+                                          useGoogleFonts: false,
+                                        ),
                                   ),
                                 ),
                               ),
-                              Padding(
-                                padding:
-                                    EdgeInsetsDirectional.fromSTEB(0, 0, 6, 0),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: FlutterFlowTheme.of(context)
-                                        .secondaryText,
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        8, 4, 8, 4),
-                                    child: Text(
-                                      'Surf Coach',
-                                      textAlign: TextAlign.center,
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyText1
-                                          .override(
-                                            fontFamily: 'Poppins',
-                                            color: FlutterFlowTheme.of(context)
-                                                .primaryBtnText,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w300,
-                                            useGoogleFonts: false,
-                                          ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    EdgeInsetsDirectional.fromSTEB(0, 0, 6, 0),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: FlutterFlowTheme.of(context)
-                                        .secondaryText,
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        8, 4, 8, 4),
-                                    child: Text(
-                                      'Surf Coach',
-                                      textAlign: TextAlign.center,
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyText1
-                                          .override(
-                                            fontFamily: 'Poppins',
-                                            color: FlutterFlowTheme.of(context)
-                                                .primaryBtnText,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w300,
-                                            useGoogleFonts: false,
-                                          ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+                            );
+                          },
                         ),
                       ),
                     ),
@@ -392,174 +319,90 @@ class _TagsSheetWidgetState extends State<TagsSheetWidget> {
                     Padding(
                       padding: EdgeInsetsDirectional.fromSTEB(15, 0, 15, 0),
                       child: Container(
+                        height: 32,
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(),
-                        child: SingleChildScrollView(
+                        child: ListView.builder(
                           scrollDirection: Axis.horizontal,
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Padding(
+                          itemCount: widget.tags.length,
+                          itemBuilder: (context, index) {
+                            if (widget.tags[index].type == 2) {
+                              return Padding(
                                 padding:
                                     EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
                                 child: Container(
                                   decoration: BoxDecoration(
                                     color: FlutterFlowTheme.of(context).gray,
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        6, 4, 6, 4),
-                                    child: Text(
-                                      'Surf Coach',
-                                      textAlign: TextAlign.center,
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyText1
-                                          .override(
-                                            fontFamily: 'Poppins',
-                                            color: FlutterFlowTheme.of(context)
-                                                .primaryText,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w300,
-                                            useGoogleFonts: false,
-                                          ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: FlutterFlowTheme.of(context).gray,
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        6, 4, 6, 4),
-                                    child: Text(
-                                      'Surf Coach',
-                                      textAlign: TextAlign.center,
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyText1
-                                          .override(
-                                            fontFamily: 'Poppins',
-                                            color: FlutterFlowTheme.of(context)
-                                                .primaryText,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w300,
-                                            useGoogleFonts: false,
-                                          ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(15, 10, 15, 0),
-                      child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(),
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding:
-                                    EdgeInsetsDirectional.fromSTEB(0, 0, 6, 0),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: FlutterFlowTheme.of(context)
-                                        .secondaryText,
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        6, 4, 6, 4),
-                                    child: Text(
-                                      'Surf Coach',
-                                      textAlign: TextAlign.center,
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyText1
-                                          .override(
-                                            fontFamily: 'Poppins',
-                                            color: FlutterFlowTheme.of(context)
-                                                .primaryBtnText,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w300,
-                                            useGoogleFonts: false,
-                                          ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    EdgeInsetsDirectional.fromSTEB(0, 0, 6, 0),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: FlutterFlowTheme.of(context)
-                                        .secondaryText,
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        6, 4, 6, 4),
-                                    child: Text(
-                                      'Surf Coach',
-                                      textAlign: TextAlign.center,
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyText1
-                                          .override(
-                                            fontFamily: 'Poppins',
-                                            color: FlutterFlowTheme.of(context)
-                                                .primaryBtnText,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w300,
-                                            useGoogleFonts: false,
-                                          ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    EdgeInsetsDirectional.fromSTEB(0, 0, 6, 0),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: FlutterFlowTheme.of(context)
-                                        .secondaryText,
                                     borderRadius: BorderRadius.circular(5),
                                   ),
                                   child: Padding(
                                     padding: EdgeInsetsDirectional.fromSTEB(
                                         8, 4, 8, 4),
                                     child: Text(
-                                      'Surf Coach',
+                                      widget.tags[index].name,
                                       textAlign: TextAlign.center,
                                       style: FlutterFlowTheme.of(context)
                                           .bodyText1
                                           .override(
                                             fontFamily: 'Poppins',
                                             color: FlutterFlowTheme.of(context)
-                                                .primaryBtnText,
-                                            fontSize: 12,
+                                                .primaryText,
+                                            fontSize: 15,
                                             fontWeight: FontWeight.w300,
                                             useGoogleFonts: false,
                                           ),
                                     ),
                                   ),
                                 ),
+                              );
+                            } else {
+                              return SizedBox();
+                            }
+                          },
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(15, 10, 15, 0),
+                      child: Container(
+                        height: 25,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(),
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: widget.tags[0].tags.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(0, 0, 6, 0),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: FlutterFlowTheme.of(context)
+                                      .secondaryText,
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      8, 4, 8, 4),
+                                  child: Text(
+                                    widget.tags[0].tags[selectedProCategory]
+                                        .tagName,
+                                    textAlign: TextAlign.center,
+                                    style: FlutterFlowTheme.of(context)
+                                        .bodyText1
+                                        .override(
+                                          fontFamily: 'Poppins',
+                                          color: FlutterFlowTheme.of(context)
+                                              .primaryBtnText,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w300,
+                                          useGoogleFonts: false,
+                                        ),
+                                  ),
+                                ),
                               ),
-                            ],
-                          ),
+                            );
+                          },
                         ),
                       ),
                     ),

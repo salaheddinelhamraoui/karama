@@ -8,10 +8,8 @@ abstract class TagsEvent extends Equatable {
 }
 
 class getTagsEvent extends TagsEvent {
-  final String token;
-
-  const getTagsEvent({required this.token});
+  const getTagsEvent();
 
   @override
-  List<Object> get props => [token];
+  List<Object> get props => [];
 }

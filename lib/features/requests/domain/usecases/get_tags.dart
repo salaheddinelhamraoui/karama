@@ -9,7 +9,7 @@ class GetTagsUseCase {
 
   GetTagsUseCase(this.repository);
 
-  Future<Either<Failure, List<TagCategory>>> call(String token) async {
-    return await repository.getTags(token);
+  Future<Either<Failure, List<TagCategory>>> call() async {
+    return await repository.getTags();
   }
 }

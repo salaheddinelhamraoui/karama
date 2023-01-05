@@ -2,25 +2,31 @@ import 'dart:convert';
 
 import 'package:karama/features/requests/domain/entities/tag.dart';
 import 'package:karama/features/requests/domain/entities/tag_category.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/error/exceptions.dart';
 import '../models/tag_category_model.dart';
 import 'package:http/http.dart' as http;
 
 abstract class TagRemoteDataSource {
-  Future<List<TagCategoryModel>> getTags(String token);
+  Future<List<TagCategoryModel>> getTags();
 }
 
 const BASE_URL = "https://xyxm-adm5-et4s.n7.xano.io/";
+const CACHED_TOKEN = "CACHED_TOKEN";
 
 class TagRemoteDataSourceImpl implements TagRemoteDataSource {
   final http.Client client;
+  final SharedPreferences sharedPreferences;
 
-  TagRemoteDataSourceImpl({required this.client});
+  TagRemoteDataSourceImpl(
+      {required this.client, required this.sharedPreferences});
 
   @override
-  Future<List<TagCategoryModel>> getTags(token) async {
+  Future<List<TagCategoryModel>> getTags() async {
     try {
+      final token = await getCachedToken();
+
       final response = await client.get(
         Uri.parse(BASE_URL + 'api:XDi8QT5O/mixed_category_tags'),
         headers: {
@@ -32,22 +38,24 @@ class TagRemoteDataSourceImpl implements TagRemoteDataSource {
         Map<String, dynamic> jsonObject = jsonDecode(response.body);
         List<TagCategoryModel> tagsCat = [];
 
-        for (var i = 0; i < jsonObject['data'].length; i++) {
+        for (var i = 0; i < jsonObject['data']['result'].length; i++) {
           List<Tag> tags = [];
 
           for (var j = 0;
-              j < jsonObject['data'][i]['_tags_of_category'].length;
+              j < jsonObject['data']['result'][i]['_tags_of_category'].length;
               j++) {
             Tag tag = Tag(
-                id: jsonObject['data'][i]['_tags_of_category'][j]['id'],
-                tagName: jsonObject['data'][i]['_tags_of_category'][j]['name']);
+                id: jsonObject['data']['result'][i]['_tags_of_category'][j]
+                    ['id'],
+                tagName: jsonObject['data']['result'][i]['_tags_of_category'][j]
+                    ['name']);
             tags.add(tag);
           }
 
           TagCategoryModel tagCat = TagCategoryModel(
-              id: jsonObject['data'][i]['id'],
-              name: jsonObject['data'][i]['name'],
-              type: jsonObject['data'][i]['category_type'],
+              id: jsonObject['data']['result'][i]['id'],
+              name: jsonObject['data']['result'][i]['name'],
+              type: jsonObject['data']['result'][i]['category_type'],
               tags: tags);
 
           tagsCat.add(tagCat);
@@ -60,6 +68,15 @@ class TagRemoteDataSourceImpl implements TagRemoteDataSource {
       print(e.toString());
       print(100);
       throw ServerException();
+    }
+  }
+
+  Future<String> getCachedToken() async {
+    final token = sharedPreferences.getString(CACHED_TOKEN);
+    if (token == null) {
+      throw EmptyCacheException();
+    } else {
+      return token.toString();
     }
   }
 }
