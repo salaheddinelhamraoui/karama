@@ -5,7 +5,7 @@ class TagCategoryModel extends TagCategory {
   const TagCategoryModel(
       {required int id,
       required String name,
-      required String type,
+      required int type,
       required List<Tag> tags})
       : super(id: id, name: name, type: type, tags: tags);
 

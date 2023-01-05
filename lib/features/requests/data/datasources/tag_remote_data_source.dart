@@ -20,26 +20,45 @@ class TagRemoteDataSourceImpl implements TagRemoteDataSource {
 
   @override
   Future<List<TagCategoryModel>> getTags(token) async {
-    Tag tag = new Tag(id: 1, tagName: 'test tag name');
-    TagCategoryModel tagCat = new TagCategoryModel(
-        id: 1, name: 'test', type: 'test type', tags: [tag, tag]);
+    try {
+      final response = await client.get(
+        Uri.parse(BASE_URL + 'api:XDi8QT5O/mixed_category_tags'),
+        headers: {
+          "Authorization": "Bearer $token",
+        },
+      );
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        Map<String, dynamic> jsonObject = jsonDecode(response.body);
+        List<TagCategoryModel> tagsCat = [];
 
-    final response = await client.post(
-      Uri.parse(BASE_URL + 'api:XDi8QT5O/mixed_category_tags'),
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer $token",
-      },
-    );
+        for (var i = 0; i < jsonObject['data'].length; i++) {
+          List<Tag> tags = [];
 
-    if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
-      Map<String, dynamic> jsonObject = jsonDecode(response.body);
+          for (var j = 0;
+              j < jsonObject['data'][i]['_tags_of_category'].length;
+              j++) {
+            Tag tag = Tag(
+                id: jsonObject['data'][i]['_tags_of_category'][j]['id'],
+                tagName: jsonObject['data'][i]['_tags_of_category'][j]['name']);
+            tags.add(tag);
+          }
 
-      print(data.toString());
+          TagCategoryModel tagCat = TagCategoryModel(
+              id: jsonObject['data'][i]['id'],
+              name: jsonObject['data'][i]['name'],
+              type: jsonObject['data'][i]['category_type'],
+              tags: tags);
 
-      return [tagCat, tagCat];
-    } else {
+          tagsCat.add(tagCat);
+        }
+        return tagsCat;
+      } else {
+        throw ServerException();
+      }
+    } catch (e) {
+      print(e.toString());
+      print(100);
       throw ServerException();
     }
   }

@@ -19,7 +19,7 @@ class TagCategoryRepositoryImpl implements TagRepository {
       final data = await remoteDataSource.getTags(token);
       return Right(data);
     } on ServerException {
-      return Left(NotInvitedFailure());
+      return Left(ServerFailure());
     }
   }
 }

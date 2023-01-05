@@ -41,6 +41,8 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       'password': password,
     };
 
+    print(body.toString());
+
     final response = await client.post(
       Uri.parse(BASE_URL + "/login"),
       headers: {"Content-Type": "application/json"},
@@ -49,6 +51,10 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
 
     final data = jsonDecode(response.body);
     Map<String, dynamic> jsonObject = jsonDecode(response.body);
+
+    print(jsonObject.toString());
+
+    print('==============');
 
     if (response.statusCode == 200 && jsonObject['data']['status'] == true) {
       String token = jsonObject['data']['result']['token'].toString();

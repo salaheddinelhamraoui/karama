@@ -15,6 +15,7 @@ import 'features/auth/presentation/pages/registration/registration_page.dart';
 import 'features/auth/presentation/pages/welcome/welcome_page.dart';
 import 'package:go_router/go_router.dart';
 
+import 'features/requests/presentation/bloc/bloc/tags_bloc.dart';
 import 'features/requests/presentation/pages/feeds/new_request_page.dart';
 import 'injection_container.dart' as di;
 
@@ -34,7 +35,8 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => di.sl<AuthBloc>()..add(getUserEvent())),
-        BlocProvider(create: (_) => di.sl<TempBloc>()..add(GetTempDataEvent()))
+        BlocProvider(create: (_) => di.sl<TempBloc>()..add(GetTempDataEvent())),
+        BlocProvider(create: (_) => di.sl<TagsBloc>())
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,

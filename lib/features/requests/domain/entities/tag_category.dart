@@ -4,7 +4,7 @@ import 'package:karama/features/requests/domain/entities/tag.dart';
 class TagCategory extends Equatable {
   final int id;
   final String name;
-  final String type;
+  final int type;
   final List<Tag> tags;
 
   const TagCategory(
