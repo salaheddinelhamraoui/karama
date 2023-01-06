@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../auth/presentation/bloc/auth/bloc/auth_bloc.dart';
+import '../../../domain/entities/tag_category.dart';
 import '../../bloc/bloc/tags_bloc.dart';
 import '../../widgets/tags_bottom_sheet.dart';
 
@@ -33,7 +34,6 @@ class _NewRequestPageState extends State<NewRequestPage> {
   @override
   void initState() {
     BlocProvider.of<TagsBloc>(context).add(getTagsEvent());
-    print('t2');
     super.initState();
     titleController = TextEditingController();
     descriptionController = TextEditingController();
@@ -74,7 +74,6 @@ class _NewRequestPageState extends State<NewRequestPage> {
             if (state is TagsLoadedState) {}
           },
           builder: (context, state) {
-            print(state);
             if (state is TagsLoadedState) {
               return _content(context, state.tags);
             } else if (state is TagsLoadingState) {
@@ -390,8 +389,9 @@ class _NewRequestPageState extends State<NewRequestPage> {
                                         return Padding(
                                           padding:
                                               MediaQuery.of(context).viewInsets,
-                                          child:
-                                              TagsSheetWidget(tags: tags ?? []),
+                                          child: TagsSheetWidget(
+                                            tags: tags ?? [],
+                                          ),
                                         );
                                       },
                                     ).then((value) => setState(() {}))
