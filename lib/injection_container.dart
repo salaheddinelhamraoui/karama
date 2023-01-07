@@ -21,9 +21,13 @@ import 'features/auth/domain/usecases/verify_user.dart';
 import 'features/auth/presentation/bloc/auth/bloc/auth_bloc.dart';
 import 'features/auth/presentation/bloc/temp/bloc/temp_bloc.dart';
 import 'features/requests/data/datasources/tag_remote_data_source.dart';
+import 'features/requests/data/repositories/request_repository_impl.dart';
 import 'features/requests/data/repositories/tag_category_repository_impl.dart';
+import 'features/requests/domain/repositories/request_repository.dart';
 import 'features/requests/domain/repositories/tag_repository.dart';
+import 'features/requests/domain/usecases/post_request.dart';
 import 'features/requests/presentation/bloc/bloc/tags_bloc.dart';
+import 'features/requests/presentation/bloc/request/bloc/request_bloc.dart';
 
 final sl = GetIt.instance;
 
@@ -72,19 +76,25 @@ Future<void> init() async {
 
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
 
+// -------------------------------------------------------------------------
+
 // Features - Requests
 
 // bloc
 
   sl.registerFactory(() => TagsBloc(getTags: sl()));
+  sl.registerFactory(() => RequestBloc(postRequest: sl()));
 
 // Usecases
   sl.registerLazySingleton(() => GetTagsUseCase(sl()));
+  sl.registerLazySingleton(() => PostRequestUseCase(sl()));
 
 // Repository
 
   sl.registerLazySingleton<TagRepository>(
       () => TagCategoryRepositoryImpl(remoteDataSource: sl()));
+  sl.registerLazySingleton<RequestRepository>(
+      () => RequestRepositoryImpl(remoteDataSource: sl()));
 
 // Datasources
   sl.registerLazySingleton<TagRemoteDataSource>(

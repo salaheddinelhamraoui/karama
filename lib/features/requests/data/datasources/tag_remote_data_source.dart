@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dartz/dartz.dart';
 import 'package:karama/features/requests/domain/entities/tag.dart';
 import 'package:karama/features/requests/domain/entities/tag_category.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,6 +12,7 @@ import 'package:http/http.dart' as http;
 
 abstract class TagRemoteDataSource {
   Future<List<TagCategoryModel>> getTags();
+  Future<Unit> postRequest(Request req);
 }
 
 const BASE_URL = "https://xyxm-adm5-et4s.n7.xano.io/";
@@ -80,7 +82,7 @@ class TagRemoteDataSourceImpl implements TagRemoteDataSource {
     }
   }
 
-  Future<String> postRequest(Request req) async {
+  Future<Unit> postRequest(Request req) async {
     try {
       final token = req.token;
       final Map<String, String> body = {
@@ -112,6 +114,6 @@ class TagRemoteDataSourceImpl implements TagRemoteDataSource {
       print(e.toString());
     }
 
-    return '';
+    return unit;
   }
 }
