@@ -8,8 +8,11 @@ import '../../domain/entities/tag_category.dart';
 
 class TagsSheetWidget extends StatefulWidget {
   final List<TagCategory> tags;
+  Function submittedTagsCallBack;
 
-  TagsSheetWidget({Key? key, required this.tags}) : super(key: key);
+  TagsSheetWidget(
+      {Key? key, required this.tags, required this.submittedTagsCallBack})
+      : super(key: key);
 
   @override
   _TagsSheetWidgetState createState() => _TagsSheetWidgetState();
@@ -39,6 +42,7 @@ class _TagsSheetWidgetState extends State<TagsSheetWidget> {
   Widget build(BuildContext context) {
     print(filteredTags);
     print('-------------------');
+    print('selected personal category ' + selectedPersonalCategory.toString());
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -258,11 +262,12 @@ class _TagsSheetWidgetState extends State<TagsSheetWidget> {
                               decoration: BoxDecoration(),
                               child: ListView.builder(
                                 scrollDirection: Axis.horizontal,
-                                itemCount: widget
-                                    .tags[selectedPersonalCategory ?? 0]
-                                    .tags
-                                    .length,
+                                itemCount:
+                                    filteredTags[selectedPersonalCategory ?? 0]
+                                        .tags
+                                        .length,
                                 itemBuilder: (context, index) {
+                                  print(index);
                                   return Padding(
                                     padding: EdgeInsetsDirectional.fromSTEB(
                                         0, 0, 6, 0),
@@ -278,14 +283,12 @@ class _TagsSheetWidgetState extends State<TagsSheetWidget> {
                                         child: InkWell(
                                           onTap: () {
                                             Tag tag = Tag(
-                                                id: widget
-                                                    .tags[
+                                                id: filteredTags[
                                                         selectedPersonalCategory ??
                                                             0]
                                                     .tags[index]
                                                     .id,
-                                                tagName: widget
-                                                    .tags[
+                                                tagName: filteredTags[
                                                         selectedPersonalCategory ??
                                                             0]
                                                     .tags[index]
@@ -295,8 +298,7 @@ class _TagsSheetWidgetState extends State<TagsSheetWidget> {
                                             });
                                           },
                                           child: Text(
-                                            widget
-                                                .tags[
+                                            filteredTags[
                                                     selectedPersonalCategory ??
                                                         0]
                                                 .tags[index]
@@ -451,8 +453,10 @@ class _TagsSheetWidgetState extends State<TagsSheetWidget> {
                               decoration: BoxDecoration(),
                               child: ListView.builder(
                                 scrollDirection: Axis.horizontal,
-                                itemCount: widget
-                                    .tags[selectedProCategory ?? 0].tags.length,
+                                itemCount:
+                                    filteredTags[selectedProCategory ?? 0]
+                                        .tags
+                                        .length,
                                 itemBuilder: (context, index) {
                                   return Padding(
                                     padding: EdgeInsetsDirectional.fromSTEB(
@@ -469,14 +473,14 @@ class _TagsSheetWidgetState extends State<TagsSheetWidget> {
                                         child: InkWell(
                                           onTap: () {
                                             Tag tag = Tag(
-                                                id: widget
-                                                    .tags[selectedProCategory ??
-                                                        0]
+                                                id: filteredTags[
+                                                        selectedProCategory ??
+                                                            0]
                                                     .tags[index]
                                                     .id,
-                                                tagName: widget
-                                                    .tags[selectedProCategory ??
-                                                        0]
+                                                tagName: filteredTags[
+                                                        selectedProCategory ??
+                                                            0]
                                                     .tags[index]
                                                     .tagName);
                                             setState(() {
@@ -484,8 +488,8 @@ class _TagsSheetWidgetState extends State<TagsSheetWidget> {
                                             });
                                           },
                                           child: Text(
-                                            widget
-                                                .tags[selectedProCategory ?? 0]
+                                            filteredTags[
+                                                    selectedProCategory ?? 0]
                                                 .tags[index]
                                                 .tagName,
                                             textAlign: TextAlign.center,
@@ -593,7 +597,7 @@ class _TagsSheetWidgetState extends State<TagsSheetWidget> {
                     children: [
                       FFButtonWidget(
                         onPressed: () {
-                          print('Button pressed ...');
+                          widget.submittedTagsCallBack(selectedTags);
                         },
                         text: 'Submit',
                         options: FFButtonOptions(

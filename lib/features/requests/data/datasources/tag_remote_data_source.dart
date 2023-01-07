@@ -5,6 +5,7 @@ import 'package:karama/features/requests/domain/entities/tag_category.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/error/exceptions.dart';
+import '../../domain/entities/request.dart';
 import '../models/tag_category_model.dart';
 import 'package:http/http.dart' as http;
 
@@ -66,7 +67,6 @@ class TagRemoteDataSourceImpl implements TagRemoteDataSource {
       }
     } catch (e) {
       print(e.toString());
-      print(100);
       throw ServerException();
     }
   }
@@ -78,5 +78,40 @@ class TagRemoteDataSourceImpl implements TagRemoteDataSource {
     } else {
       return token.toString();
     }
+  }
+
+  Future<String> postRequest(Request req) async {
+    try {
+      final token = req.token;
+      final Map<String, String> body = {
+        'title': req.title,
+        'description': req.description,
+        'products': req.products,
+        'services': req.services,
+        'pereference': req.pereference,
+        'tags': req.tags.toString(),
+        'area': req.area,
+        'token': req.token,
+      };
+
+      final response = await client.post(
+        Uri.parse(BASE_URL + "api:Ik6DU6PW/create_request"),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode(body),
+      );
+
+      final data = jsonDecode(response.body);
+      Map<String, dynamic> jsonObject = jsonDecode(response.body);
+
+      if (response.statusCode == 200 && jsonObject['data']['status'] == true) {
+        return Future.value();
+      } else {
+        throw ServerException();
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+
+    return '';
   }
 }

@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../auth/presentation/bloc/auth/bloc/auth_bloc.dart';
+import '../../../domain/entities/tag.dart';
 import '../../../domain/entities/tag_category.dart';
 import '../../bloc/bloc/tags_bloc.dart';
 import '../../widgets/tags_bottom_sheet.dart';
@@ -30,6 +31,7 @@ class _NewRequestPageState extends State<NewRequestPage> {
   // myCustomControllers
   TextEditingController? titleController;
   TextEditingController? descriptionController;
+  List<Tag> submittedTags = [];
 
   @override
   void initState() {
@@ -391,6 +393,8 @@ class _NewRequestPageState extends State<NewRequestPage> {
                                               MediaQuery.of(context).viewInsets,
                                           child: TagsSheetWidget(
                                             tags: tags ?? [],
+                                            submittedTagsCallBack:
+                                                submittedTagsCallBack,
                                           ),
                                         );
                                       },
@@ -430,6 +434,74 @@ class _NewRequestPageState extends State<NewRequestPage> {
                           ),
                         ),
                       ],
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(15, 15, 15, 0),
+                  child: Container(
+                    height: 32,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(),
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: submittedTags.length,
+                      itemBuilder: (context, index) {
+                        return Row(
+                          children: [
+                            Padding(
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: FlutterFlowTheme.of(context).gray,
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      8, 4, 8, 4),
+                                  child: InkWell(
+                                    child: Text(
+                                      submittedTags[index].tagName,
+                                      textAlign: TextAlign.center,
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyText1
+                                          .override(
+                                            fontFamily: 'Poppins',
+                                            color: FlutterFlowTheme.of(context)
+                                                .primaryText,
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w300,
+                                            useGoogleFonts: false,
+                                          ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(0, 0, 15, 0),
+                              child: InkWell(
+                                onTap: () {
+                                  List<Tag> filteredTags = submittedTags
+                                      .where((item) =>
+                                          item.id != submittedTags[index].id)
+                                      .toList();
+                                  setState(() {
+                                    submittedTags = filteredTags;
+                                  });
+                                },
+                                child: const Icon(
+                                  Icons.highlight_off_sharp,
+                                  color: Colors.black,
+                                  size: 22,
+                                ),
+                              ),
+                            )
+                          ],
+                        );
+                      },
                     ),
                   ),
                 ),
@@ -514,5 +586,13 @@ class _NewRequestPageState extends State<NewRequestPage> {
       filled: true,
       fillColor: FlutterFlowTheme.of(context).gray,
     );
+  }
+
+  void submittedTagsCallBack(tags) {
+    setState(() {
+      submittedTags = [...submittedTags, ...tags];
+    });
+
+    Navigator.pop(context);
   }
 }
