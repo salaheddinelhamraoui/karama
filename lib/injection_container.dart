@@ -20,6 +20,12 @@ import 'features/auth/domain/usecases/submit_onboarding_data.dart';
 import 'features/auth/domain/usecases/verify_user.dart';
 import 'features/auth/presentation/bloc/auth/bloc/auth_bloc.dart';
 import 'features/auth/presentation/bloc/temp/bloc/temp_bloc.dart';
+
+import 'features/feeds/data/datasources/feed_remote_data_source.dart';
+import 'features/feeds/data/repositories/feed_repository_impl.dart';
+import 'features/feeds/domain/repositories/feed_repository.dart';
+import 'features/feeds/domain/usecases/get_Feed.dart';
+import 'features/feeds/presentation/bloc/feeds/bloc/feed_bloc.dart';
 import 'features/requests/data/datasources/tag_remote_data_source.dart';
 import 'features/requests/data/repositories/request_repository_impl.dart';
 import 'features/requests/data/repositories/tag_category_repository_impl.dart';
@@ -72,10 +78,6 @@ Future<void> init() async {
   sl.registerLazySingleton<UserLocalDataSource>(
       () => UserLocalDataSourceImpl(sharedPreferences: sl()));
 
-// Core
-
-  sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
-
 // -------------------------------------------------------------------------
 
 // Features - Requests
@@ -100,7 +102,30 @@ Future<void> init() async {
   sl.registerLazySingleton<TagRemoteDataSource>(
       () => TagRemoteDataSourceImpl(client: sl(), sharedPreferences: sl()));
 
+// Features - Feeds
+
+// Bloc
+  sl.registerFactory(() => FeedBloc(getFeeds: sl()));
+
+// Usecases
+
+  sl.registerLazySingleton(() => GetFeedsUseCase(sl()));
+
+// Repository
+
+  sl.registerLazySingleton<FeedRepository>(
+      () => FeedRepositoryImpl(remoteDataSource: sl()));
+
+// Datasources
+
+  sl.registerLazySingleton<FeedRemoteDataSource>(
+      () => FeedRemoteDataSourceImpl(client: sl(), sharedPreferences: sl()));
+
+// -------------------------------------------------------------------------
+
 // Core
+
+  sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
 
 // External
 

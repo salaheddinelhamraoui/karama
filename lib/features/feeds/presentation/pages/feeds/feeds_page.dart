@@ -109,7 +109,7 @@ class _FeedsPageState extends State<FeedsPage> {
     } else if (index == 1) {
       // Open Feeds page
       return Container(
-        child: Center(child: Text("Feeds")),
+        child: FeedsBody(),
       );
       // return FeedsBody();
     } else if (index == 2) {

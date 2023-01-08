@@ -84,21 +84,31 @@ class TagRemoteDataSourceImpl implements TagRemoteDataSource {
 
   Future<Unit> postRequest(Request req) async {
     try {
-      final token = req.token;
-      final Map<String, String> body = {
+      final token = sharedPreferences.getString(CACHED_TOKEN);
+
+      List<int> cleanedTags = [];
+
+      for (var i = 0; i < req.tags.length; i++) {
+        cleanedTags.add(req.tags[i].id);
+      }
+
+      final Map<String, dynamic> body = {
         'title': req.title,
         'description': req.description,
         'products': req.products,
         'services': req.services,
         'pereference': req.pereference,
-        'tags': req.tags.toString(),
+        'tags': cleanedTags,
         'area': req.area,
-        'token': req.token,
+        'token': token
       };
 
       final response = await client.post(
         Uri.parse(BASE_URL + "api:Ik6DU6PW/create_request"),
-        headers: {"Content-Type": "application/json"},
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer $token",
+        },
         body: jsonEncode(body),
       );
 
@@ -106,14 +116,13 @@ class TagRemoteDataSourceImpl implements TagRemoteDataSource {
       Map<String, dynamic> jsonObject = jsonDecode(response.body);
 
       if (response.statusCode == 200 && jsonObject['data']['status'] == true) {
-        return Future.value();
+        return unit;
       } else {
         throw ServerException();
       }
     } catch (e) {
       print(e.toString());
+      throw ServerException();
     }
-
-    return unit;
   }
 }

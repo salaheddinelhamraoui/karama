@@ -9,17 +9,16 @@ class Request extends Equatable {
   final String pereference;
   final List<Tag> tags;
   final String area;
-  final String token;
 
-  Request(
-      {required this.title,
-      required this.description,
-      required this.products,
-      required this.services,
-      required this.pereference,
-      required this.tags,
-      required this.area,
-      required this.token});
+  Request({
+    required this.title,
+    required this.description,
+    required this.products,
+    required this.services,
+    required this.pereference,
+    required this.tags,
+    required this.area,
+  });
 
   @override
   // TODO: implement props

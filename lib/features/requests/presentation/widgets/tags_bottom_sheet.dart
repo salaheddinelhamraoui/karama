@@ -40,9 +40,6 @@ class _TagsSheetWidgetState extends State<TagsSheetWidget> {
 
   @override
   Widget build(BuildContext context) {
-    print(filteredTags);
-    print('-------------------');
-    print('selected personal category ' + selectedPersonalCategory.toString());
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -267,7 +264,6 @@ class _TagsSheetWidgetState extends State<TagsSheetWidget> {
                                         .tags
                                         .length,
                                 itemBuilder: (context, index) {
-                                  print(index);
                                   return Padding(
                                     padding: EdgeInsetsDirectional.fromSTEB(
                                         0, 0, 6, 0),
@@ -599,7 +595,7 @@ class _TagsSheetWidgetState extends State<TagsSheetWidget> {
                         onPressed: () {
                           widget.submittedTagsCallBack(selectedTags);
                         },
-                        text: 'Submit',
+                        text: 'Add',
                         options: FFButtonOptions(
                           width: 130,
                           height: 40,

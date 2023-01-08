@@ -12,7 +12,7 @@ class TagsBloc extends Bloc<TagsEvent, TagsState> {
   final GetTagsUseCase getTags;
   TagsBloc({required this.getTags}) : super(TagsInitial()) {
     on<TagsEvent>((event, emit) async {
-      if (event is getTagsEvent) {
+      if (event is GetTagsEvent) {
         emit(TagsLoadingState());
         final failureOrDoneMessage = await getTags();
 

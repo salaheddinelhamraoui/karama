@@ -81,9 +81,7 @@ class _ActionsBottomSheetState extends State<ActionsBottomSheet> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       FFButtonWidget(
-                        onPressed: () {
-                          context.go('/newRequest');
-                        },
+                        onPressed: () {},
                         text: 'New Offer',
                         options: FFButtonOptions(
                           width: 130,
@@ -104,7 +102,8 @@ class _ActionsBottomSheetState extends State<ActionsBottomSheet> {
                       ),
                       FFButtonWidget(
                         onPressed: () {
-                          print('Button pressed ...');
+                          Navigator.pop(context);
+                          context.push('/newRequest');
                         },
                         text: 'New Request',
                         options: FFButtonOptions(

@@ -13,8 +13,8 @@ class LoadingRequestState extends RequestState {}
 
 class RequestSubmittedSuccessfullyState extends RequestState {}
 
-class ErrorLoadingTagsState extends RequestState {
+class ErrorRequestState extends RequestState {
   final String message;
 
-  const ErrorLoadingTagsState({required this.message});
+  const ErrorRequestState({required this.message});
 }

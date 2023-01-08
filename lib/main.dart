@@ -15,6 +15,7 @@ import 'features/auth/presentation/pages/registration/registration_page.dart';
 import 'features/auth/presentation/pages/welcome/welcome_page.dart';
 import 'package:go_router/go_router.dart';
 
+import 'features/feeds/presentation/bloc/feeds/bloc/feed_bloc.dart';
 import 'features/requests/presentation/bloc/bloc/tags_bloc.dart';
 import 'features/requests/presentation/bloc/request/bloc/request_bloc.dart';
 import 'features/requests/presentation/pages/feeds/new_request_page.dart';
@@ -38,7 +39,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => di.sl<AuthBloc>()..add(getUserEvent())),
         BlocProvider(create: (_) => di.sl<TempBloc>()..add(GetTempDataEvent())),
         BlocProvider(create: (_) => di.sl<TagsBloc>()),
-        BlocProvider(create: (_) => di.sl<RequestBloc>())
+        BlocProvider(create: (_) => di.sl<RequestBloc>()),
+        BlocProvider(create: (_) => di.sl<FeedBloc>()..add(GetFeedsEvent()))
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,

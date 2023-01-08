@@ -1,12 +1,284 @@
 import 'package:flutter/material.dart';
 
-class FeedsBody extends StatelessWidget {
-  const FeedsBody({super.key});
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:karama/core/widgets/loading_widget.dart';
+import 'package:karama/features/feeds/presentation/bloc/feeds/bloc/feed_bloc.dart';
+
+import '../../../../../core/app_theme.dart';
+import '../../../../../flutter_flow/flutter_flow_widgets.dart';
+
+class FeedsBody extends StatefulWidget {
+  const FeedsBody({Key? key}) : super(key: key);
+
+  @override
+  _FeedsBodyState createState() => _FeedsBodyState();
+}
+
+class _FeedsBodyState extends State<FeedsBody> {
+  TextEditingController? textController;
+  final _unfocusNode = FocusNode();
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  @override
+  void initState() {
+    super.initState();
+    textController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _unfocusNode.dispose();
+    textController?.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Center(child: Text('Feeds')),
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          BlocConsumer<FeedBloc, FeedState>(
+            listener: (context, state) {},
+            builder: (context, state) {
+              print(state);
+              if (state is FeedLoadingState) {
+                return LoadingWidget();
+              } else if (state is FeedLoadedState) {
+                return Container(
+                  height: 500,
+                  child: ListView.builder(
+                    itemCount: state.feeds.length,
+                    itemBuilder: (context, index) {
+                      return _feedCard(state.feeds[index]);
+                    },
+                  ),
+                );
+              }
+
+              return Container();
+            },
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _feedCard(item) {
+    return Padding(
+      padding: EdgeInsetsDirectional.fromSTEB(0, 15, 0, 0),
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(15, 0, 15, 4),
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Container(
+                        width: 18,
+                        height: 18,
+                        clipBehavior: Clip.antiAlias,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                        ),
+                        child: Image.network(
+                          'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200',
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(4, 0, 0, 0),
+                        child: Text(
+                          item.firstName + ' ' + item.lastName,
+                          style: FlutterFlowTheme.of(context)
+                              .bodyText1
+                              .override(
+                                fontFamily: 'Poppins',
+                                color: FlutterFlowTheme.of(context).primaryText,
+                                fontSize: 10,
+                                fontWeight: FontWeight.normal,
+                                useGoogleFonts: false,
+                              ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      item.createdDate.toString(),
+                      style: FlutterFlowTheme.of(context).bodyText1.override(
+                            fontFamily: 'Poppins',
+                            fontSize: 10,
+                            useGoogleFonts: false,
+                          ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(15, 0, 15, 0),
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                color: FlutterFlowTheme.of(context).gray,
+                borderRadius: BorderRadius.circular(5),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(8, 5, 8, 0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Row(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Text(
+                              item.title,
+                              style: FlutterFlowTheme.of(context)
+                                  .bodyText1
+                                  .override(
+                                    fontFamily: 'Poppins',
+                                    color: FlutterFlowTheme.of(context)
+                                        .primaryText,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500,
+                                    useGoogleFonts: false,
+                                  ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(),
+                      child: Text(
+                        item.description,
+                        style: FlutterFlowTheme.of(context).bodyText1.override(
+                              fontFamily: 'Poppins',
+                              fontSize: 10,
+                              useGoogleFonts: false,
+                            ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(),
+                      child: Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(0, 5, 0, 5),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Image.asset(
+                                  'assets/images/placeholder.png',
+                                  width: 16,
+                                  height: 16,
+                                  fit: BoxFit.cover,
+                                ),
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      4, 0, 0, 0),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: FlutterFlowTheme.of(context)
+                                          .primaryBtnText,
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                    child: Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          4, 2, 4, 2),
+                                      child: Text(
+                                        item.area,
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyText1
+                                            .override(
+                                              fontFamily: 'Poppins',
+                                              fontSize: 10,
+                                              useGoogleFonts: false,
+                                            ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Padding(
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Image.asset(
+                                    'assets/images/Group_32.png',
+                                    width: 16,
+                                    height: 16,
+                                    fit: BoxFit.cover,
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        4, 0, 0, 0),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: FlutterFlowTheme.of(context)
+                                            .primaryBtnText,
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      child: Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            4, 2, 4, 2),
+                                        child: Text(
+                                          item.pereference,
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodyText1
+                                              .override(
+                                                fontFamily: 'Poppins',
+                                                fontSize: 10,
+                                                useGoogleFonts: false,
+                                              ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

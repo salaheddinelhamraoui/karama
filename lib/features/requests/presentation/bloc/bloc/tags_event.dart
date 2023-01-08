@@ -7,8 +7,8 @@ abstract class TagsEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class getTagsEvent extends TagsEvent {
-  const getTagsEvent();
+class GetTagsEvent extends TagsEvent {
+  const GetTagsEvent();
 
   @override
   List<Object> get props => [];

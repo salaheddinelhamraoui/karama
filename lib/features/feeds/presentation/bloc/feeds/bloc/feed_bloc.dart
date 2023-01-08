@@ -1,26 +1,28 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:karama/features/feeds/domain/usecases/get_Feed.dart';
 
 import '../../../../../../core/error/failure.dart';
-import '../../../../domain/entities/request.dart';
-import '../../../../domain/usecases/post_request.dart';
+import '../../../../domain/entities/feed.dart';
 
-part 'request_event.dart';
-part 'request_state.dart';
+part 'feed_event.dart';
+part 'feed_state.dart';
 
-class RequestBloc extends Bloc<RequestEvent, RequestState> {
-  final PostRequestUseCase postRequest;
+class FeedBloc extends Bloc<FeedEvent, FeedState> {
+  final GetFeedsUseCase getFeeds;
 
-  RequestBloc({required this.postRequest}) : super(RequestInitial()) {
-    on<RequestEvent>((event, emit) async {
-      if (event is SubmitRequestEvent) {
-        emit(LoadingRequestState());
-        final failureOrDoneMessage = await postRequest(event.req);
+  FeedBloc({required this.getFeeds}) : super(FeedInitial()) {
+    on<FeedEvent>((event, emit) async {
+      if (event is GetFeedsEvent) {
+        emit(FeedLoadingState());
+
+        final failureOrDoneMessage = await getFeeds();
+
         emit(failureOrDoneMessage.fold(
-          (failure) => ErrorRequestState(
+          (failure) => ErrorLoadingFeedsState(
             message: _mapFailureToMessage(failure),
           ),
-          (done) => RequestSubmittedSuccessfullyState(),
+          (feeds) => FeedLoadedState(feeds: feeds),
         ));
       }
     });
@@ -29,7 +31,7 @@ class RequestBloc extends Bloc<RequestEvent, RequestState> {
   String _mapFailureToMessage(Failure failure) {
     switch (failure.runtimeType) {
       case ServerFailure:
-        return 'Something went wrong, pleases try again later.';
+        return 'Please try again later.';
       case EmptyCacheFailure:
         return 'No Data';
       case OfflineFailure:
