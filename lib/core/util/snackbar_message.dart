@@ -12,6 +12,7 @@ class SnackBarMessage {
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: FlutterFlowTheme.of(context).primaryColor,
+        behavior: SnackBarBehavior.floating,
       ),
     );
   }
@@ -25,6 +26,7 @@ class SnackBarMessage {
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.redAccent,
+        behavior: SnackBarBehavior.floating,
       ),
     );
   }

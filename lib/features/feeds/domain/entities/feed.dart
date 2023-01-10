@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:karama/features/requests/domain/entities/tag.dart';
 
 class Feed extends Equatable {
+  final int id;
   final String title;
   final String description;
   final String products;
@@ -14,10 +15,11 @@ class Feed extends Equatable {
   final String lastName;
   final String avatar;
   final String phone;
-  final double createdDate;
+  final DateTime createdDate;
 
   Feed(
-      {required this.title,
+      {required this.id,
+      required this.title,
       required this.description,
       required this.products,
       required this.services,
@@ -33,6 +35,7 @@ class Feed extends Equatable {
 
   @override
   List<Object?> get props => [
+        id,
         title,
         description,
         products,

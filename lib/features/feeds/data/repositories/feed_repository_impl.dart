@@ -22,4 +22,9 @@ class FeedRepositoryImpl implements FeedRepository {
       return Left(ServerFailure());
     }
   }
+
+  @override
+  Future<Either<Failure, List<Feed>>> getFeedByUser() {
+    throw UnimplementedError();
+  }
 }

@@ -62,7 +62,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       localDataSource.cacheToken(token);
 
       Map<String, dynamic> userData =
-          jsonObject['data']['result']['user'][0]['user_data'];
+          jsonObject['data']['result']['user']['user_data'];
 
       UserModel user = UserModel(
         firstName: userData['first_name'],

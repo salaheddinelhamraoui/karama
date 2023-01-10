@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../auth/presentation/bloc/auth/bloc/auth_bloc.dart';
+import '../../../../feeds/presentation/bloc/feeds/bloc/feed_bloc.dart';
 import '../../../domain/entities/tag.dart';
 import '../../../domain/entities/tag_category.dart';
 import '../../bloc/bloc/tags_bloc.dart';
@@ -103,6 +104,7 @@ class _NewRequestPageState extends State<NewRequestPage> {
         } else if (state is RequestSubmittedSuccessfullyState) {
           SnackBarMessage().showSuccessSnackBar(
               message: 'Request Added Successfully', context: context);
+          BlocProvider.of<FeedBloc>(context).add(GetFeedsEvent());
           context.go('/feeds');
         }
       },

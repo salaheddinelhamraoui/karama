@@ -5,4 +5,5 @@ import '../entities/feed.dart';
 
 abstract class FeedRepository {
   Future<Either<Failure, List<Feed>>> getFeeds();
+  Future<Either<Failure, List<Feed>>> getFeedByUser();
 }
