@@ -16,5 +16,5 @@ class LogInEvent extends AuthEvent {
   const LogInEvent({required this.mobileNumber, required this.password});
 
   @override
-  List<Object> get props => [mobileNumber];
+  List<Object> get props => [mobileNumber, password];
 }

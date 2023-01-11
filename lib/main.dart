@@ -14,10 +14,15 @@ import 'features/auth/presentation/pages/profile_setup/profile_setup_page.dart';
 import 'features/auth/presentation/pages/registration/registration_page.dart';
 import 'features/auth/presentation/pages/welcome/welcome_page.dart';
 import 'package:go_router/go_router.dart';
+import './features/feeds/domain/entities/feed.dart';
 
 import 'features/feeds/presentation/bloc/feeds/bloc/feed_bloc.dart';
+import 'features/profile/presentation/bloc/bloc/my_feed_bloc.dart';
+import 'features/requests/domain/entities/request.dart';
 import 'features/requests/presentation/bloc/bloc/tags_bloc.dart';
+import 'features/requests/presentation/bloc/editeRequest/bloc/edit_request_bloc.dart';
 import 'features/requests/presentation/bloc/request/bloc/request_bloc.dart';
+import 'features/requests/presentation/pages/feeds/edit_request_page.dart';
 import 'features/requests/presentation/pages/feeds/new_request_page.dart';
 import 'injection_container.dart' as di;
 
@@ -40,7 +45,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => di.sl<TempBloc>()..add(GetTempDataEvent())),
         BlocProvider(create: (_) => di.sl<TagsBloc>()),
         BlocProvider(create: (_) => di.sl<RequestBloc>()),
-        BlocProvider(create: (_) => di.sl<FeedBloc>()..add(GetFeedsEvent()))
+        BlocProvider(create: (_) => di.sl<FeedBloc>()..add(GetFeedsEvent())),
+        BlocProvider(create: (_) => di.sl<MyFeedBloc>()..add(GetMyFeedEvent())),
+        BlocProvider(create: (_) => di.sl<EditRequestBloc>()),
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
@@ -90,6 +97,13 @@ class MyApp extends StatelessWidget {
             path: 'newRequest',
             builder: (BuildContext context, GoRouterState state) =>
                 const NewRequestPage(),
+          ),
+          GoRoute(
+            path: 'editRequest',
+            builder: (BuildContext context, GoRouterState state) {
+              Feed feed = state.extra as Feed;
+              return EditRequestPage(feed: feed);
+            },
           ),
         ],
         path: '/',

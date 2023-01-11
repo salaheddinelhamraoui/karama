@@ -93,7 +93,7 @@ class _ActionsBottomSheetState extends State<ActionsBottomSheet> {
                                     color: Colors.white,
                                     useGoogleFonts: false,
                                   ),
-                          borderSide: BorderSide(
+                          borderSide: const BorderSide(
                             color: Colors.transparent,
                             width: 1,
                           ),

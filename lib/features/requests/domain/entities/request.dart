@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:karama/features/requests/domain/entities/tag.dart';
 
 class Request extends Equatable {
+  final int? id;
   final String title;
   final String description;
   final String products;
@@ -11,6 +12,7 @@ class Request extends Equatable {
   final String area;
 
   Request({
+    this.id,
     required this.title,
     required this.description,
     required this.products,

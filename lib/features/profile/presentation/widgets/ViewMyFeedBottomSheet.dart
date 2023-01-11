@@ -5,24 +5,24 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/app_theme.dart';
 import '../../../../core/util/snackbar_message.dart';
-import '../../domain/entities/feed.dart';
+import '../../../feeds/domain/entities/feed.dart';
 
-class ViewFeedBottomSheet extends StatefulWidget {
+class ViewMyFeedBottomSheet extends StatefulWidget {
   final Feed feed;
-  const ViewFeedBottomSheet({Key? key, required this.feed}) : super(key: key);
+  const ViewMyFeedBottomSheet({Key? key, required this.feed}) : super(key: key);
 
   @override
-  _ViewFeedBottomSheetState createState() => _ViewFeedBottomSheetState();
+  _ViewMyFeedBottomSheetState createState() => _ViewMyFeedBottomSheetState();
 }
 
-class _ViewFeedBottomSheetState extends State<ViewFeedBottomSheet> {
+class _ViewMyFeedBottomSheetState extends State<ViewMyFeedBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
         color: FlutterFlowTheme.of(context).primaryBackground,
-        borderRadius: BorderRadius.only(
+        borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(0),
           bottomRight: Radius.circular(0),
           topLeft: Radius.circular(25),
@@ -40,7 +40,7 @@ class _ViewFeedBottomSheetState extends State<ViewFeedBottomSheet> {
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(15, 20, 15, 10),
+                      padding: EdgeInsetsDirectional.fromSTEB(15, 15, 15, 10),
                       child: Container(
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(),
@@ -88,6 +88,22 @@ class _ViewFeedBottomSheetState extends State<ViewFeedBottomSheet> {
                                 ),
                               ],
                             ),
+                            GestureDetector(
+                              onTap: () {
+                                context.push('/editRequest',
+                                    extra: widget.feed);
+                              },
+                              child: Padding(
+                                padding:
+                                    EdgeInsetsDirectional.fromSTEB(5, 0, 0, 0),
+                                child: Image.asset(
+                                  'assets/images/pen.png',
+                                  width: 20,
+                                  height: 20,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            )
                           ],
                         ),
                       ),
@@ -193,163 +209,6 @@ class _ViewFeedBottomSheetState extends State<ViewFeedBottomSheet> {
                               ),
                             ),
                           ],
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(15, 15, 15, 5),
-                      child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(),
-                        child: SelectionArea(
-                            child: Text(
-                          'By',
-                          textAlign: TextAlign.start,
-                          style: FlutterFlowTheme.of(context)
-                              .subtitle1
-                              .override(
-                                fontFamily: 'Poppins',
-                                color: FlutterFlowTheme.of(context).primaryText,
-                                useGoogleFonts: false,
-                              ),
-                        )),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(15, 0, 15, 0),
-                      child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
-                          color: FlutterFlowTheme.of(context).gray,
-                          borderRadius: BorderRadius.circular(5),
-                          shape: BoxShape.rectangle,
-                        ),
-                        child: Padding(
-                          padding:
-                              EdgeInsetsDirectional.fromSTEB(10, 10, 10, 10),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Container(
-                                    decoration: BoxDecoration(),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        Container(
-                                          width: 55,
-                                          height: 55,
-                                          clipBehavior: Clip.antiAlias,
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                          ),
-                                          child: Image.network(
-                                            widget.feed.avatar,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  5, 0, 0, 0),
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.max,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(6, 0, 0, 0),
-                                                child: Text(
-                                                  widget.feed.firstName +
-                                                      ' ' +
-                                                      widget.feed.lastName,
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodyText1
-                                                      .override(
-                                                        fontFamily: 'Poppins',
-                                                        color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .primaryText,
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        useGoogleFonts: false,
-                                                      ),
-                                                ),
-                                              ),
-                                              Row(
-                                                mainAxisSize: MainAxisSize.max,
-                                                children: [
-                                                  Padding(
-                                                    padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(
-                                                                6, 0, 0, 0),
-                                                    child: Text(
-                                                      widget.feed.phone,
-                                                      style:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .bodyText1
-                                                              .override(
-                                                                fontFamily:
-                                                                    'Poppins',
-                                                                fontSize: 12,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .normal,
-                                                                useGoogleFonts:
-                                                                    false,
-                                                              ),
-                                                    ),
-                                                  ),
-                                                  GestureDetector(
-                                                    onTap: () {
-                                                      Clipboard.setData(
-                                                          ClipboardData(
-                                                              text: widget
-                                                                  .feed.phone));
-                                                      SnackBarMessage()
-                                                          .showSuccessSnackBar(
-                                                              message: 'Copied',
-                                                              context: context);
-                                                      Navigator.pop(context);
-                                                    },
-                                                    child: Padding(
-                                                      padding:
-                                                          EdgeInsetsDirectional
-                                                              .fromSTEB(
-                                                                  5, 0, 0, 0),
-                                                      child: Image.asset(
-                                                        'assets/images/copy.png',
-                                                        width: 16,
-                                                        height: 16,
-                                                        fit: BoxFit.cover,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
                         ),
                       ),
                     ),

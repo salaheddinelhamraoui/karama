@@ -6,6 +6,7 @@ class User extends Equatable {
   final String gender;
   final String city;
   final String country;
+  final String mobileNumber;
   final String? avatar;
 
   const User(
@@ -14,6 +15,7 @@ class User extends Equatable {
       required this.gender,
       required this.city,
       required this.country,
+      required this.mobileNumber,
       this.avatar});
 
   @override

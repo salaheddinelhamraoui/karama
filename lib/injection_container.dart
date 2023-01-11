@@ -25,14 +25,18 @@ import 'features/feeds/data/datasources/feed_remote_data_source.dart';
 import 'features/feeds/data/repositories/feed_repository_impl.dart';
 import 'features/feeds/domain/repositories/feed_repository.dart';
 import 'features/feeds/domain/usecases/get_Feed.dart';
+import 'features/feeds/domain/usecases/get_Feed_By_User.dart';
 import 'features/feeds/presentation/bloc/feeds/bloc/feed_bloc.dart';
+import 'features/profile/presentation/bloc/bloc/my_feed_bloc.dart';
 import 'features/requests/data/datasources/tag_remote_data_source.dart';
 import 'features/requests/data/repositories/request_repository_impl.dart';
 import 'features/requests/data/repositories/tag_category_repository_impl.dart';
 import 'features/requests/domain/repositories/request_repository.dart';
 import 'features/requests/domain/repositories/tag_repository.dart';
+import 'features/requests/domain/usecases/edit_request.dart';
 import 'features/requests/domain/usecases/post_request.dart';
 import 'features/requests/presentation/bloc/bloc/tags_bloc.dart';
+import 'features/requests/presentation/bloc/editeRequest/bloc/edit_request_bloc.dart';
 import 'features/requests/presentation/bloc/request/bloc/request_bloc.dart';
 
 final sl = GetIt.instance;
@@ -86,10 +90,12 @@ Future<void> init() async {
 
   sl.registerFactory(() => TagsBloc(getTags: sl()));
   sl.registerFactory(() => RequestBloc(postRequest: sl()));
+  sl.registerFactory(() => EditRequestBloc(editRequest: sl()));
 
 // Usecases
   sl.registerLazySingleton(() => GetTagsUseCase(sl()));
   sl.registerLazySingleton(() => PostRequestUseCase(sl()));
+  sl.registerLazySingleton(() => EditRequestUseCase(sl()));
 
 // Repository
 
@@ -110,6 +116,7 @@ Future<void> init() async {
 // Usecases
 
   sl.registerLazySingleton(() => GetFeedsUseCase(sl()));
+  sl.registerLazySingleton(() => GetFeedByUserUseCase(sl()));
 
 // Repository
 
@@ -120,6 +127,20 @@ Future<void> init() async {
 
   sl.registerLazySingleton<FeedRemoteDataSource>(
       () => FeedRemoteDataSourceImpl(client: sl(), sharedPreferences: sl()));
+
+// -------------------------------------------------------------------------
+
+// Features - Feeds
+
+// Bloc
+
+  sl.registerFactory(() => MyFeedBloc(getMyFeed: sl()));
+
+// Usecases
+
+// Repository
+
+// Datasources
 
 // -------------------------------------------------------------------------
 

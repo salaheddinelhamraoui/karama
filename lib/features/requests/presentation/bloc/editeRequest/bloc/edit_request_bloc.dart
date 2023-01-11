@@ -1,26 +1,27 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:karama/features/feeds/domain/usecases/get_Feed.dart';
 
 import '../../../../../../core/error/failure.dart';
-import '../../../../domain/entities/feed.dart';
+import '../../../../../feeds/domain/entities/feed.dart';
+import '../../../../domain/entities/request.dart';
+import '../../../../domain/usecases/edit_request.dart';
 
-part 'feed_event.dart';
-part 'feed_state.dart';
+part 'edit_request_event.dart';
+part 'edit_request_state.dart';
 
-class FeedBloc extends Bloc<FeedEvent, FeedState> {
-  final GetFeedsUseCase getFeeds;
+class EditRequestBloc extends Bloc<EditRequestEvent, EditRequestState> {
+  final EditRequestUseCase editRequest;
 
-  FeedBloc({required this.getFeeds}) : super(FeedInitial()) {
-    on<FeedEvent>((event, emit) async {
-      if (event is GetFeedsEvent) {
-        emit(FeedLoadingState());
-        final failureOrDoneMessage = await getFeeds();
+  EditRequestBloc({required this.editRequest}) : super(EditRequestInitial()) {
+    on<EditRequestEvent>((event, emit) async {
+      if (event is PostEditRequestEvent) {
+        emit(EditingRequestState());
+        final failureOrDoneMessage = await editRequest(event.req);
         emit(failureOrDoneMessage.fold(
-          (failure) => ErrorLoadingFeedsState(
+          (failure) => ErrorEditingRequestState(
             message: _mapFailureToMessage(failure),
           ),
-          (feeds) => FeedLoadedState(feeds: feeds),
+          (done) => RequestEditedState(),
         ));
       }
     });
@@ -29,7 +30,7 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
   String _mapFailureToMessage(Failure failure) {
     switch (failure.runtimeType) {
       case ServerFailure:
-        return 'Please try again later.';
+        return 'Something went wrong, pleases try again later.';
       case EmptyCacheFailure:
         return 'No Data';
       case OfflineFailure:

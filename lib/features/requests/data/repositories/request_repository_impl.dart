@@ -1,6 +1,7 @@
 import 'package:karama/core/error/failure.dart';
 
 import 'package:dartz/dartz.dart';
+import 'package:karama/features/feeds/domain/entities/feed.dart';
 
 import '../../../../core/error/exceptions.dart';
 import '../../domain/entities/request.dart';
@@ -16,6 +17,16 @@ class RequestRepositoryImpl implements RequestRepository {
   Future<Either<Failure, Unit>> postRequest(Request req) async {
     try {
       final data = await remoteDataSource.postRequest(req);
+      return Right(unit);
+    } on ServerException {
+      return Left(ServerFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> editRequest(Request req) async {
+    try {
+      final data = await remoteDataSource.editRequest(req);
       return Right(unit);
     } on ServerException {
       return Left(ServerFailure());

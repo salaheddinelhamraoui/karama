@@ -24,7 +24,12 @@ class FeedRepositoryImpl implements FeedRepository {
   }
 
   @override
-  Future<Either<Failure, List<Feed>>> getFeedByUser() {
-    throw UnimplementedError();
+  Future<Either<Failure, List<Feed>>> getFeedByUser() async {
+    try {
+      final data = await remoteDataSource.getFeedByUser();
+      return Right(data);
+    } on ServerException {
+      return Left(ServerFailure());
+    }
   }
 }

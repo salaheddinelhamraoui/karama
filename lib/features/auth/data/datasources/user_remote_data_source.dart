@@ -52,17 +52,12 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
     final data = jsonDecode(response.body);
     Map<String, dynamic> jsonObject = jsonDecode(response.body);
 
-    print(jsonObject.toString());
-
-    print('==============');
-
     if (response.statusCode == 200 && jsonObject['data']['status'] == true) {
       String token = jsonObject['data']['result']['token'].toString();
 
       localDataSource.cacheToken(token);
 
-      Map<String, dynamic> userData =
-          jsonObject['data']['result']['user']['user_data'];
+      Map<String, dynamic> userData = jsonObject['data']['result']['user'];
 
       UserModel user = UserModel(
         firstName: userData['first_name'],
@@ -70,7 +65,8 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
         gender: userData['gender'],
         city: userData['city'],
         country: userData['country'],
-        avatar: userData[''],
+        avatar: userData['avatar']['url'],
+        mobileNumber: userData['phone'],
       );
 
       return user;
@@ -168,6 +164,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
     );
 
     final data = jsonDecode(response.body);
+
     Map<String, dynamic> jsonObject = jsonDecode(response.body);
 
     if (response.statusCode == 200 && jsonObject['data']['status'] == true) {

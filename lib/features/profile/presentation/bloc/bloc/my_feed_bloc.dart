@@ -1,26 +1,26 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:karama/features/feeds/domain/usecases/get_Feed.dart';
+import 'package:karama/features/feeds/domain/usecases/get_Feed_By_User.dart';
 
-import '../../../../../../core/error/failure.dart';
-import '../../../../domain/entities/feed.dart';
+import '../../../../../core/error/failure.dart';
+import '../../../../feeds/domain/entities/feed.dart';
+import '../../../../requests/domain/entities/request.dart';
 
-part 'feed_event.dart';
-part 'feed_state.dart';
+part 'my_feed_event.dart';
+part 'my_feed_state.dart';
 
-class FeedBloc extends Bloc<FeedEvent, FeedState> {
-  final GetFeedsUseCase getFeeds;
-
-  FeedBloc({required this.getFeeds}) : super(FeedInitial()) {
-    on<FeedEvent>((event, emit) async {
-      if (event is GetFeedsEvent) {
-        emit(FeedLoadingState());
-        final failureOrDoneMessage = await getFeeds();
+class MyFeedBloc extends Bloc<MyFeedEvent, MyFeedState> {
+  final GetFeedByUserUseCase getMyFeed;
+  MyFeedBloc({required this.getMyFeed}) : super(MyFeedInitial()) {
+    on<MyFeedEvent>((event, emit) async {
+      if (event is GetMyFeedEvent) {
+        emit(LoadingMyFeedState());
+        final failureOrDoneMessage = await getMyFeed();
         emit(failureOrDoneMessage.fold(
-          (failure) => ErrorLoadingFeedsState(
+          (failure) => ErrorMyFeedState(
             message: _mapFailureToMessage(failure),
           ),
-          (feeds) => FeedLoadedState(feeds: feeds),
+          (feeds) => MyFeedLoaded(feeds: feeds),
         ));
       }
     });

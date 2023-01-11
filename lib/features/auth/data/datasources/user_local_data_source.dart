@@ -41,6 +41,7 @@ class UserLocalDataSourceImpl implements UserLocalDataSource {
         gender: userMap['gender'],
         city: userMap['city'],
         country: userMap['country'],
+        mobileNumber: userMap['mobileNumber'],
       );
     }
   }

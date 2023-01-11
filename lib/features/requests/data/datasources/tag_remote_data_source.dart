@@ -6,6 +6,7 @@ import 'package:karama/features/requests/domain/entities/tag_category.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/error/exceptions.dart';
+import '../../../feeds/domain/entities/feed.dart';
 import '../../domain/entities/request.dart';
 import '../models/tag_category_model.dart';
 import 'package:http/http.dart' as http;
@@ -13,6 +14,7 @@ import 'package:http/http.dart' as http;
 abstract class TagRemoteDataSource {
   Future<List<TagCategoryModel>> getTags();
   Future<Unit> postRequest(Request req);
+  Future<Unit> editRequest(Request req);
 }
 
 const BASE_URL = "https://xyxm-adm5-et4s.n7.xano.io/";
@@ -105,6 +107,52 @@ class TagRemoteDataSourceImpl implements TagRemoteDataSource {
 
       final response = await client.post(
         Uri.parse(BASE_URL + "api:Ik6DU6PW/create_request"),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer $token",
+        },
+        body: jsonEncode(body),
+      );
+
+      final data = jsonDecode(response.body);
+      Map<String, dynamic> jsonObject = jsonDecode(response.body);
+
+      if (response.statusCode == 200 && jsonObject['data']['status'] == true) {
+        return unit;
+      } else {
+        throw ServerException();
+      }
+    } catch (e) {
+      print(e.toString());
+      throw ServerException();
+    }
+  }
+
+  @override
+  Future<Unit> editRequest(Request req) async {
+    try {
+      final token = sharedPreferences.getString(CACHED_TOKEN);
+
+      List<int> cleanedTags = [];
+
+      for (var i = 0; i < req.tags.length; i++) {
+        cleanedTags.add(req.tags[i].id);
+      }
+
+      final Map<String, dynamic> body = {
+        'request_id': req.id,
+        'title': req.title,
+        'description': req.description,
+        'products': req.products,
+        'services': req.services,
+        'pereference': req.pereference,
+        'tags': cleanedTags,
+        'area': req.area,
+        'token': token
+      };
+
+      final response = await client.post(
+        Uri.parse(BASE_URL + "api:Ik6DU6PW/edit_request"),
         headers: {
           "Content-Type": "application/json",
           "Authorization": "Bearer $token",
