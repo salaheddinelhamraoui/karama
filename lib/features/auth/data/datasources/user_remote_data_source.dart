@@ -177,7 +177,50 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   @override
   Future<Unit> editProfile(User user) async {
     try {
-      print(user.toString());
+      String token = await localDataSource.getCachedToken();
+
+      final Map<String, dynamic> body = {
+        'first_name': user.firstName,
+        'last_name': user.lastName,
+        'gender': user.gender,
+        'city': user.city,
+        'state': "",
+        'country': user.country,
+        'img': user.avatar,
+        'phone': user.mobileNumber,
+        'token': token
+      };
+
+      final response = await client.post(
+        Uri.parse(
+            "https://xyxm-adm5-et4s.n7.xano.io/api:VYETVf0h/edit_onboarding"),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer $token",
+        },
+        body: jsonEncode(body),
+      );
+
+      final data = jsonDecode(response.body);
+
+      if (response.statusCode == 200 && data['data']['status'] == true) {
+        Map<String, dynamic> userData = data['data']['result'];
+
+        UserModel user = UserModel(
+          firstName: userData['first_name'],
+          lastName: userData['last_name'],
+          gender: userData['gender'],
+          city: userData['city'],
+          country: userData['country'],
+          avatar: userData['avatar']['url'],
+          mobileNumber: userData['phone'],
+        );
+
+        localDataSource.cacheUser(user);
+      } else {
+        throw ServerException();
+      }
+
       return unit;
     } catch (e) {
       print(e.toString());

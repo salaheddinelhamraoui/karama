@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:contacts_service/contacts_service.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,9 +26,16 @@ class _FeedsBodyState extends State<FeedsBody> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
-  void initState() {
+  void initState() async {
     super.initState();
     textController = TextEditingController();
+    // Iterable<Contact> contacts = await ContactsService.getContacts();
+    // for (Contact contact in contacts) {
+    //   var contacts = contact.phones != null ? contact.phones : [];
+    //   for () {
+    //     print(phone.value);
+    //   }
+    // }
   }
 
   @override

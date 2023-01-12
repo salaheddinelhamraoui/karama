@@ -16,6 +16,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../auth/domain/entities/user.dart';
+import '../../bloc/editProfile/bloc/edit_profile_bloc.dart';
 
 class EditProfilePage extends StatefulWidget {
   final User user;
@@ -72,10 +73,21 @@ class _EditProfilePageState extends State<EditProfilePage> {
             height: MediaQuery.of(context).size.height,
             decoration: BoxDecoration(),
             child: SingleChildScrollView(
-                child: BlocConsumer<AuthBloc, AuthState>(
-              listener: (context, state) {},
+                child: BlocConsumer<EditProfileBloc, EditProfileState>(
+              listener: (context, state) {
+                if (state is ErrorEditingProfileState) {
+                  SnackBarMessage().showErrorSnackBar(
+                      message: state.message, context: context);
+                } else if (state is ProfileEditedState) {
+                  SnackBarMessage().showSuccessSnackBar(
+                      message: 'Profile Edited  Successfully',
+                      context: context);
+                  BlocProvider.of<AuthBloc>(context).add(getUserEvent());
+                  Navigator.pop(context);
+                }
+              },
               builder: (context, state) {
-                if (state is LoadingUserState) {
+                if (state is EditingProfileState) {
                   return LoadingWidget();
                 }
                 return Column(
@@ -418,34 +430,27 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
   void handleSubmit(state) async {
     Uint8List? fileBytes = await image?.readAsBytes();
+
     if (fileBytes != null) {
       String encodedImage = base64Encode(fileBytes.toList());
+
       if (firstNameController?.text == '' ||
           lastNameController?.text == '' ||
           genderValue == null) {
         SnackBarMessage().showErrorSnackBar(
             message: 'Please fill out all required fields.', context: context);
       } else {
-        print('firstName: ' + firstNameController!.text);
-        print('lastNameController: ' + lastNameController!.text);
-        print('genderValue: ' + genderValue!);
-        print('countryValue: ' + countryValue!);
-        print('state: ' + stateValue!);
-        print('city: ' + cityValue!);
-        print('token: ' + state.token);
+        User user = User(
+            city: cityValue ?? '',
+            country: countryValue ?? '',
+            firstName: firstNameController!.text,
+            lastName: lastNameController!.text,
+            gender: genderValue ?? '',
+            mobileNumber: widget.user.mobileNumber,
+            avatar: 'data:image/png;base64,' + encodedImage);
 
-        // BlocProvider.of<TempBloc>(context).add(SubmitOnboardingDataEvent(
-        //   avatar: encodedImage,
-        //   firstName: firstNameController!.text,
-        //   lastName: lastNameController!.text,
-        //   gender: genderValue ?? '',
-        //   country: countryValue ?? '',
-        //   state: stateValue ?? '',
-        //   city: cityValue ?? '',
-        //   token: state.token,
-        //   mobileNumber: state.mobileNumber,
-        //   password: state.password,
-        // ));
+        BlocProvider.of<EditProfileBloc>(context)
+            .add(PostEditProfileEvent(user: user));
       }
     } else {
       if (firstNameController?.text == '' ||
@@ -454,25 +459,17 @@ class _EditProfilePageState extends State<EditProfilePage> {
         SnackBarMessage().showErrorSnackBar(
             message: 'Please fill out all required fields.', context: context);
       } else {
-        print('firstName: ' + firstNameController!.text);
-        print('lastNameController: ' + lastNameController!.text);
-        print('genderValue: ' + genderValue!);
-        print('countryValue: ' + countryValue!);
-        print('state: ' + stateValue!);
-        print('city: ' + cityValue!);
-        print('token: ' + state.token);
-        // BlocProvider.of<TempBloc>(context).add(SubmitOnboardingDataEvent(
-        //   avatar: '',
-        //   firstName: firstNameController!.text,
-        //   lastName: lastNameController!.text,
-        //   gender: genderValue ?? '',
-        //   country: countryValue ?? '',
-        //   state: stateValue ?? '',
-        //   city: cityValue ?? '',
-        //   token: state.token,
-        //   mobileNumber: state.mobileNumber,
-        //   password: state.password,
-        // ));
+        User user = User(
+            city: cityValue ?? '',
+            country: countryValue ?? '',
+            firstName: firstNameController!.text,
+            lastName: lastNameController!.text,
+            gender: genderValue ?? '',
+            mobileNumber: widget.user.mobileNumber,
+            avatar: null);
+
+        BlocProvider.of<EditProfileBloc>(context)
+            .add(PostEditProfileEvent(user: user));
       }
     }
   }
