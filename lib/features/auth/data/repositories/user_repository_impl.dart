@@ -122,4 +122,14 @@ class UserRepositoryImpl implements UserRepository {
       return Left(ServerFailure());
     }
   }
+
+  @override
+  Future<Either<Failure, Unit>> editProfile(User user) async {
+    try {
+      final data = await remoteDataSource.editProfile(user);
+      return Right(unit);
+    } on ServerException {
+      return Left(ServerFailure());
+    }
+  }
 }

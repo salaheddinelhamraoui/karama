@@ -5,6 +5,7 @@ import 'package:country_state_city_picker/country_state_city_picker.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:karama/features/auth/presentation/bloc/auth/bloc/auth_bloc.dart';
 import '../../../../../core/app_theme.dart';
 import '../../../../../core/util/snackbar_message.dart';
 import '../../../../../core/widgets/loading_widget.dart';
@@ -14,16 +15,17 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../bloc/temp/bloc/temp_bloc.dart';
+import '../../../../auth/domain/entities/user.dart';
 
-class ProfileSetupWidget extends StatefulWidget {
-  const ProfileSetupWidget({Key? key}) : super(key: key);
+class EditProfilePage extends StatefulWidget {
+  final User user;
+  const EditProfilePage({Key? key, required this.user}) : super(key: key);
 
   @override
-  _ProfileSetupWidgetState createState() => _ProfileSetupWidgetState();
+  _EditProfilePageState createState() => _EditProfilePageState();
 }
 
-class _ProfileSetupWidgetState extends State<ProfileSetupWidget> {
+class _EditProfilePageState extends State<EditProfilePage> {
   ImagePicker picker = ImagePicker();
   String? genderValue;
   TextEditingController? firstNameController;
@@ -32,14 +34,20 @@ class _ProfileSetupWidgetState extends State<ProfileSetupWidget> {
   String? stateValue;
   String? cityValue;
   XFile? image;
+  String? userPreAvatar;
   final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    firstNameController = TextEditingController();
-    lastNameController = TextEditingController();
+    firstNameController = TextEditingController()..text = widget.user.firstName;
+    lastNameController = TextEditingController()..text = widget.user.lastName;
+    genderValue = widget.user.gender;
+    countryValue = widget.user.country;
+    stateValue = '';
+    cityValue = widget.user.city;
+    userPreAvatar = widget.user.avatar;
   }
 
   @override
@@ -64,17 +72,10 @@ class _ProfileSetupWidgetState extends State<ProfileSetupWidget> {
             height: MediaQuery.of(context).size.height,
             decoration: BoxDecoration(),
             child: SingleChildScrollView(
-                child: BlocConsumer<TempBloc, TempState>(
-              listener: (context, state) {
-                if (state is ErrorTempState) {
-                  SnackBarMessage().showErrorSnackBar(
-                      message: state.message, context: context);
-                } else if (state is SignUpDoneState) {
-                  context.go('/login');
-                }
-              },
+                child: BlocConsumer<AuthBloc, AuthState>(
+              listener: (context, state) {},
               builder: (context, state) {
-                if (state is LoadingTempState) {
+                if (state is LoadingUserState) {
                   return LoadingWidget();
                 }
                 return Column(
@@ -92,7 +93,7 @@ class _ProfileSetupWidgetState extends State<ProfileSetupWidget> {
                           mainAxisSize: MainAxisSize.max,
                           children: [
                             Text(
-                              'Profile Setup',
+                              'Edit Profile',
                               style: FlutterFlowTheme.of(context).title3,
                             ),
                             Padding(
@@ -127,8 +128,11 @@ class _ProfileSetupWidgetState extends State<ProfileSetupWidget> {
                                 width: 100,
                                 height: 100,
                                 child: image == null
-                                    ? Image.asset(
-                                        'assets/images/user_avatar.png',
+                                    ? Image.network(
+                                        (userPreAvatar != '' &&
+                                                userPreAvatar != null)
+                                            ? userPreAvatar ?? ''
+                                            : 'https://cdn-icons-png.flaticon.com/512/145/145974.png',
                                         fit: BoxFit.contain,
                                       )
                                     : Image.file(File(image!.path)),
@@ -301,6 +305,7 @@ class _ProfileSetupWidgetState extends State<ProfileSetupWidget> {
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
                                   FlutterFlowRadioButton(
+                                    initialValue: genderValue ?? '',
                                     options:
                                         ['Male', 'Female', "Other"].toList(),
                                     onChanged: (val) =>
@@ -356,22 +361,6 @@ class _ProfileSetupWidgetState extends State<ProfileSetupWidget> {
                               ),
                             ),
                           ),
-                          Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(15, 20, 15, 0),
-                            child: Container(
-                              width: MediaQuery.of(context).size.width,
-                              decoration: BoxDecoration(
-                                color: FlutterFlowTheme.of(context)
-                                    .secondaryBackground,
-                              ),
-                              child: Text(
-                                'Find out why should include the right information.',
-                                textAlign: TextAlign.start,
-                                style: FlutterFlowTheme.of(context).bodyText1,
-                              ),
-                            ),
-                          ),
                         ],
                       ),
                     ),
@@ -381,7 +370,7 @@ class _ProfileSetupWidgetState extends State<ProfileSetupWidget> {
                         onPressed: () {
                           handleSubmit(state);
                         },
-                        text: 'Submit',
+                        text: 'Edit',
                         options: FFButtonOptions(
                           width: 150,
                           height: 50,
@@ -401,25 +390,15 @@ class _ProfileSetupWidgetState extends State<ProfileSetupWidget> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(25, 20, 25, 20),
-                      child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
-                          color:
-                              FlutterFlowTheme.of(context).secondaryBackground,
-                        ),
-                        child: const Text(
-                          'You will be redirected to the login page after submitting this form.',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            color: Color(0xFF95A1AC),
-                            fontWeight: FontWeight.w300,
-                            fontSize: 12,
-                          ),
+                      padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 20),
+                      child: GestureDetector(
+                        onTap: () => {Navigator.pop(context)},
+                        child: Text(
+                          'Cancel',
+                          style: FlutterFlowTheme.of(context).bodyText1,
                         ),
                       ),
-                    ),
+                    )
                   ],
                 );
               },
@@ -447,18 +426,26 @@ class _ProfileSetupWidgetState extends State<ProfileSetupWidget> {
         SnackBarMessage().showErrorSnackBar(
             message: 'Please fill out all required fields.', context: context);
       } else {
-        BlocProvider.of<TempBloc>(context).add(SubmitOnboardingDataEvent(
-          avatar: encodedImage,
-          firstName: firstNameController!.text,
-          lastName: lastNameController!.text,
-          gender: genderValue ?? '',
-          country: countryValue ?? '',
-          state: stateValue ?? '',
-          city: cityValue ?? '',
-          token: state.token,
-          mobileNumber: state.mobileNumber,
-          password: state.password,
-        ));
+        print('firstName: ' + firstNameController!.text);
+        print('lastNameController: ' + lastNameController!.text);
+        print('genderValue: ' + genderValue!);
+        print('countryValue: ' + countryValue!);
+        print('state: ' + stateValue!);
+        print('city: ' + cityValue!);
+        print('token: ' + state.token);
+
+        // BlocProvider.of<TempBloc>(context).add(SubmitOnboardingDataEvent(
+        //   avatar: encodedImage,
+        //   firstName: firstNameController!.text,
+        //   lastName: lastNameController!.text,
+        //   gender: genderValue ?? '',
+        //   country: countryValue ?? '',
+        //   state: stateValue ?? '',
+        //   city: cityValue ?? '',
+        //   token: state.token,
+        //   mobileNumber: state.mobileNumber,
+        //   password: state.password,
+        // ));
       }
     } else {
       if (firstNameController?.text == '' ||
@@ -467,18 +454,25 @@ class _ProfileSetupWidgetState extends State<ProfileSetupWidget> {
         SnackBarMessage().showErrorSnackBar(
             message: 'Please fill out all required fields.', context: context);
       } else {
-        BlocProvider.of<TempBloc>(context).add(SubmitOnboardingDataEvent(
-          avatar: '',
-          firstName: firstNameController!.text,
-          lastName: lastNameController!.text,
-          gender: genderValue ?? '',
-          country: countryValue ?? '',
-          state: stateValue ?? '',
-          city: cityValue ?? '',
-          token: state.token,
-          mobileNumber: state.mobileNumber,
-          password: state.password,
-        ));
+        print('firstName: ' + firstNameController!.text);
+        print('lastNameController: ' + lastNameController!.text);
+        print('genderValue: ' + genderValue!);
+        print('countryValue: ' + countryValue!);
+        print('state: ' + stateValue!);
+        print('city: ' + cityValue!);
+        print('token: ' + state.token);
+        // BlocProvider.of<TempBloc>(context).add(SubmitOnboardingDataEvent(
+        //   avatar: '',
+        //   firstName: firstNameController!.text,
+        //   lastName: lastNameController!.text,
+        //   gender: genderValue ?? '',
+        //   country: countryValue ?? '',
+        //   state: stateValue ?? '',
+        //   city: cityValue ?? '',
+        //   token: state.token,
+        //   mobileNumber: state.mobileNumber,
+        //   password: state.password,
+        // ));
       }
     }
   }

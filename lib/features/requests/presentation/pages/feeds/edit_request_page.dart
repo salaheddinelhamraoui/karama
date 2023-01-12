@@ -14,6 +14,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../auth/presentation/bloc/auth/bloc/auth_bloc.dart';
 import '../../../../feeds/domain/entities/feed.dart';
 import '../../../../feeds/presentation/bloc/feeds/bloc/feed_bloc.dart';
+import '../../../../profile/presentation/bloc/bloc/my_feed_bloc.dart';
 import '../../../domain/entities/tag.dart';
 import '../../../domain/entities/tag_category.dart';
 import '../../bloc/bloc/tags_bloc.dart';
@@ -43,7 +44,6 @@ class _EditRequestPageState extends State<EditRequestPage> {
 
   @override
   void initState() {
-    print(widget.feed.toString());
     BlocProvider.of<TagsBloc>(context).add(GetTagsEvent());
     super.initState();
     titleController = TextEditingController()..text = widget.feed.title;
@@ -110,13 +110,15 @@ class _EditRequestPageState extends State<EditRequestPage> {
   Widget _content(context, tags) {
     return BlocConsumer<EditRequestBloc, EditRequestState>(
       listener: (context, state) {
+        print(state);
         if (state is ErrorEditingRequestState) {
           SnackBarMessage()
               .showErrorSnackBar(message: state.message, context: context);
-        } else if (state is RequestSubmittedSuccessfullyState) {
+        } else if (state is RequestEditedState) {
           SnackBarMessage().showSuccessSnackBar(
               message: 'Request Edited  Successfully', context: context);
           BlocProvider.of<FeedBloc>(context).add(GetFeedsEvent());
+          BlocProvider.of<MyFeedBloc>(context).add(GetMyFeedEvent());
           context.go('/feeds');
         }
       },

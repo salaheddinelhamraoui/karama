@@ -36,13 +36,13 @@ class UserLocalDataSourceImpl implements UserLocalDataSource {
     } else {
       final userMap = jsonDecode(userJson) as Map<String, dynamic>;
       return UserModel(
-        firstName: userMap['firstName'],
-        lastName: userMap['lastName'],
-        gender: userMap['gender'],
-        city: userMap['city'],
-        country: userMap['country'],
-        mobileNumber: userMap['mobileNumber'],
-      );
+          firstName: userMap['firstName'],
+          lastName: userMap['lastName'],
+          gender: userMap['gender'],
+          city: userMap['city'],
+          country: userMap['country'],
+          mobileNumber: userMap['mobileNumber'],
+          avatar: userMap['avatar']);
     }
   }
 

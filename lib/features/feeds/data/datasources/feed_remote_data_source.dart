@@ -113,8 +113,6 @@ class FeedRemoteDataSourceImpl implements FeedRemoteDataSource {
 
       Map<String, dynamic> jsonObject = jsonDecode(response.body);
 
-      print(jsonObject.toString());
-
       if (response.statusCode == 200 && jsonObject['data']['status'] == true) {
         final data = jsonDecode(response.body);
 

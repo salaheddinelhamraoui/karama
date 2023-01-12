@@ -67,7 +67,6 @@ class _PassSettingWidgetState extends State<PassSettingWidget> {
                   }
                 },
                 builder: (context, state) {
-                  print(state);
                   if (state is TempDataState) {
                     return _body(state);
                   }
@@ -317,7 +316,6 @@ class _PassSettingWidgetState extends State<PassSettingWidget> {
       SnackBarMessage().showErrorSnackBar(
           message: 'Passwords do NOT match', context: context);
     } else {
-      print('fuck');
       BlocProvider.of<TempBloc>(context).add(ChoosePasswordEvent(
           mobileNumber: state.mobileNumber,
           token: state.token,

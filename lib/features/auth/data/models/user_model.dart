@@ -10,12 +10,14 @@ class UserModel extends User {
       required String mobileNumber,
       String? avatar})
       : super(
-            firstName: firstName,
-            lastName: lastName,
-            gender: gender,
-            city: city,
-            country: country,
-            mobileNumber: mobileNumber);
+          firstName: firstName,
+          lastName: lastName,
+          gender: gender,
+          city: city,
+          country: country,
+          mobileNumber: mobileNumber,
+          avatar: avatar,
+        );
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(

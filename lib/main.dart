@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:karama/features/feeds/presentation/pages/feeds/feeds_page.dart';
 
 import 'core/app_theme.dart';
+import 'features/auth/domain/entities/user.dart';
 import 'features/auth/domain/usecases/get_user.dart';
 import 'features/auth/presentation/bloc/auth/bloc/auth_bloc.dart';
 import 'features/auth/presentation/bloc/temp/bloc/temp_bloc.dart';
@@ -18,6 +19,8 @@ import './features/feeds/domain/entities/feed.dart';
 
 import 'features/feeds/presentation/bloc/feeds/bloc/feed_bloc.dart';
 import 'features/profile/presentation/bloc/bloc/my_feed_bloc.dart';
+import 'features/profile/presentation/bloc/editProfile/bloc/edit_profile_bloc.dart';
+import 'features/profile/presentation/pages/edit_profile/edit_profile.dart';
 import 'features/requests/domain/entities/request.dart';
 import 'features/requests/presentation/bloc/bloc/tags_bloc.dart';
 import 'features/requests/presentation/bloc/editeRequest/bloc/edit_request_bloc.dart';
@@ -48,6 +51,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => di.sl<FeedBloc>()..add(GetFeedsEvent())),
         BlocProvider(create: (_) => di.sl<MyFeedBloc>()..add(GetMyFeedEvent())),
         BlocProvider(create: (_) => di.sl<EditRequestBloc>()),
+        BlocProvider(create: (_) => di.sl<EditProfileBloc>()),
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
@@ -103,6 +107,13 @@ class MyApp extends StatelessWidget {
             builder: (BuildContext context, GoRouterState state) {
               Feed feed = state.extra as Feed;
               return EditRequestPage(feed: feed);
+            },
+          ),
+          GoRoute(
+            path: 'editProfile',
+            builder: (BuildContext context, GoRouterState state) {
+              User user = state.extra as User;
+              return EditProfilePage(user: user);
             },
           ),
         ],

@@ -12,6 +12,7 @@ import 'features/auth/data/datasources/user_local_data_source.dart';
 import 'features/auth/data/datasources/user_remote_data_source.dart';
 import 'features/auth/data/repositories/user_repository_impl.dart';
 import 'features/auth/domain/repositories/user_repository.dart';
+import 'features/auth/domain/usecases/edit_profile.dart';
 import 'features/auth/domain/usecases/get_user.dart';
 import 'features/auth/domain/usecases/login_user.dart';
 import 'features/auth/domain/usecases/setup_user.dart';
@@ -28,6 +29,7 @@ import 'features/feeds/domain/usecases/get_Feed.dart';
 import 'features/feeds/domain/usecases/get_Feed_By_User.dart';
 import 'features/feeds/presentation/bloc/feeds/bloc/feed_bloc.dart';
 import 'features/profile/presentation/bloc/bloc/my_feed_bloc.dart';
+import 'features/profile/presentation/bloc/editProfile/bloc/edit_profile_bloc.dart';
 import 'features/requests/data/datasources/tag_remote_data_source.dart';
 import 'features/requests/data/repositories/request_repository_impl.dart';
 import 'features/requests/data/repositories/tag_category_repository_impl.dart';
@@ -130,13 +132,16 @@ Future<void> init() async {
 
 // -------------------------------------------------------------------------
 
-// Features - Feeds
+// Features - Profile
 
 // Bloc
 
   sl.registerFactory(() => MyFeedBloc(getMyFeed: sl()));
+  sl.registerFactory(() => EditProfileBloc(editProfile: sl()));
 
 // Usecases
+
+  sl.registerLazySingleton(() => EditProfileUseCase(sl()));
 
 // Repository
 

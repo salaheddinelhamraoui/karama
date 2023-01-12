@@ -92,6 +92,7 @@ class _ViewMyFeedBottomSheetState extends State<ViewMyFeedBottomSheet> {
                               onTap: () {
                                 context.push('/editRequest',
                                     extra: widget.feed);
+                                Navigator.pop(context);
                               },
                               child: Padding(
                                 padding:

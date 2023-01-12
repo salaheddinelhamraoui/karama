@@ -24,4 +24,5 @@ abstract class UserRepository {
       String token,
       String mobileNumber,
       String password);
+  Future<Either<Failure, Unit>> editProfile(User user);
 }
