@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
-import '../../../../contacts/presentation/pages/feeds/requests_page.dart';
+import '../../../../contacts/presentation/pages/feeds/contacts_page.dart';
 import '../../../../notifications/presentation/pages/feeds/Notifications _page.dart';
 import '../../../../profile/presentation/pages/feeds/profile_page.dart';
 import '../../widgets/actions_bottom_sheet.dart';
