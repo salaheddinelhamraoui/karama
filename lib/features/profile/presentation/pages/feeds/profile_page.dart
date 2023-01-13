@@ -398,7 +398,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(8, 5, 8, 0),
+                      padding: EdgeInsetsDirectional.fromSTEB(8, 8, 8, 0),
                       child: Row(
                         mainAxisSize: MainAxisSize.max,
                         children: [
@@ -499,7 +499,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     ),
                                     Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
-                                          4, 0, 0, 0),
+                                          4, 0, 0, 8),
                                       child: Container(
                                         decoration: BoxDecoration(
                                           color: FlutterFlowTheme.of(context)

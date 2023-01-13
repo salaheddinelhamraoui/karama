@@ -4,6 +4,7 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:karama/features/auth/domain/usecases/get_temp_data.dart';
 import 'package:karama/features/auth/domain/usecases/get_token.dart';
 import 'package:karama/features/auth/domain/usecases/get_verify_state.dart';
+import 'package:karama/features/contacts/domain/usecases/check_contacts.dart';
 import 'package:karama/features/requests/domain/usecases/get_tags.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -22,6 +23,13 @@ import 'features/auth/domain/usecases/verify_user.dart';
 import 'features/auth/presentation/bloc/auth/bloc/auth_bloc.dart';
 import 'features/auth/presentation/bloc/temp/bloc/temp_bloc.dart';
 
+import 'features/contacts/data/datasources/contact_local_data_source.dart';
+import 'features/contacts/data/datasources/contact_remote_data_source.dart';
+import 'features/contacts/data/repositories/contact_repository_impl.dart';
+import 'features/contacts/domain/repositories/contact_repository.dart';
+import 'features/contacts/domain/usecases/get_contacts.dart';
+import 'features/contacts/presentation/bloc/check_contacts/bloc/check_contacts_bloc.dart';
+import 'features/contacts/presentation/bloc/contacts/bloc/contacts_bloc.dart';
 import 'features/feeds/data/datasources/feed_remote_data_source.dart';
 import 'features/feeds/data/repositories/feed_repository_impl.dart';
 import 'features/feeds/domain/repositories/feed_repository.dart';
@@ -146,6 +154,33 @@ Future<void> init() async {
 // Repository
 
 // Datasources
+
+// -------------------------------------------------------------------------
+
+// Features - Contacts
+
+// Bloc
+
+  sl.registerFactory(() => ContactsBloc(getContacts: sl()));
+  sl.registerFactory(() => CheckContactsBloc(checkContacts: sl()));
+
+// Usecases
+
+  sl.registerLazySingleton(() => GetContactsUseCase(sl()));
+  sl.registerLazySingleton(() => CheckContactsUseCase(sl()));
+
+// Repository
+
+  sl.registerLazySingleton<ContactRepository>(() =>
+      ContactRepositoryImpl(localDataSource: sl(), remoteDataSource: sl()));
+
+// Datasources
+
+  sl.registerLazySingleton<ContactLocalDataSource>(
+      () => ContactLocalDataSourceImpl());
+
+  sl.registerLazySingleton<ContactRemoteDataSource>(
+      () => ContactRemoteDataSourceImpl(client: sl(), localDataSource: sl()));
 
 // -------------------------------------------------------------------------
 

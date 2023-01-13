@@ -1,26 +1,30 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:karama/features/feeds/domain/usecases/get_Feed.dart';
-import 'package:flutter_contacts/flutter_contacts.dart';
+import 'package:karama/features/contacts/domain/usecases/check_contacts.dart';
+
 import '../../../../../../core/error/failure.dart';
-import '../../../../domain/entities/feed.dart';
+import '../../../../domain/entities/contact.dart';
+import '../../../../domain/usecases/get_contacts.dart';
 
-part 'feed_event.dart';
-part 'feed_state.dart';
+part 'contacts_event.dart';
+part 'contacts_state.dart';
 
-class FeedBloc extends Bloc<FeedEvent, FeedState> {
-  final GetFeedsUseCase getFeeds;
+class ContactsBloc extends Bloc<ContactsEvent, ContactsState> {
+  final GetContactsUseCase getContacts;
 
-  FeedBloc({required this.getFeeds}) : super(FeedInitial()) {
-    on<FeedEvent>((event, emit) async {
-      if (event is GetFeedsEvent) {
-        emit(FeedLoadingState());
-        final failureOrDoneMessage = await getFeeds();
+  ContactsBloc({required this.getContacts}) : super(ContactsInitial()) {
+    on<ContactsEvent>((event, emit) async {
+      if (event is GetContactsEvent) {
+        emit(LoadingContactsState());
+        print('hola');
+        final failureOrDoneMessage = await getContacts();
+
+        print('s');
         emit(failureOrDoneMessage.fold(
-          (failure) => ErrorLoadingFeedsState(
+          (failure) => ErrorLoadingContactsState(
             message: _mapFailureToMessage(failure),
           ),
-          (feeds) => FeedLoadedState(feeds: feeds),
+          (contacts) => ContactsLoadedState(contacts: contacts),
         ));
       }
     });

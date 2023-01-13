@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:karama/features/auth/domain/usecases/get_temp_data.dart';
 import 'package:karama/features/auth/domain/usecases/verify_user.dart';
 
@@ -62,8 +63,13 @@ class TempBloc extends Bloc<TempEvent, TempState> {
             token: data['token'],
             verifyState: data['verifyState'] == 'true'));
       } else if (event is SubmitOnboardingDataEvent) {
-        log(event.toString());
         emit(LoadingTempState());
+        emit(ErrorTempState(
+            message: _mapFailureToMessage(ServerFailure()),
+            mobileNumber: event.mobileNumber,
+            password: event.password,
+            token: event.token));
+
         final state = await submitOnboardingDataUseCase(
             event.avatar,
             event.firstName,

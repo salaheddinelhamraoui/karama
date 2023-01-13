@@ -17,6 +17,8 @@ import 'features/auth/presentation/pages/welcome/welcome_page.dart';
 import 'package:go_router/go_router.dart';
 import './features/feeds/domain/entities/feed.dart';
 
+import 'features/contacts/presentation/bloc/check_contacts/bloc/check_contacts_bloc.dart';
+import 'features/contacts/presentation/bloc/contacts/bloc/contacts_bloc.dart';
 import 'features/feeds/presentation/bloc/feeds/bloc/feed_bloc.dart';
 import 'features/profile/presentation/bloc/bloc/my_feed_bloc.dart';
 import 'features/profile/presentation/bloc/editProfile/bloc/edit_profile_bloc.dart';
@@ -52,6 +54,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => di.sl<MyFeedBloc>()..add(GetMyFeedEvent())),
         BlocProvider(create: (_) => di.sl<EditRequestBloc>()),
         BlocProvider(create: (_) => di.sl<EditProfileBloc>()),
+        BlocProvider(create: (_) => di.sl<ContactsBloc>()),
+        BlocProvider(create: (_) => di.sl<CheckContactsBloc>()),
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,

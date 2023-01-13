@@ -51,11 +51,14 @@ class _FeedsBodyState extends State<FeedsBody> {
               } else if (state is FeedLoadedState) {
                 return Container(
                   height: MediaQuery.of(context).size.height * 0.86,
-                  child: ListView.builder(
-                    itemCount: state.feeds.length,
-                    itemBuilder: (context, index) {
-                      return _feedCard(state.feeds[index]);
-                    },
+                  child: RefreshIndicator(
+                    onRefresh: () => _onRefresh(context),
+                    child: ListView.builder(
+                      itemCount: state.feeds.length,
+                      itemBuilder: (context, index) {
+                        return _feedCard(state.feeds[index]);
+                      },
+                    ),
                   ),
                 );
               }
@@ -66,6 +69,10 @@ class _FeedsBodyState extends State<FeedsBody> {
         ],
       ),
     );
+  }
+
+  Future<void> _onRefresh(BuildContext context) async {
+    BlocProvider.of<FeedBloc>(context).add(GetFeedsEvent());
   }
 
   Widget _feedCard(item) {
@@ -149,7 +156,7 @@ class _FeedsBodyState extends State<FeedsBody> {
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(8, 5, 8, 0),
+                      padding: EdgeInsetsDirectional.fromSTEB(8, 8, 8, 0),
                       child: Row(
                         mainAxisSize: MainAxisSize.max,
                         children: [
@@ -250,7 +257,7 @@ class _FeedsBodyState extends State<FeedsBody> {
                                     ),
                                     Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
-                                          4, 0, 0, 0),
+                                          4, 0, 0, 8),
                                       child: Container(
                                         decoration: BoxDecoration(
                                           color: FlutterFlowTheme.of(context)
