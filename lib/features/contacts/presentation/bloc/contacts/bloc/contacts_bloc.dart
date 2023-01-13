@@ -16,10 +16,9 @@ class ContactsBloc extends Bloc<ContactsEvent, ContactsState> {
     on<ContactsEvent>((event, emit) async {
       if (event is GetContactsEvent) {
         emit(LoadingContactsState());
-        print('hola');
+
         final failureOrDoneMessage = await getContacts();
 
-        print('s');
         emit(failureOrDoneMessage.fold(
           (failure) => ErrorLoadingContactsState(
             message: _mapFailureToMessage(failure),

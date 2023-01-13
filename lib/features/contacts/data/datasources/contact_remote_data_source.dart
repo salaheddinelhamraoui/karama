@@ -43,14 +43,11 @@ class ContactRemoteDataSourceImpl implements ContactRemoteDataSource {
       Map<String, dynamic> jsonObject = jsonDecode(response.body);
 
       if (response.statusCode == 200 && jsonObject['data']['status'] == true) {
-        print(33);
         return [];
       } else {
-        print(99);
         throw ServerException();
       }
     } catch (e) {
-      print(1);
       print(e);
       throw ServerException();
     }

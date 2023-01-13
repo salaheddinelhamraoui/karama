@@ -148,7 +148,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       'city': city,
       'state': state,
       'country': country,
-      'avatar': avatar,
+      'avatar': 'data:image/png;base64,' + avatar,
       'phone': mobileNumber,
       'password': password,
       'token': token
