@@ -278,20 +278,30 @@ class _TagsSheetWidgetState extends State<TagsSheetWidget> {
                                             8, 4, 8, 4),
                                         child: InkWell(
                                           onTap: () {
-                                            Tag tag = Tag(
-                                                id: filteredTags[
-                                                        selectedPersonalCategory ??
-                                                            0]
-                                                    .tags[index]
-                                                    .id,
-                                                tagName: filteredTags[
-                                                        selectedPersonalCategory ??
-                                                            0]
-                                                    .tags[index]
-                                                    .tagName);
-                                            setState(() {
-                                              selectedTags.add(tag);
-                                            });
+                                            bool tagExists = selectedTags.any(
+                                                (tag) =>
+                                                    tag.id ==
+                                                    filteredTags[
+                                                            selectedPersonalCategory ??
+                                                                0]
+                                                        .tags[index]
+                                                        .id);
+                                            if (!tagExists) {
+                                              Tag tag = Tag(
+                                                  id: filteredTags[
+                                                          selectedPersonalCategory ??
+                                                              0]
+                                                      .tags[index]
+                                                      .id,
+                                                  tagName: filteredTags[
+                                                          selectedPersonalCategory ??
+                                                              0]
+                                                      .tags[index]
+                                                      .tagName);
+                                              setState(() {
+                                                selectedTags.add(tag);
+                                              });
+                                            }
                                           },
                                           child: Text(
                                             filteredTags[
@@ -468,20 +478,31 @@ class _TagsSheetWidgetState extends State<TagsSheetWidget> {
                                             8, 4, 8, 4),
                                         child: InkWell(
                                           onTap: () {
-                                            Tag tag = Tag(
-                                                id: filteredTags[
-                                                        selectedProCategory ??
-                                                            0]
-                                                    .tags[index]
-                                                    .id,
-                                                tagName: filteredTags[
-                                                        selectedProCategory ??
-                                                            0]
-                                                    .tags[index]
-                                                    .tagName);
-                                            setState(() {
-                                              selectedTags.add(tag);
-                                            });
+                                            bool tagExists = selectedTags.any(
+                                                (tag) =>
+                                                    tag.id ==
+                                                    filteredTags[
+                                                            selectedProCategory ??
+                                                                0]
+                                                        .tags[index]
+                                                        .id);
+
+                                            if (!tagExists) {
+                                              Tag tag = Tag(
+                                                  id: filteredTags[
+                                                          selectedProCategory ??
+                                                              0]
+                                                      .tags[index]
+                                                      .id,
+                                                  tagName: filteredTags[
+                                                          selectedProCategory ??
+                                                              0]
+                                                      .tags[index]
+                                                      .tagName);
+                                              setState(() {
+                                                selectedTags.add(tag);
+                                              });
+                                            }
                                           },
                                           child: Text(
                                             filteredTags[
@@ -631,11 +652,11 @@ class _TagsSheetWidgetState extends State<TagsSheetWidget> {
         results.add(obj);
         continue;
       }
-      // for (Tag tag in obj.tags) {
-      //   if (tag.tagName.toLowerCase().contains(value.toLowerCase())) {
-      //     results.add(obj);
-      //   }
-      // }
+      for (Tag tag in obj.tags) {
+        if (tag.tagName.toLowerCase().contains(value.toLowerCase())) {
+          results.add(obj);
+        }
+      }
     }
 
     setState(() {

@@ -694,7 +694,10 @@ class _NewRequestPageState extends State<NewRequestPage> {
 
   void submittedTagsCallBack(tags) {
     setState(() {
-      submittedTags = [...submittedTags, ...tags];
+      List<Tag> allTags = [...submittedTags, ...tags];
+      List<Tag> filteredTags = allTags.toSet().toList();
+
+      submittedTags = filteredTags;
     });
 
     Navigator.pop(context);

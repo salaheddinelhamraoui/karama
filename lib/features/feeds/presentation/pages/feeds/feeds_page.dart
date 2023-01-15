@@ -54,24 +54,49 @@ class _FeedsPageState extends State<FeedsPage> {
             duration: const Duration(milliseconds: 400),
             tabBackgroundColor: FlutterFlowTheme.of(context).gray,
             color: Colors.black,
-            tabs: const [
+            tabs: [
               GButton(
+                leading: SizedBox(
+                  width: 24,
+                  height: 24,
+                  child: Image.asset("assets/images/action.png"),
+                ),
                 icon: LineIcons.syncIcon,
                 text: 'Actions',
               ),
               GButton(
+                leading: SizedBox(
+                  width: 24,
+                  height: 24,
+                  child: Image.asset("assets/images/rss.png"),
+                ),
                 icon: LineIcons.home,
                 text: 'Feeds',
               ),
               GButton(
+                leading: SizedBox(
+                  width: 24,
+                  height: 24,
+                  child: Image.asset("assets/images/notification.png"),
+                ),
                 icon: LineIcons.blog,
                 text: 'Notifications',
               ),
               GButton(
+                leading: SizedBox(
+                  width: 24,
+                  height: 24,
+                  child: Image.asset("assets/images/contact-book.png"),
+                ),
                 icon: LineIcons.users,
                 text: 'Contacts',
               ),
               GButton(
+                leading: SizedBox(
+                  width: 24,
+                  height: 24,
+                  child: Image.asset("assets/images/user.png"),
+                ),
                 icon: LineIcons.user,
                 text: 'Profile',
               ),
