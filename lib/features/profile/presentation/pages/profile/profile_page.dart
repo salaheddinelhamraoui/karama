@@ -28,7 +28,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   void initState() {
-    BlocProvider.of<MyFeedBloc>(context).add(GetMyFeedEvent());
     super.initState();
   }
 

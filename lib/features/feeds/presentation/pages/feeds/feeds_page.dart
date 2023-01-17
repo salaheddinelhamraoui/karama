@@ -3,7 +3,7 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
 import '../../../../contacts/presentation/pages/feeds/contacts_page.dart';
 import '../../../../notifications/presentation/pages/feeds/Notifications _page.dart';
-import '../../../../profile/presentation/pages/feeds/profile_page.dart';
+import '../../../../profile/presentation/pages/profile/profile_page.dart';
 import '../../widgets/actions_bottom_sheet.dart';
 import './feeds_body.dart';
 import '../../../../../core/app_theme.dart';

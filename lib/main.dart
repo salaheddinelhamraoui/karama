@@ -52,11 +52,12 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => di.sl<TempBloc>()..add(GetTempDataEvent())),
         BlocProvider(create: (_) => di.sl<TagsBloc>()),
         BlocProvider(create: (_) => di.sl<RequestBloc>()),
-        BlocProvider(create: (_) => di.sl<FeedBloc>()..add(GetFeedsEvent())),
+        BlocProvider(create: (_) => di.sl<FeedBloc>()),
         BlocProvider(create: (_) => di.sl<MyFeedBloc>()..add(GetMyFeedEvent())),
         BlocProvider(create: (_) => di.sl<EditRequestBloc>()),
         BlocProvider(create: (_) => di.sl<EditProfileBloc>()),
-        BlocProvider(create: (_) => di.sl<ContactsBloc>()),
+        BlocProvider(
+            create: (_) => di.sl<ContactsBloc>()..add(GetContactsEvent())),
         BlocProvider(create: (_) => di.sl<CheckContactsBloc>()),
         BlocProvider(create: (_) => di.sl<LogoutBloc>()),
       ],
@@ -92,16 +93,40 @@ class MyApp extends StatelessWidget {
           GoRoute(
             path: 'feeds',
             builder: (BuildContext context, GoRouterState state) =>
-                BlocListener<LogoutBloc, LogoutState>(
+                BlocListener<CheckContactsBloc, CheckContactsState>(
               listener: (context, state) {
-                if (state is LoggingErrorState) {
-                  SnackBarMessage().showErrorSnackBar(
-                      message: state.message, context: context);
-                } else if (state is LoggedOutState) {
-                  context.go('/login');
+                if (state is CheckContactsInitial) {
+                } else {
+                  BlocProvider.of<FeedBloc>(context).add(GetFeedsEvent());
                 }
               },
-              child: FeedsPage(),
+              child: BlocListener<ContactsBloc, ContactsState>(
+                listener: (context, state) {
+                  if (state is ContactsLoadedState) {
+                    List<String> contacts = [];
+                    for (var i = 0; i < state.contacts.length; i++) {
+                      contacts.add(state.contacts[i].contactNumber);
+                    }
+
+                    BlocProvider.of<CheckContactsBloc>(context)
+                        .add(PostCheckContactsEvent(contacts: contacts));
+                  } else if (state is ErrorLoadingContactsState) {
+                    SnackBarMessage().showErrorSnackBar(
+                        message: state.message, context: context);
+                  }
+                },
+                child: BlocListener<LogoutBloc, LogoutState>(
+                  listener: (context, state) {
+                    if (state is LoggingErrorState) {
+                      SnackBarMessage().showErrorSnackBar(
+                          message: state.message, context: context);
+                    } else if (state is LoggedOutState) {
+                      context.go('/login');
+                    }
+                  },
+                  child: FeedsPage(),
+                ),
+              ),
             ),
           ),
           GoRoute(

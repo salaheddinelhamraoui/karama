@@ -45,6 +45,7 @@ class UserRepositoryImpl implements UserRepository {
   @override
   Future<Either<Failure, String>> getToken() async {
     try {
+      // await remoteDataSource.refreshToken();
       final token = await localDataSource.getCachedToken();
       return Right(token);
     } on EmptyCacheException {
@@ -141,5 +142,10 @@ class UserRepositoryImpl implements UserRepository {
       print(e);
       return Left(ServerFailure());
     }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> refreshToken() async {
+    throw UnimplementedError();
   }
 }

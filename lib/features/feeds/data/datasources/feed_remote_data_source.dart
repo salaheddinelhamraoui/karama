@@ -26,11 +26,18 @@ class FeedRemoteDataSourceImpl implements FeedRemoteDataSource {
   Future<List<Feed>> getFeeds() async {
     try {
       final token = await getCachedToken();
-      final response = await client.get(
-        Uri.parse(BASE_URL + 'api:1HF8-Ljt/feed'),
+
+      final Map<String, String> body = {
+        'token': token ?? '',
+      };
+
+      final response = await client.post(
+        Uri.parse(BASE_URL + 'api:1HF8-Ljt/feeds_contacts'),
         headers: {
+          "Content-Type": "application/json",
           "Authorization": "Bearer $token",
         },
+        body: jsonEncode(body),
       );
 
       Map<String, dynamic> jsonObject = jsonDecode(response.body);

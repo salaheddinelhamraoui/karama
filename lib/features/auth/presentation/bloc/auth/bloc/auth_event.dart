@@ -18,3 +18,10 @@ class LogInEvent extends AuthEvent {
   @override
   List<Object> get props => [mobileNumber, password];
 }
+
+class RefreshToken extends AuthEvent {
+  final User user;
+  final String token;
+
+  RefreshToken({required this.user, required this.token});
+}

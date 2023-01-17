@@ -17,25 +17,20 @@ class ContactsPage extends StatefulWidget {
 
 class _ContactsPageState extends State<ContactsPage> {
   @override
-  void initState() {
-    super.initState();
-    BlocProvider.of<ContactsBloc>(context).add(GetContactsEvent());
-  }
-
-  @override
   Widget build(BuildContext context) {
     return BlocConsumer<ContactsBloc, ContactsState>(
       listener: (context, state) {
         if (state is ErrorLoadingContactsState) {
           SnackBarMessage()
               .showErrorSnackBar(message: state.message, context: context);
+        } else if (state is ContactsLoadedState) {
+          setState(() {});
         }
       },
       builder: (context, state) {
         if (state is LoadingContactsState) {
           return LoadingWidget();
-        } else if (state is ContactsLoadedState &&
-            state.contacts.length > 9000) {
+        } else if (state is ContactsLoadedState && state.contacts.length > 0) {
           return ListView.builder(
               itemCount: state.contacts.length,
               itemBuilder: (context, index) {

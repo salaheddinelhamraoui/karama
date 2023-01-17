@@ -26,4 +26,5 @@ abstract class UserRepository {
       String password);
   Future<Either<Failure, Unit>> editProfile(User user);
   Future<Either<Failure, Unit>> logOut();
+  Future<Either<Failure, Unit>> refreshToken();
 }

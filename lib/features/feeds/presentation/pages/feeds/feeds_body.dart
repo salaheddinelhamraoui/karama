@@ -57,7 +57,7 @@ class _FeedsBodyState extends State<FeedsBody> {
               }
             },
             builder: (context, state) {
-              if (state is FeedLoadingState) {
+              if (state is FeedLoadingState || state is FeedInitial) {
                 return LoadingWidget();
               } else if (state is FeedLoadedState) {
                 return Container(
@@ -301,7 +301,7 @@ class _FeedsBodyState extends State<FeedsBody> {
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(),
                         child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(0, 5, 0, 5),
+                          padding: EdgeInsetsDirectional.fromSTEB(0, 5, 0, 10),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
                             children: [
@@ -355,7 +355,7 @@ class _FeedsBodyState extends State<FeedsBody> {
                                     ),
                                     Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
-                                          4, 0, 0, 8),
+                                          4, 0, 0, 0),
                                       child: Container(
                                         decoration: BoxDecoration(
                                           color: FlutterFlowTheme.of(context)

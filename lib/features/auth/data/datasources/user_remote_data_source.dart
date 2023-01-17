@@ -24,7 +24,7 @@ abstract class UserRemoteDataSource {
       String mobileNumber,
       String password);
   Future<Unit> editProfile(User user);
-  Future<Unit> refreshToken(String mobileNumber, String token);
+  Future<Unit> refreshToken();
 }
 
 const BASE_URL = "https://xyxm-adm5-et4s.n7.xano.io/api:BG09bi8f";
@@ -253,16 +253,19 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   }
 
   @override
-  Future<Unit> refreshToken(String mobileNumber, String token) async {
+  Future<Unit> refreshToken() async {
     try {
+      String token = await localDataSource.getCachedToken();
+      User user = await localDataSource.getCachedUser();
+
       final Map<String, dynamic> body = {
         'token': token,
-        'phone': mobileNumber,
+        'phone': user.mobileNumber
       };
 
       final response = await client.post(
         Uri.parse(
-            "https://xyxm-adm5-et4s.n7.xano.io/api:VYETVf0h/edit_onboarding"),
+            "https://xyxm-adm5-et4s.n7.xano.io/api:BG09bi8f/refresh_token"),
         headers: {
           "Content-Type": "application/json",
           "Authorization": "Bearer $token",
@@ -273,8 +276,9 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       final data = jsonDecode(response.body);
 
       if (response.statusCode == 200 && data['data']['status'] == true) {
-        Map<String, dynamic> userData = data['data']['result'];
-        print(data['data']['result']);
+        String token = data['data']['result'];
+
+        localDataSource.cacheToken(token);
 
         return unit;
       } else {
