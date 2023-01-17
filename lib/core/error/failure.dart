@@ -31,3 +31,8 @@ class PhoneVerificationFailure extends Failure {
   @override
   List<Object?> get props => [];
 }
+
+class UnauthorizedFailure extends Failure {
+  @override
+  List<Object?> get props => [];
+}

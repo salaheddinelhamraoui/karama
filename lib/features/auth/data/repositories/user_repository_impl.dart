@@ -132,4 +132,14 @@ class UserRepositoryImpl implements UserRepository {
       return Left(ServerFailure());
     }
   }
+
+  @override
+  Future<Either<Failure, Unit>> logOut() async {
+    try {
+      return Right(await localDataSource.logOut());
+    } catch (e) {
+      print(e);
+      return Left(ServerFailure());
+    }
+  }
 }

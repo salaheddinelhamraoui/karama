@@ -15,12 +15,14 @@ import 'features/auth/data/repositories/user_repository_impl.dart';
 import 'features/auth/domain/repositories/user_repository.dart';
 import 'features/auth/domain/usecases/edit_profile.dart';
 import 'features/auth/domain/usecases/get_user.dart';
+import 'features/auth/domain/usecases/log_out.dart';
 import 'features/auth/domain/usecases/login_user.dart';
 import 'features/auth/domain/usecases/setup_user.dart';
 import 'features/auth/domain/usecases/signup_user.dart';
 import 'features/auth/domain/usecases/submit_onboarding_data.dart';
 import 'features/auth/domain/usecases/verify_user.dart';
 import 'features/auth/presentation/bloc/auth/bloc/auth_bloc.dart';
+import 'features/auth/presentation/bloc/logout/bloc/logout_bloc.dart';
 import 'features/auth/presentation/bloc/temp/bloc/temp_bloc.dart';
 
 import 'features/contacts/data/datasources/contact_local_data_source.dart';
@@ -68,6 +70,8 @@ Future<void> init() async {
     ),
   );
 
+  sl.registerFactory(() => LogoutBloc(logOut: sl()));
+
 // Usecases
 
   sl.registerLazySingleton(() => LoginUserUseCase(sl()));
@@ -79,6 +83,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetTokenUseCase(sl()));
   sl.registerLazySingleton(() => GetTempDataUseCase(sl()));
   sl.registerLazySingleton(() => SubmitOnboardingDataUseCase(sl()));
+  sl.registerLazySingleton(() => LogOutUseCase(sl()));
 
 // Repository
 

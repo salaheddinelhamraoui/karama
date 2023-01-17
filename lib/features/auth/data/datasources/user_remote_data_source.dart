@@ -24,6 +24,7 @@ abstract class UserRemoteDataSource {
       String mobileNumber,
       String password);
   Future<Unit> editProfile(User user);
+  Future<Unit> refreshToken(String mobileNumber, String token);
 }
 
 const BASE_URL = "https://xyxm-adm5-et4s.n7.xano.io/api:BG09bi8f";
@@ -38,74 +39,14 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
 
   @override
   Future<UserModel> sinIn(mobileNumber, password) async {
-    final Map<String, String> body = {
-      'auth_phone': mobileNumber,
-      'password': password,
-    };
-
-    final response = await client.post(
-      Uri.parse(BASE_URL + "/login"),
-      headers: {"Content-Type": "application/json"},
-      body: jsonEncode(body),
-    );
-
-    final data = jsonDecode(response.body);
-    Map<String, dynamic> jsonObject = jsonDecode(response.body);
-
-    if (response.statusCode == 200 && jsonObject['data']['status'] == true) {
-      String token = jsonObject['data']['result']['token'].toString();
-
-      localDataSource.cacheToken(token);
-
-      Map<String, dynamic> userData = jsonObject['data']['result']['user'];
-
-      UserModel user = UserModel(
-        firstName: userData['first_name'],
-        lastName: userData['last_name'],
-        gender: userData['gender'],
-        city: userData['city'],
-        country: userData['country'],
-        avatar: userData['avatar']['url'],
-        mobileNumber: userData['phone'],
-      );
-
-      return user;
-    } else {
-      throw ServerException();
-    }
-  }
-
-  Future<Unit> signUp(mobileNumber) async {
-    final Map<String, String> body = {
-      'auth_phone': mobileNumber,
-    };
-
-    final response = await client.post(
-      Uri.parse(BASE_URL + "/registre"),
-      headers: {"Content-Type": "application/json"},
-      body: jsonEncode(body),
-    );
-
-    final data = jsonDecode(response.body);
-    Map<String, dynamic> jsonObject = jsonDecode(response.body);
-
-    if (response.statusCode == 200 && jsonObject['data']['status'] == true) {
-      localDataSource.cacheMobileNumber(mobileNumber);
-      return Future.value(unit);
-    } else {
-      throw ServerException();
-    }
-  }
-
-  Future<String> verifyUser(pinCode, mobileNumber) async {
-    if (mobileNumber != null) {
+    try {
       final Map<String, String> body = {
-        'phone': mobileNumber,
-        'pin': pinCode,
+        'auth_phone': mobileNumber,
+        'password': password,
       };
 
       final response = await client.post(
-        Uri.parse(BASE_URL + "/pin_verification"),
+        Uri.parse(BASE_URL + "/login"),
         headers: {"Content-Type": "application/json"},
         body: jsonEncode(body),
       );
@@ -114,17 +55,95 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       Map<String, dynamic> jsonObject = jsonDecode(response.body);
 
       if (response.statusCode == 200 && jsonObject['data']['status'] == true) {
-        var token = jsonObject['data']['result'];
+        String token = jsonObject['data']['result']['token'].toString();
 
         localDataSource.cacheToken(token);
 
-        localDataSource.cacheVerifyUserState(true);
+        Map<String, dynamic> userData = jsonObject['data']['result']['user'];
 
-        return token;
+        String city = userData['city'] ?? '';
+
+        UserModel user = UserModel(
+          firstName: userData['first_name'],
+          lastName: userData['last_name'],
+          gender: userData['gender'],
+          city: city,
+          country: userData['country'],
+          avatar: userData['avatar']['url'],
+          mobileNumber: userData['phone'],
+        );
+
+        return user;
       } else {
         throw ServerException();
       }
-    } else {
+    } catch (e) {
+      print(e);
+      throw ServerException();
+    }
+  }
+
+  Future<Unit> signUp(mobileNumber) async {
+    try {
+      final Map<String, String> body = {
+        'auth_phone': mobileNumber,
+      };
+
+      final response = await client.post(
+        Uri.parse(BASE_URL + "/registre"),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode(body),
+      );
+
+      final data = jsonDecode(response.body);
+      Map<String, dynamic> jsonObject = jsonDecode(response.body);
+
+      if (response.statusCode == 200 && jsonObject['data']['status'] == true) {
+        localDataSource.cacheMobileNumber(mobileNumber);
+        return Future.value(unit);
+      } else {
+        throw ServerException();
+      }
+    } catch (e) {
+      print(e);
+      throw ServerException();
+    }
+  }
+
+  Future<String> verifyUser(pinCode, mobileNumber) async {
+    try {
+      if (mobileNumber != null) {
+        final Map<String, String> body = {
+          'phone': mobileNumber,
+          'pin': pinCode,
+        };
+
+        final response = await client.post(
+          Uri.parse(BASE_URL + "/pin_verification"),
+          headers: {"Content-Type": "application/json"},
+          body: jsonEncode(body),
+        );
+
+        final data = jsonDecode(response.body);
+        Map<String, dynamic> jsonObject = jsonDecode(response.body);
+
+        if (response.statusCode == 200 &&
+            jsonObject['data']['status'] == true) {
+          var token = jsonObject['data']['result'];
+
+          localDataSource.cacheToken(token);
+
+          localDataSource.cacheVerifyUserState(true);
+
+          return token;
+        } else {
+          throw ServerException();
+        }
+      } else {
+        throw ServerException();
+      }
+    } catch (e) {
+      print(e);
       throw ServerException();
     }
   }
@@ -141,35 +160,40 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       String token,
       String mobileNumber,
       String password) async {
-    final Map<String, String> body = {
-      'first_name': firstName,
-      'last_name': lastName,
-      'gender': gender,
-      'city': city,
-      'state': state,
-      'country': country,
-      'avatar': 'data:image/png;base64,' + avatar,
-      'phone': mobileNumber,
-      'password': password,
-      'token': token
-    };
+    try {
+      final Map<String, String> body = {
+        'first_name': firstName,
+        'last_name': lastName,
+        'gender': gender,
+        'city': city,
+        'state': state,
+        'country': country,
+        'image': 'data:image/png;base64,' + avatar,
+        'phone': mobileNumber,
+        'password': password,
+        'token': token
+      };
 
-    final response = await client.post(
-      Uri.parse("https://xyxm-adm5-et4s.n7.xano.io/api:VYETVf0h/onboarding"),
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer $token",
-      },
-      body: jsonEncode(body),
-    );
+      final response = await client.post(
+        Uri.parse("https://xyxm-adm5-et4s.n7.xano.io/api:VYETVf0h/onboarding"),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer $token",
+        },
+        body: jsonEncode(body),
+      );
 
-    final data = jsonDecode(response.body);
+      final data = jsonDecode(response.body);
 
-    Map<String, dynamic> jsonObject = jsonDecode(response.body);
+      Map<String, dynamic> jsonObject = jsonDecode(response.body);
 
-    if (response.statusCode == 200 && jsonObject['data']['status'] == true) {
-      return 'done';
-    } else {
+      if (response.statusCode == 200 && jsonObject['data']['status'] == true) {
+        return 'done';
+      } else {
+        throw ServerException();
+      }
+    } catch (e) {
+      print(e);
       throw ServerException();
     }
   }
@@ -224,6 +248,40 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       return unit;
     } catch (e) {
       print(e.toString());
+      throw ServerException();
+    }
+  }
+
+  @override
+  Future<Unit> refreshToken(String mobileNumber, String token) async {
+    try {
+      final Map<String, dynamic> body = {
+        'token': token,
+        'phone': mobileNumber,
+      };
+
+      final response = await client.post(
+        Uri.parse(
+            "https://xyxm-adm5-et4s.n7.xano.io/api:VYETVf0h/edit_onboarding"),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer $token",
+        },
+        body: jsonEncode(body),
+      );
+
+      final data = jsonDecode(response.body);
+
+      if (response.statusCode == 200 && data['data']['status'] == true) {
+        Map<String, dynamic> userData = data['data']['result'];
+        print(data['data']['result']);
+
+        return unit;
+      } else {
+        throw ServerException();
+      }
+    } catch (e) {
+      print(e);
       throw ServerException();
     }
   }

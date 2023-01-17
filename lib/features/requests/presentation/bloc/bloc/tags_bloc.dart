@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:karama/features/requests/domain/usecases/get_tags.dart';
 
+import '../../../../../core/error/error_message.dart';
 import '../../../../../core/error/failure.dart';
 import '../../../domain/entities/tag_category.dart';
 
@@ -18,30 +19,11 @@ class TagsBloc extends Bloc<TagsEvent, TagsState> {
 
         emit(failureOrDoneMessage.fold(
           (failure) => ErrorLoadingTagsState(
-            message: _mapFailureToMessage(failure),
+            message: mapFailureToMessage(failure),
           ),
           (tags) => TagsLoadedState(tags: tags),
         ));
       }
     });
-  }
-
-  String _mapFailureToMessage(Failure failure) {
-    switch (failure.runtimeType) {
-      case ServerFailure:
-        return 'Please try again later.';
-      case EmptyCacheFailure:
-        return 'No Data';
-      case OfflineFailure:
-        return 'Please Check your Internet Connection';
-      case InvalidCredentialsFailure:
-        return 'Invalid Credentials !';
-      case NotInvitedFailure:
-        return 'Phone Number Not Invited Or Already Exist';
-      case PhoneVerificationFailure:
-        return 'Unable to verify mobile phone number';
-      default:
-        return "Unexpected Error, Please try again later";
-    }
   }
 }

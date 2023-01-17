@@ -3,6 +3,7 @@ import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:karama/features/auth/domain/entities/user.dart';
 
+import '../../../../../../core/error/error_message.dart';
 import '../../../../../../core/error/failure.dart';
 import '../../../../domain/usecases/get_token.dart';
 import '../../../../domain/usecases/get_user.dart';
@@ -45,25 +46,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthState _eitherDoneMessageOrErrorState(
       Either<Failure, User> either, Either<Failure, String> either2) {
     return either.fold(
-      (failure) => ErrorUserState(message: _mapFailureToMessage(failure)),
+      (failure) => ErrorUserState(message: mapFailureToMessage(failure)),
       (user) => either2.fold(
-          (failure) => ErrorUserState(message: _mapFailureToMessage(failure)),
+          (failure) => ErrorUserState(message: mapFailureToMessage(failure)),
           (token) => LoadedUserState(user: user, token: token)),
     );
-  }
-
-  String _mapFailureToMessage(Failure failure) {
-    switch (failure.runtimeType) {
-      case ServerFailure:
-        return 'Please try again later';
-      case EmptyCacheFailure:
-        return 'No Data';
-      case OfflineFailure:
-        return 'Please Check your Internet Connection';
-      case InvalidCredentialsFailure:
-        return 'Invalid Credentials !';
-      default:
-        return "Unexpected Error , Please try again later .";
-    }
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter_contacts/flutter_contacts.dart';
+import 'package:karama/core/error/exceptions.dart';
 
 import '../../domain/entities/contact.dart';
 
@@ -9,20 +10,27 @@ abstract class ContactLocalDataSource {
 class ContactLocalDataSourceImpl implements ContactLocalDataSource {
   @override
   Future<List<CustomContact>> getContacts() async {
-    List<Contact> contacts = [];
-    if (await FlutterContacts.requestPermission()) {
-      contacts = await FlutterContacts.getContacts(
-          withProperties: true, withPhoto: false);
+    try {
+      List<Contact> contacts = [];
+      if (await FlutterContacts.requestPermission()) {
+        contacts = await FlutterContacts.getContacts(
+            withProperties: true, withPhoto: false);
+      }
+
+      List<CustomContact> customContacts = [];
+
+      for (var i = 0; i < contacts.length; i++) {
+        if (contacts[i].phones.length > 0) {
+          customContacts.add(CustomContact(
+              contactName: '${contacts[i].name.last} ${contacts[i].name.first}',
+              contactNumber: contacts[i].phones[0].normalizedNumber));
+        }
+      }
+
+      return Future.value(customContacts);
+    } catch (e) {
+      print(e);
+      throw ServerException();
     }
-
-    List<CustomContact> customContacts = [];
-
-    for (var i = 0; i < contacts.length; i++) {
-      customContacts.add(CustomContact(
-          contactName: '${contacts[i].name.last} ${contacts[i].name.first}',
-          contactNumber: contacts[i].phones[0].normalizedNumber));
-    }
-
-    return Future.value(customContacts);
   }
 }

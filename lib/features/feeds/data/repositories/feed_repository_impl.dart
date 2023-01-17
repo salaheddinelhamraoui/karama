@@ -20,6 +20,10 @@ class FeedRepositoryImpl implements FeedRepository {
       return Right(data);
     } on ServerException {
       return Left(ServerFailure());
+    } on UnauthorizedException {
+      return Left(UnauthorizedFailure());
+    } catch (e) {
+      return Left(ServerFailure());
     }
   }
 

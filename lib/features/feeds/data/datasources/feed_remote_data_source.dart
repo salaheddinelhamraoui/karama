@@ -35,6 +35,10 @@ class FeedRemoteDataSourceImpl implements FeedRemoteDataSource {
 
       Map<String, dynamic> jsonObject = jsonDecode(response.body);
 
+      if (response.statusCode == 401) {
+        throw UnauthorizedException();
+      }
+
       if (response.statusCode == 200 && jsonObject['data']['status'] == true) {
         final data = jsonDecode(response.body);
 
@@ -80,7 +84,7 @@ class FeedRemoteDataSourceImpl implements FeedRemoteDataSource {
       }
     } catch (e) {
       print(e.toString());
-      throw ServerException();
+      rethrow;
     }
   }
 

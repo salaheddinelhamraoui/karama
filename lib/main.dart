@@ -4,9 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:karama/features/feeds/presentation/pages/feeds/feeds_page.dart';
 
 import 'core/app_theme.dart';
+import 'core/util/snackbar_message.dart';
 import 'features/auth/domain/entities/user.dart';
 import 'features/auth/domain/usecases/get_user.dart';
 import 'features/auth/presentation/bloc/auth/bloc/auth_bloc.dart';
+import 'features/auth/presentation/bloc/logout/bloc/logout_bloc.dart';
 import 'features/auth/presentation/bloc/temp/bloc/temp_bloc.dart';
 import 'features/auth/presentation/pages/login_in/login_page.dart';
 import 'features/auth/presentation/pages/pass_settings/pass_settings.dart';
@@ -56,6 +58,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => di.sl<EditProfileBloc>()),
         BlocProvider(create: (_) => di.sl<ContactsBloc>()),
         BlocProvider(create: (_) => di.sl<CheckContactsBloc>()),
+        BlocProvider(create: (_) => di.sl<LogoutBloc>()),
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
@@ -89,7 +92,17 @@ class MyApp extends StatelessWidget {
           GoRoute(
             path: 'feeds',
             builder: (BuildContext context, GoRouterState state) =>
-                const FeedsPage(),
+                BlocListener<LogoutBloc, LogoutState>(
+              listener: (context, state) {
+                if (state is LoggingErrorState) {
+                  SnackBarMessage().showErrorSnackBar(
+                      message: state.message, context: context);
+                } else if (state is LoggedOutState) {
+                  context.go('/login');
+                }
+              },
+              child: FeedsPage(),
+            ),
           ),
           GoRoute(
             path: 'passSettings',

@@ -25,4 +25,5 @@ abstract class UserRepository {
       String mobileNumber,
       String password);
   Future<Either<Failure, Unit>> editProfile(User user);
+  Future<Either<Failure, Unit>> logOut();
 }

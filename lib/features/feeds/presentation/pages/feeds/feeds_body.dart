@@ -7,9 +7,11 @@ import 'package:karama/core/widgets/loading_widget.dart';
 import 'package:karama/features/feeds/presentation/bloc/feeds/bloc/feed_bloc.dart';
 
 import '../../../../../core/app_theme.dart';
+import '../../../../../core/util/snackbar_message.dart';
 import '../../../../../flutter_flow/flutter_flow_widgets.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
+import '../../../../auth/presentation/bloc/logout/bloc/logout_bloc.dart';
 import '../../widgets/view_feed_bottom_sheet.dart';
 
 class FeedsBody extends StatefulWidget {
@@ -44,26 +46,122 @@ class _FeedsBodyState extends State<FeedsBody> {
         mainAxisSize: MainAxisSize.max,
         children: [
           BlocConsumer<FeedBloc, FeedState>(
-            listener: (context, state) {},
+            listener: (context, state) {
+              if (state is ErrorLoadingFeedsState) {
+                if (state.message == 'Unauthorized') {
+                  BlocProvider.of<LogoutBloc>(context).add(PostLoginOutEvent());
+                } else {
+                  SnackBarMessage().showErrorSnackBar(
+                      message: state.message, context: context);
+                }
+              }
+            },
             builder: (context, state) {
               if (state is FeedLoadingState) {
                 return LoadingWidget();
               } else if (state is FeedLoadedState) {
                 return Container(
-                  height: MediaQuery.of(context).size.height * 0.86,
+                  height: MediaQuery.of(context).size.height * 1,
                   child: RefreshIndicator(
                     onRefresh: () => _onRefresh(context),
-                    child: ListView.builder(
-                      itemCount: state.feeds.length,
-                      itemBuilder: (context, index) {
-                        return _feedCard(state.feeds[index]);
-                      },
-                    ),
+                    child: state.feeds.length > 0
+                        ? ListView.builder(
+                            itemCount: state.feeds.length,
+                            itemBuilder: (context, index) {
+                              if (state.feeds.length == index + 1) {
+                                return Column(
+                                  children: [
+                                    _feedCard(state.feeds[index]),
+                                    SizedBox(
+                                      height: 120,
+                                    ),
+                                  ],
+                                );
+                              }
+                              return _feedCard(state.feeds[index]);
+                            },
+                          )
+                        : Container(
+                            height: MediaQuery.of(context).size.height * 0.7,
+                            child: Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image.asset(
+                                    'assets/images/empty.png',
+                                    fit: BoxFit.fitWidth,
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.8,
+                                  ),
+                                  Text(
+                                    'There are no feeds available.',
+                                    style: FlutterFlowTheme.of(context)
+                                        .bodyText1
+                                        .override(
+                                          fontFamily: 'Poppins',
+                                          fontSize: 16,
+                                          useGoogleFonts: false,
+                                        ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
                   ),
                 );
               }
 
-              return Container();
+              return Container(
+                height: MediaQuery.of(context).size.height * 0.7,
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        'assets/images/empty.png',
+                        fit: BoxFit.fitWidth,
+                        width: MediaQuery.of(context).size.width * 0.8,
+                      ),
+                      Text(
+                        'There are no feeds available.',
+                        style: FlutterFlowTheme.of(context).bodyText1.override(
+                              fontFamily: 'Poppins',
+                              fontSize: 16,
+                              useGoogleFonts: false,
+                            ),
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(0, 15, 0, 0),
+                        child: FFButtonWidget(
+                          onPressed: () {
+                            BlocProvider.of<FeedBloc>(context)
+                                .add(GetFeedsEvent());
+                          },
+                          text: 'Refresh',
+                          options: FFButtonOptions(
+                            width: 100,
+                            height: 40,
+                            color: FlutterFlowTheme.of(context).primaryColor,
+                            textStyle: FlutterFlowTheme.of(context)
+                                .subtitle2
+                                .override(
+                                    fontFamily: 'Poppins',
+                                    color: Colors.white,
+                                    useGoogleFonts: false,
+                                    fontSize: 14),
+                            borderSide: const BorderSide(
+                              color: Colors.transparent,
+                              width: 1,
+                            ),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
             },
           )
         ],

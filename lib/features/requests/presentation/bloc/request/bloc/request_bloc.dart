@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../../../../../core/error/error_message.dart';
 import '../../../../../../core/error/failure.dart';
 import '../../../../domain/entities/request.dart';
 import '../../../../domain/usecases/post_request.dart';
@@ -18,30 +19,11 @@ class RequestBloc extends Bloc<RequestEvent, RequestState> {
         final failureOrDoneMessage = await postRequest(event.req);
         emit(failureOrDoneMessage.fold(
           (failure) => ErrorRequestState(
-            message: _mapFailureToMessage(failure),
+            message: mapFailureToMessage(failure),
           ),
           (done) => RequestSubmittedSuccessfullyState(),
         ));
       }
     });
-  }
-
-  String _mapFailureToMessage(Failure failure) {
-    switch (failure.runtimeType) {
-      case ServerFailure:
-        return 'Something went wrong, pleases try again later.';
-      case EmptyCacheFailure:
-        return 'No Data';
-      case OfflineFailure:
-        return 'Please Check your Internet Connection';
-      case InvalidCredentialsFailure:
-        return 'Invalid Credentials !';
-      case NotInvitedFailure:
-        return 'Phone Number Not Invited Or Already Exist';
-      case PhoneVerificationFailure:
-        return 'Unable to verify mobile phone number';
-      default:
-        return "Unexpected Error, Please try again later";
-    }
   }
 }

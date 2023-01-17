@@ -16,6 +16,8 @@ abstract class UserLocalDataSource {
   Future<Unit> cacheVerifyUserState(bool state);
   Future<String> getCachedVerifyUserState();
   Future<Map<String, String>> getTempData();
+  Future<Unit> clearLocalData();
+  Future<Unit> logOut();
 }
 
 const CACHED_USER = "CACHED_USER";
@@ -111,5 +113,25 @@ class UserLocalDataSourceImpl implements UserLocalDataSource {
       'token': token ?? '',
       'verifyState': verifyState ?? ''
     };
+  }
+
+  @override
+  Future<Unit> clearLocalData() {
+    sharedPreferences.remove(CACHED_TOKEN);
+    sharedPreferences.remove(CACHED_VERIFY_STATE);
+    sharedPreferences.remove(CACHED_MOBILE_NUMBER);
+    sharedPreferences.remove(CACHED_USER);
+    return Future.value(unit);
+  }
+
+  @override
+  Future<Unit> logOut() {
+    try {
+      clearLocalData();
+      return Future.value(unit);
+    } catch (e) {
+      print(e);
+      throw EmptyCacheException();
+    }
   }
 }

@@ -87,12 +87,13 @@ class _ActionsBottomSheetState extends State<ActionsBottomSheet> {
                           width: 130,
                           height: 40,
                           color: FlutterFlowTheme.of(context).primaryColor,
-                          textStyle:
-                              FlutterFlowTheme.of(context).subtitle2.override(
-                                    fontFamily: 'Poppins',
-                                    color: Colors.white,
-                                    useGoogleFonts: false,
-                                  ),
+                          textStyle: FlutterFlowTheme.of(context)
+                              .subtitle2
+                              .override(
+                                  fontFamily: 'Poppins',
+                                  color: Colors.white,
+                                  useGoogleFonts: false,
+                                  fontSize: 14),
                           borderSide: const BorderSide(
                             color: Colors.transparent,
                             width: 1,
@@ -110,12 +111,13 @@ class _ActionsBottomSheetState extends State<ActionsBottomSheet> {
                           width: 130,
                           height: 40,
                           color: FlutterFlowTheme.of(context).primaryColor,
-                          textStyle:
-                              FlutterFlowTheme.of(context).subtitle2.override(
-                                    fontFamily: 'Poppins',
-                                    color: Colors.white,
-                                    useGoogleFonts: false,
-                                  ),
+                          textStyle: FlutterFlowTheme.of(context)
+                              .subtitle2
+                              .override(
+                                  fontFamily: 'Poppins',
+                                  color: Colors.white,
+                                  useGoogleFonts: false,
+                                  fontSize: 14),
                           borderSide: BorderSide(
                             color: Colors.transparent,
                             width: 1,

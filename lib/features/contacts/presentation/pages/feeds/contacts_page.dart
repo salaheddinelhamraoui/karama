@@ -34,7 +34,8 @@ class _ContactsPageState extends State<ContactsPage> {
       builder: (context, state) {
         if (state is LoadingContactsState) {
           return LoadingWidget();
-        } else if (state is ContactsLoadedState) {
+        } else if (state is ContactsLoadedState &&
+            state.contacts.length > 9000) {
           return ListView.builder(
               itemCount: state.contacts.length,
               itemBuilder: (context, index) {
@@ -163,7 +164,29 @@ class _ContactsPageState extends State<ContactsPage> {
                 );
               });
         }
-        return Container();
+        return Container(
+          height: MediaQuery.of(context).size.height * 0.7,
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  'assets/images/contacts.png',
+                  fit: BoxFit.fitWidth,
+                  width: MediaQuery.of(context).size.width * 0.8,
+                ),
+                Text(
+                  'Your Contact List Is Empty.',
+                  style: FlutterFlowTheme.of(context).bodyText1.override(
+                        fontFamily: 'Poppins',
+                        fontSize: 16,
+                        useGoogleFonts: false,
+                      ),
+                ),
+              ],
+            ),
+          ),
+        );
       },
     );
   }
