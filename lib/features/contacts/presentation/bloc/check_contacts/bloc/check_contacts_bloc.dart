@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 
 import '../../../../../../core/error/error_message.dart';
 import '../../../../../../core/error/failure.dart';
+import '../../../../domain/entities/contact.dart';
 import '../../../../domain/usecases/check_contacts.dart';
 
 part 'check_contacts_event.dart';
@@ -23,7 +24,6 @@ class CheckContactsBloc extends Bloc<CheckContactsEvent, CheckContactsState> {
           ),
           (contacts) => CheckContactsLoadedState(contacts: contacts),
         ));
-      
       }
     });
   }

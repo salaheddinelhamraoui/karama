@@ -30,6 +30,7 @@ import 'features/contacts/data/datasources/contact_remote_data_source.dart';
 import 'features/contacts/data/repositories/contact_repository_impl.dart';
 import 'features/contacts/domain/repositories/contact_repository.dart';
 import 'features/contacts/domain/usecases/get_contacts.dart';
+import 'features/contacts/domain/usecases/invite_contact.dart';
 import 'features/contacts/presentation/bloc/check_contacts/bloc/check_contacts_bloc.dart';
 import 'features/contacts/presentation/bloc/contacts/bloc/contacts_bloc.dart';
 import 'features/feeds/data/datasources/feed_remote_data_source.dart';
@@ -166,13 +167,15 @@ Future<void> init() async {
 
 // Bloc
 
-  sl.registerFactory(() => ContactsBloc(getContacts: sl()));
+  sl.registerFactory(
+      () => ContactsBloc(getContacts: sl(), inviteContact: sl()));
   sl.registerFactory(() => CheckContactsBloc(checkContacts: sl()));
 
 // Usecases
 
   sl.registerLazySingleton(() => GetContactsUseCase(sl()));
   sl.registerLazySingleton(() => CheckContactsUseCase(sl()));
+  sl.registerLazySingleton(() => InviteContactUseCase(sl()));
 
 // Repository
 

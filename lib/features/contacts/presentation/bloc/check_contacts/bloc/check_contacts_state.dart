@@ -12,7 +12,7 @@ class CheckContactsInitial extends CheckContactsState {}
 class CheckContactsLoadingState extends CheckContactsState {}
 
 class CheckContactsLoadedState extends CheckContactsState {
-  final List<String> contacts;
+  final List<CustomContact> contacts;
 
   CheckContactsLoadedState({required this.contacts});
 

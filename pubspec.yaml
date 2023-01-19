@@ -48,6 +48,7 @@ dependencies:
   line_icons: ^2.0.1
   flutter_hooks: ^0.18.5+1
   flutter_contacts: ^1.1.5+1
+  share_plus: ^6.3.0
 
 dev_dependencies:
   flutter_test:

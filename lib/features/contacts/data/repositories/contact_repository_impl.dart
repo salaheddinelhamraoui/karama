@@ -31,10 +31,21 @@ class ContactRepositoryImpl implements ContactRepository {
   }
 
   @override
-  Future<Either<Failure, List<String>>> checkContacts(
+  Future<Either<Failure, List<CustomContact>>> checkContacts(
       List<String> contacts) async {
     try {
       return Right(await remoteDataSource.checkContacts(contacts));
+    } catch (e) {
+      print(e);
+      return Left(ServerFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> inviteContact(String mobileNumber) async {
+    try {
+      await remoteDataSource.inviteContact(mobileNumber);
+      return Right(unit);
     } catch (e) {
       print(e);
       return Left(ServerFailure());

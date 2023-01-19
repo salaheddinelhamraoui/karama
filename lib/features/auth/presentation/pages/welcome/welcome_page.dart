@@ -58,8 +58,8 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
                 listener: (context, state) {
                   if (state is LoadedUserState) {
                     context.go('/feeds');
-                    SnackBarMessage().showSuccessSnackBar(
-                        message: 'Logged Successfully', context: context);
+                    // SnackBarMessage().showSuccessSnackBar(
+                    //     message: 'Logged Successfully', context: context);
                   }
                 },
                 builder: (context, state) {

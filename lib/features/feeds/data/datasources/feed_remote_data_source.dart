@@ -49,37 +49,41 @@ class FeedRemoteDataSourceImpl implements FeedRemoteDataSource {
       if (response.statusCode == 200 && jsonObject['data']['status'] == true) {
         final data = jsonDecode(response.body);
 
+        var arrayOfArrays = jsonObject['data']['result']['auth_id'];
+        var mergedArray = [];
+        for (var subArray in arrayOfArrays) {
+          mergedArray.addAll(subArray);
+        }
+
         List<Feed> feeds = [];
 
-        for (var i = 0; i < jsonObject['data']['result'].length; i++) {
+        for (var i = 0; i < mergedArray.length; i++) {
           List<Tag> tags = [];
-          for (var j = 0;
-              j < jsonObject['data']['result'][i]['tags'].length;
-              j++) {
+          for (var j = 0; j < mergedArray[i]['tags'].length; j++) {
             Tag tag = Tag(
-                id: jsonObject['data']['result'][i]['tags'][j]['id'],
-                tagName: jsonObject['data']['result'][i]['tags'][j]['name']);
+                id: mergedArray[i]['tags'][j]['id'],
+                tagName: mergedArray[i]['tags'][j]['name']);
             tags.add(tag);
           }
 
-          DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(
-              jsonObject['data']['result'][i]['created_at']);
+          DateTime dateTime =
+              DateTime.fromMillisecondsSinceEpoch(mergedArray[i]['created_at']);
 
           Feed feed = Feed(
-            id: jsonObject['data']['result'][i]['id'],
-            title: jsonObject['data']['result'][i]['title'],
-            area: jsonObject['data']['result'][i]['area'],
-            avatar: jsonObject['data']['result'][i]['avatar']['url'],
+            id: mergedArray[i]['id'],
+            title: mergedArray[i]['title'],
+            area: mergedArray[i]['area'],
+            avatar: mergedArray[i]['avatar']['url'],
             createdDate: dateTime,
-            description: jsonObject['data']['result'][i]['description'],
-            firstName: jsonObject['data']['result'][i]['first_name'],
-            lastName: jsonObject['data']['result'][i]['last_name'],
-            pereference: jsonObject['data']['result'][i]['pereference'],
-            phone: jsonObject['data']['result'][i]['phone'],
-            products: jsonObject['data']['result'][i]['products'].toString(),
-            services: jsonObject['data']['result'][i]['services'].toString(),
+            description: mergedArray[i]['description'],
+            firstName: mergedArray[i]['first_name'],
+            lastName: mergedArray[i]['last_name'],
+            pereference: mergedArray[i]['pereference'],
+            phone: mergedArray[i]['phone'],
+            products: mergedArray[i]['products'].toString(),
+            services: mergedArray[i]['services'].toString(),
             tags: tags,
-            userId: jsonObject['data']['result'][i]['user_id'],
+            userId: mergedArray[i]['user_id'],
           );
 
           feeds.add(feed);

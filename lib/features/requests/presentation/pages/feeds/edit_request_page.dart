@@ -110,7 +110,6 @@ class _EditRequestPageState extends State<EditRequestPage> {
   Widget _content(context, tags) {
     return BlocConsumer<EditRequestBloc, EditRequestState>(
       listener: (context, state) {
-        print(state);
         if (state is ErrorEditingRequestState) {
           SnackBarMessage()
               .showErrorSnackBar(message: state.message, context: context);
@@ -708,7 +707,10 @@ class _EditRequestPageState extends State<EditRequestPage> {
 
   void submittedTagsCallBack(tags) {
     setState(() {
-      submittedTags = [...submittedTags, ...tags];
+      List<Tag> allTags = [...submittedTags, ...tags];
+      List<Tag> filteredTags = allTags.toSet().toList();
+
+      submittedTags = filteredTags;
     });
 
     Navigator.pop(context);

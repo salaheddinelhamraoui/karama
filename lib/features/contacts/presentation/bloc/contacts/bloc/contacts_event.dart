@@ -8,3 +8,14 @@ abstract class ContactsEvent extends Equatable {
 }
 
 class GetContactsEvent extends ContactsEvent {}
+
+class InviteContactEvent extends ContactsEvent {
+  String mobileNumber;
+  InviteContactEvent({required this.mobileNumber});
+}
+
+class SortContactsEvent extends ContactsEvent {
+  List<CustomContact> contacts;
+
+  SortContactsEvent({required this.contacts});
+}

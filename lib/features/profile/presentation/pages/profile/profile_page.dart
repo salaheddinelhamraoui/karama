@@ -379,11 +379,14 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                           Container(
                               height: MediaQuery.of(context).size.height * 0.64,
-                              child: ListView.builder(
-                                  itemCount: state.feeds.length,
-                                  itemBuilder: (context, index) {
-                                    return _feedCard(state.feeds[index]);
-                                  }))
+                              child: RefreshIndicator(
+                                onRefresh: () => _onRefresh(context),
+                                child: ListView.builder(
+                                    itemCount: state.feeds.length,
+                                    itemBuilder: (context, index) {
+                                      return _feedCard(state.feeds[index]);
+                                    }),
+                              ))
                         ],
                       ),
                     ),
@@ -396,6 +399,10 @@ class _ProfilePageState extends State<ProfilePage> {
         },
       ),
     );
+  }
+
+  Future<void> _onRefresh(BuildContext context) async {
+    BlocProvider.of<MyFeedBloc>(context).add(GetMyFeedEvent());
   }
 
   Widget _feedCard(item) {
