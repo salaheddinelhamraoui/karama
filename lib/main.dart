@@ -103,13 +103,8 @@ class MyApp extends StatelessWidget {
               child: BlocListener<ContactsBloc, ContactsState>(
                 listener: (context, state) {
                   if (state is ContactsLoadedState) {
-                    List<String> contacts = [];
-                    for (var i = 0; i < state.contacts.length; i++) {
-                      contacts.add(state.contacts[i].contactNumber);
-                    }
-
                     BlocProvider.of<CheckContactsBloc>(context)
-                        .add(PostCheckContactsEvent(contacts: contacts));
+                        .add(PostCheckContactsEvent(contacts: state.contacts));
                   } else if (state is ErrorLoadingContactsState) {
                     SnackBarMessage().showErrorSnackBar(
                         message: state.message, context: context);

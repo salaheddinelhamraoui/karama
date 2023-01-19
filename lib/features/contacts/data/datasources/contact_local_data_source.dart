@@ -23,7 +23,8 @@ class ContactLocalDataSourceImpl implements ContactLocalDataSource {
         if (contacts[i].phones.length > 0) {
           customContacts.add(CustomContact(
               contactName: '${contacts[i].name.last} ${contacts[i].name.first}',
-              contactNumber: contacts[i].phones[0].normalizedNumber));
+              contactNumber: contacts[i].phones[0].normalizedNumber,
+              invited: false));
         }
       }
 

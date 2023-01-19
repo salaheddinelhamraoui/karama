@@ -17,12 +17,29 @@ class CheckContactsBloc extends Bloc<CheckContactsEvent, CheckContactsState> {
     on<CheckContactsEvent>((event, emit) async {
       if (event is PostCheckContactsEvent) {
         emit(CheckContactsLoadingState());
-        final failureOrDoneMessage = await checkContacts(event.contacts);
+
+        List<String> listContactsNumbers = [];
+        for (var i = 0; i < event.contacts.length; i++) {
+          listContactsNumbers.add(event.contacts[i].contactNumber);
+        }
+
+        final failureOrDoneMessage = await checkContacts(listContactsNumbers);
         emit(failureOrDoneMessage.fold(
           (failure) => ErrorCheckContactsState(
             message: mapFailureToMessage(failure),
           ),
-          (contacts) => CheckContactsLoadedState(contacts: contacts),
+          (remoteContacts) {
+            List<CustomContact> filteredContacts = event.contacts;
+
+            for (var contact in remoteContacts) {
+              filteredContacts = filteredContacts
+                  .where((i) => i.contactNumber != contact.contactNumber)
+                  .toList();
+            }
+
+            return CheckContactsLoadedState(
+                contacts: [...remoteContacts, ...filteredContacts]);
+          },
         ));
       }
     });

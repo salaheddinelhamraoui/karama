@@ -8,6 +8,6 @@ abstract class CheckContactsEvent extends Equatable {
 }
 
 class PostCheckContactsEvent extends CheckContactsEvent {
-  final List<String> contacts;
+  final List<CustomContact> contacts;
   PostCheckContactsEvent({required this.contacts});
 }

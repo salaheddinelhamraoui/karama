@@ -22,10 +22,10 @@ class _ContactsPageState extends State<ContactsPage> {
   Widget build(BuildContext context) {
     return BlocBuilder<CheckContactsBloc, CheckContactsState>(
       builder: (context, state) {
-        if (state is CheckContactsLoadingState ||
-            state is CheckContactsInitial) {
+        if (state is CheckContactsLoadingState) {
           return LoadingWidget();
         } else if (state is CheckContactsLoadedState) {
+          print(state.contacts.toString());
           return _body(state.contacts);
         }
         return Container(
@@ -60,101 +60,92 @@ class _ContactsPageState extends State<ContactsPage> {
   }
 
   Widget _body(checkedContacts) {
-    return BlocConsumer<ContactsBloc, ContactsState>(
-      listener: (context, state) {
-        if (state is ErrorLoadingContactsState) {
-          SnackBarMessage()
-              .showErrorSnackBar(message: state.message, context: context);
-        } else if (state is ContactsLoadedState) {
-          setState(() {});
-        }
-      },
-      builder: (context, state) {
-        if (state is LoadingContactsState) {
-          return LoadingWidget();
-        } else if (state is ContactsLoadedState && state.contacts.length > 0) {
-          return RefreshIndicator(
-            onRefresh: () => _onRefresh(context),
-            child: ListView.builder(
-                itemCount: state.contacts.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(15, 10, 15, 0),
-                    child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                        color: FlutterFlowTheme.of(context).gray,
-                        borderRadius: BorderRadius.circular(5),
-                        shape: BoxShape.rectangle,
-                      ),
-                      child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(15, 10, 15, 10),
-                        child: Column(
+    if (checkedContacts.length > 0) {
+      return RefreshIndicator(
+        onRefresh: () => _onRefresh(context),
+        child: ListView.builder(
+            itemCount: checkedContacts.length,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(15, 10, 15, 0),
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    color: FlutterFlowTheme.of(context).gray,
+                    borderRadius: BorderRadius.circular(5),
+                    shape: BoxShape.rectangle,
+                  ),
+                  child: Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(15, 10, 15, 10),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Row(
                           mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Row(
-                                  children: [
-                                    Container(
-                                      width: 55,
-                                      height: 55,
-                                      clipBehavior: Clip.antiAlias,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                      ),
-                                      child: Image.asset(
-                                        'assets/images/user_avatar.png',
-                                        fit: BoxFit.contain,
-                                      ),
-                                    ),
-                                    Container(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.4,
-                                      child: Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            5, 0, 0, 0),
-                                        child: Column(
+                                Container(
+                                  width: 55,
+                                  height: 55,
+                                  clipBehavior: Clip.antiAlias,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: checkedContacts[index].avatar == null
+                                      ? Image.asset(
+                                          'assets/images/user_avatar.png',
+                                          fit: BoxFit.contain,
+                                        )
+                                      : Image.network(
+                                          checkedContacts[index].avatar,
+                                          fit: BoxFit.cover,
+                                        ),
+                                ),
+                                Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.4,
+                                  child: Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        5, 0, 0, 0),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.max,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  6, 0, 0, 0),
+                                          child: Text(
+                                            checkedContacts[index].contactName,
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyText1
+                                                .override(
+                                                  fontFamily: 'Poppins',
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .primaryText,
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w600,
+                                                  useGoogleFonts: false,
+                                                ),
+                                          ),
+                                        ),
+                                        Row(
                                           mainAxisSize: MainAxisSize.max,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
                                           children: [
                                             Padding(
                                               padding: EdgeInsetsDirectional
                                                   .fromSTEB(6, 0, 0, 0),
                                               child: Text(
-                                                state.contacts[index]
-                                                    .contactName,
+                                                checkedContacts[index]
+                                                    .contactNumber,
                                                 style:
                                                     FlutterFlowTheme.of(context)
-                                                        .bodyText1
-                                                        .override(
-                                                          fontFamily: 'Poppins',
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .primaryText,
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          useGoogleFonts: false,
-                                                        ),
-                                              ),
-                                            ),
-                                            Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              children: [
-                                                Padding(
-                                                  padding: EdgeInsetsDirectional
-                                                      .fromSTEB(6, 0, 0, 0),
-                                                  child: Text(
-                                                    state.contacts[index]
-                                                        .contactNumber,
-                                                    style: FlutterFlowTheme.of(
-                                                            context)
                                                         .bodyText1
                                                         .override(
                                                           fontFamily: 'Poppins',
@@ -163,79 +154,80 @@ class _ContactsPageState extends State<ContactsPage> {
                                                               FontWeight.normal,
                                                           useGoogleFonts: false,
                                                         ),
-                                                  ),
-                                                ),
-                                              ],
+                                              ),
                                             ),
                                           ],
                                         ),
-                                      ),
+                                      ],
                                     ),
-                                  ],
-                                ),
-                                FFButtonWidget(
-                                  onPressed: () {
-                                    BlocProvider.of<ContactsBloc>(context).add(
-                                        InviteContactEvent(
-                                            mobileNumber: state.contacts[index]
-                                                .contactNumber));
-                                    Share.share(
-                                        'Dowanload Karama App https://kara.ma');
-                                  },
-                                  text: 'Invite',
-                                  options: FFButtonOptions(
-                                    width: 70,
-                                    height: 30,
-                                    color: FlutterFlowTheme.of(context)
-                                        .primaryColor,
-                                    textStyle: FlutterFlowTheme.of(context)
-                                        .subtitle2
-                                        .override(
-                                            fontFamily: 'Poppins',
-                                            color: Colors.white,
-                                            useGoogleFonts: false,
-                                            fontSize: 14),
-                                    borderSide: const BorderSide(
-                                      color: Colors.transparent,
-                                      width: 1,
-                                    ),
-                                    borderRadius: BorderRadius.circular(8),
                                   ),
-                                )
+                                ),
                               ],
                             ),
+                            !checkedContacts[index].invited
+                                ? FFButtonWidget(
+                                    onPressed: () {
+                                      BlocProvider.of<ContactsBloc>(context)
+                                          .add(InviteContactEvent(
+                                              mobileNumber:
+                                                  checkedContacts[index]
+                                                      .contactNumber));
+                                      Share.share(
+                                          'Dowanload Karama App https://kara.ma');
+                                    },
+                                    text: 'Invite',
+                                    options: FFButtonOptions(
+                                      width: 70,
+                                      height: 30,
+                                      color: FlutterFlowTheme.of(context)
+                                          .primaryColor,
+                                      textStyle: FlutterFlowTheme.of(context)
+                                          .subtitle2
+                                          .override(
+                                              fontFamily: 'Poppins',
+                                              color: Colors.white,
+                                              useGoogleFonts: false,
+                                              fontSize: 14),
+                                      borderSide: const BorderSide(
+                                        color: Colors.transparent,
+                                        width: 1,
+                                      ),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                  )
+                                : Container()
                           ],
                         ),
-                      ),
+                      ],
                     ),
-                  );
-                }),
-          );
-        }
-        return Container(
-          height: MediaQuery.of(context).size.height * 0.7,
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset(
-                  'assets/images/contacts.png',
-                  fit: BoxFit.fitWidth,
-                  width: MediaQuery.of(context).size.width * 0.8,
+                  ),
                 ),
-                Text(
-                  'Your Contact List Is Empty.',
-                  style: FlutterFlowTheme.of(context).bodyText1.override(
-                        fontFamily: 'Poppins',
-                        fontSize: 16,
-                        useGoogleFonts: false,
-                      ),
-                ),
-              ],
+              );
+            }),
+      );
+    }
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.7,
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              'assets/images/contacts.png',
+              fit: BoxFit.fitWidth,
+              width: MediaQuery.of(context).size.width * 0.8,
             ),
-          ),
-        );
-      },
+            Text(
+              'Your Contact List Is Empty.',
+              style: FlutterFlowTheme.of(context).bodyText1.override(
+                    fontFamily: 'Poppins',
+                    fontSize: 16,
+                    useGoogleFonts: false,
+                  ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

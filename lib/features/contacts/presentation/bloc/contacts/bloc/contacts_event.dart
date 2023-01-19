@@ -15,7 +15,9 @@ class InviteContactEvent extends ContactsEvent {
 }
 
 class SortContactsEvent extends ContactsEvent {
-  List<CustomContact> contacts;
+  List<CustomContact> contactsFromRemote;
+  List<CustomContact> contactsFromLocal;
 
-  SortContactsEvent({required this.contacts});
+  SortContactsEvent(
+      {required this.contactsFromRemote, required this.contactsFromLocal});
 }

@@ -54,9 +54,11 @@ class ContactRemoteDataSourceImpl implements ContactRemoteDataSource {
                   ' ' +
                   jsonObject['data']['result'][i]['last_name'],
               contactNumber: jsonObject['data']['result'][i]['phone'],
+              invited: true,
               avatar: jsonObject['data']['result'][i]['avatar']['url']);
           mobileNumbers.add(contact);
         }
+
         return mobileNumbers;
       } else {
         throw ServerException();

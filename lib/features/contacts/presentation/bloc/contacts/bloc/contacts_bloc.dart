@@ -31,7 +31,7 @@ class ContactsBloc extends Bloc<ContactsEvent, ContactsState> {
         ));
       } else if (event is InviteContactEvent) {
         inviteContact(event.mobileNumber);
-      } else if (event is SortContactsEvent) {}
+      }
     });
   }
 }
