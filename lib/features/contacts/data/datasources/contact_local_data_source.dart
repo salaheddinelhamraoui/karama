@@ -24,7 +24,8 @@ class ContactLocalDataSourceImpl implements ContactLocalDataSource {
           customContacts.add(CustomContact(
               contactName: '${contacts[i].name.last} ${contacts[i].name.first}',
               contactNumber: contacts[i].phones[0].normalizedNumber,
-              invited: false));
+              invited: false,
+              invitationSent: false));
         }
       }
 

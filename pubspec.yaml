@@ -49,10 +49,21 @@ dependencies:
   flutter_hooks: ^0.18.5+1
   flutter_contacts: ^1.1.5+1
   share_plus: ^6.3.0
+  change_app_package_name: ^1.1.0
+  cached_network_image: ^3.2.3
+  
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: "^0.11.0"
+
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icons/icon.png"
+  min_sdk_android: 21 
 
 
   flutter_lints: ^2.0.0
@@ -71,6 +82,7 @@ flutter:
     - assets/lottie_animations/
     - assets/rive_animations/
     - assets/pdfs/
+    - assets/icons/
   fonts:
     - family: 'Poppins'
       fonts:

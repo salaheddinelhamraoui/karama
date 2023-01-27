@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
@@ -248,9 +249,18 @@ class _ViewFeedBottomSheetState extends State<ViewFeedBottomSheet> {
                                           decoration: BoxDecoration(
                                             shape: BoxShape.circle,
                                           ),
-                                          child: Image.network(
-                                            widget.feed.avatar,
+                                          child: CachedNetworkImage(
                                             fit: BoxFit.cover,
+                                            imageUrl: widget.feed.avatar,
+                                            placeholder: (context, url) =>
+                                                new CircularProgressIndicator(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primaryColor,
+                                            ),
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                    new Icon(Icons.error),
                                           ),
                                         ),
                                         Padding(

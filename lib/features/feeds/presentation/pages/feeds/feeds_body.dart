@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter/material.dart';
@@ -58,10 +59,13 @@ class _FeedsBodyState extends State<FeedsBody> {
             },
             builder: (context, state) {
               if (state is FeedLoadingState || state is FeedInitial) {
-                return LoadingWidget();
+                return Container(
+                  height: MediaQuery.of(context).size.height * 0.79,
+                  child: LoadingWidget(),
+                );
               } else if (state is FeedLoadedState) {
                 return Container(
-                  height: MediaQuery.of(context).size.height * 1,
+                  height: MediaQuery.of(context).size.height * 0.79,
                   child: RefreshIndicator(
                     onRefresh: () => _onRefresh(context),
                     child: state.feeds.length > 0
@@ -201,9 +205,15 @@ class _FeedsBodyState extends State<FeedsBody> {
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                           ),
-                          child: Image.network(
-                            item.avatar,
+                          child: CachedNetworkImage(
                             fit: BoxFit.cover,
+                            imageUrl: item.avatar,
+                            placeholder: (context, url) =>
+                                new CircularProgressIndicator(
+                              color: FlutterFlowTheme.of(context).primaryColor,
+                            ),
+                            errorWidget: (context, url, error) =>
+                                new Icon(Icons.error),
                           ),
                         ),
                         Padding(
@@ -286,10 +296,12 @@ class _FeedsBodyState extends State<FeedsBody> {
                         decoration: BoxDecoration(),
                         child: Text(
                           item.description,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                           style:
                               FlutterFlowTheme.of(context).bodyText1.override(
                                     fontFamily: 'Poppins',
-                                    fontSize: 14,
+                                    fontSize: 12,
                                     useGoogleFonts: false,
                                   ),
                         ),

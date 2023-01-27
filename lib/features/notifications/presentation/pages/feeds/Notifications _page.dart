@@ -7,8 +7,8 @@ class NotificationsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async => false, // disable back button
-      child: const Scaffold(
-        body: SafeArea(
+      child: Container(
+        child: SafeArea(
           child: Center(
             child: Text('Notifications'),
           ),

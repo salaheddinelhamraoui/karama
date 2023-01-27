@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
 import '../../../../contacts/presentation/pages/feeds/contacts_page.dart';
+import '../../../../friendsRequests/presentation/pages/feeds/friends _page.dart';
 import '../../../../notifications/presentation/pages/feeds/Notifications _page.dart';
 import '../../../../profile/presentation/pages/profile/profile_page.dart';
 import '../../widgets/actions_bottom_sheet.dart';
@@ -77,10 +78,10 @@ class _FeedsPageState extends State<FeedsPage> {
                 leading: SizedBox(
                   width: 24,
                   height: 24,
-                  child: Image.asset("assets/images/notification.png"),
+                  child: Image.asset("assets/images/invit.png"),
                 ),
                 icon: LineIcons.blog,
-                text: 'Notifications',
+                text: 'Friends Requests',
               ),
               GButton(
                 leading: SizedBox(
@@ -123,7 +124,52 @@ class _FeedsPageState extends State<FeedsPage> {
               }
             }),
         body: SafeArea(
-          child: _body(_selectedIndex, context),
+          child: _selectedIndex != 4
+              ? Column(
+                  children: [
+                    Container(
+                      height: MediaQuery.of(context).size.height * 0.07,
+                      child: Padding(
+                        padding: const EdgeInsetsDirectional.fromSTEB(
+                            15, 15, 15, 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.3,
+                              child: Image.asset(
+                                'assets/images/Logo_Karama.png',
+                                fit: BoxFit.fitWidth,
+                                width: 200,
+                              ),
+                            ),
+                            Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 15),
+                                  child: Image.asset(
+                                    'assets/images/notification.png',
+                                    fit: BoxFit.fitWidth,
+                                    width: 18,
+                                    height: 18,
+                                  ),
+                                ),
+                                Image.asset(
+                                  'assets/images/menu.png',
+                                  fit: BoxFit.fitWidth,
+                                  width: 26,
+                                  height: 26,
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    _body(_selectedIndex, context)
+                  ],
+                )
+              : _body(_selectedIndex, context),
         ),
       ),
     );
@@ -139,7 +185,7 @@ class _FeedsPageState extends State<FeedsPage> {
       // return FeedsBody();
     } else if (index == 2) {
       // Open Notifications Page
-      return NotificationsPage();
+      return FriendsPage();
     } else if (index == 3) {
       // Open Contacts Page
       return ContactsPage();

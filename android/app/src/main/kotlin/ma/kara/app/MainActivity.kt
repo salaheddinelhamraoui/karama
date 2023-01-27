@@ -1,4 +1,4 @@
-package com.example.karama
+package ma.kara.app
 
 import io.flutter.embedding.android.FlutterActivity
 

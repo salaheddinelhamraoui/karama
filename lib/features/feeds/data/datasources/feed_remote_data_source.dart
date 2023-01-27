@@ -49,11 +49,7 @@ class FeedRemoteDataSourceImpl implements FeedRemoteDataSource {
       if (response.statusCode == 200 && jsonObject['data']['status'] == true) {
         final data = jsonDecode(response.body);
 
-        var arrayOfArrays = jsonObject['data']['result']['auth_id'];
-        var mergedArray = [];
-        for (var subArray in arrayOfArrays) {
-          mergedArray.addAll(subArray);
-        }
+        var mergedArray = jsonObject['data']['result'];
 
         List<Feed> feeds = [];
 

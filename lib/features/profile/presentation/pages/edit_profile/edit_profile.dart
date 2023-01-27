@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:country_state_city_picker/country_state_city_picker.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -140,12 +141,19 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                 width: 100,
                                 height: 100,
                                 child: image == null
-                                    ? Image.network(
-                                        (userPreAvatar != '' &&
+                                    ? CachedNetworkImage(
+                                        fit: BoxFit.cover,
+                                        imageUrl: (userPreAvatar != '' &&
                                                 userPreAvatar != null)
                                             ? userPreAvatar ?? ''
                                             : 'https://cdn-icons-png.flaticon.com/512/145/145974.png',
-                                        fit: BoxFit.contain,
+                                        placeholder: (context, url) =>
+                                            new CircularProgressIndicator(
+                                          color: FlutterFlowTheme.of(context)
+                                              .primaryColor,
+                                        ),
+                                        errorWidget: (context, url, error) =>
+                                            new Icon(Icons.error),
                                       )
                                     : Image.file(File(image!.path)),
                               ),

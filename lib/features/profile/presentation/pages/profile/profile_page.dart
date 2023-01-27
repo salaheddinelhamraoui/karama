@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:karama/core/widgets/loading_widget.dart';
@@ -38,366 +39,269 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: scaffoldKey,
-      backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
-      body: BlocConsumer<LogoutBloc, LogoutState>(
-        listener: (context, state) {
-          if (state is LoggingErrorState) {
-            SnackBarMessage()
-                .showErrorSnackBar(message: state.message, context: context);
-          } else if (state is LoggedOutState) {
-            context.go('/login');
-          }
-        },
-        builder: (context, state) {
-          if (state is LoggingOutState) {
-            return LoadingWidget();
-          }
-          return BlocConsumer<MyFeedBloc, MyFeedState>(
-            listener: (context, state) {
-              if (state is ErrorMyFeedState) {
-                SnackBarMessage().showErrorSnackBar(
-                    message: state.message, context: context);
-              }
-            },
-            builder: (context, state) {
-              if (state is LoadingMyFeedState) {
-                return LoadingWidget();
-              } else if (state is MyFeedLoaded) {
-                return SafeArea(
-                  child: GestureDetector(
-                    child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height * 1,
-                      decoration: const BoxDecoration(),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Material(
-                            color: Colors.transparent,
-                            elevation: 2,
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(20),
-                                bottomRight: Radius.circular(20),
-                                topLeft: Radius.circular(0),
-                                topRight: Radius.circular(0),
-                              ),
-                            ),
-                            child: Container(
-                              width: MediaQuery.of(context).size.width,
-                              decoration: BoxDecoration(
-                                color: FlutterFlowTheme.of(context).gray,
-                                borderRadius: const BorderRadius.only(
-                                  bottomLeft: Radius.circular(20),
-                                  bottomRight: Radius.circular(20),
-                                  topLeft: Radius.circular(0),
-                                  topRight: Radius.circular(0),
-                                ),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
-                                    15, 15, 15, 15),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    BlocConsumer<AuthBloc, AuthState>(
-                                      listener: (context, state) {},
-                                      builder: (context, state) {
-                                        if (state is LoadedUserState) {
-                                          return Row(
-                                            mainAxisSize: MainAxisSize.max,
+    return BlocConsumer<LogoutBloc, LogoutState>(
+      listener: (context, state) {
+        if (state is LoggingErrorState) {
+          SnackBarMessage()
+              .showErrorSnackBar(message: state.message, context: context);
+        } else if (state is LoggedOutState) {
+          context.go('/login');
+        }
+      },
+      builder: (context, state) {
+        if (state is LoggingOutState) {
+          return LoadingWidget();
+        }
+        return BlocConsumer<MyFeedBloc, MyFeedState>(
+          listener: (context, state) {
+            if (state is ErrorMyFeedState) {
+              SnackBarMessage()
+                  .showErrorSnackBar(message: state.message, context: context);
+            }
+          },
+          builder: (context, state) {
+            if (state is LoadingMyFeedState) {
+              return LoadingWidget();
+            } else if (state is MyFeedLoaded) {
+              return Column(
+                children: [
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.13,
+                    child: Material(
+                      color: Colors.transparent,
+                      elevation: 0.5,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(20),
+                          bottomRight: Radius.circular(20),
+                          topLeft: Radius.circular(0),
+                          topRight: Radius.circular(0),
+                        ),
+                      ),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                          color: FlutterFlowTheme.of(context).gray,
+                          borderRadius: const BorderRadius.only(
+                            bottomLeft: Radius.circular(20),
+                            bottomRight: Radius.circular(20),
+                            topLeft: Radius.circular(0),
+                            topRight: Radius.circular(0),
+                          ),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
+                              15, 15, 15, 15),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              BlocConsumer<AuthBloc, AuthState>(
+                                listener: (context, state) {},
+                                builder: (context, state) {
+                                  if (state is LoadedUserState) {
+                                    return Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: [
+                                        Column(
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: [
+                                            Container(
+                                                width: 60,
+                                                height: 60,
+                                                clipBehavior: Clip.antiAlias,
+                                                decoration: const BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                ),
+                                                child: CachedNetworkImage(
+                                                  fit: BoxFit.cover,
+                                                  imageUrl: state.user.avatar ??
+                                                      'https://cdn-icons-png.flaticon.com/512/145/145974.png',
+                                                  placeholder: (context, url) =>
+                                                      new CircularProgressIndicator(
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .primaryColor,
+                                                  ),
+                                                  errorWidget:
+                                                      (context, url, error) =>
+                                                          new Icon(Icons.error),
+                                                )),
+                                          ],
+                                        ),
+                                        Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  5, 0, 0, 0),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
                                               Column(
                                                 mainAxisSize: MainAxisSize.max,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: [
-                                                  Container(
-                                                    width: 60,
-                                                    height: 60,
-                                                    clipBehavior:
-                                                        Clip.antiAlias,
-                                                    decoration:
-                                                        const BoxDecoration(
-                                                      shape: BoxShape.circle,
+                                                  Padding(
+                                                    padding:
+                                                        EdgeInsetsDirectional
+                                                            .fromSTEB(
+                                                                6, 0, 0, 0),
+                                                    child: Text(
+                                                      state.user.firstName +
+                                                          ' ' +
+                                                          state.user.lastName,
+                                                      style:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyText1
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Poppins',
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .primaryText,
+                                                                fontSize: 14,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                                useGoogleFonts:
+                                                                    false,
+                                                              ),
                                                     ),
-                                                    child: Image.network(
-                                                      state.user.avatar ??
-                                                          'https://cdn-icons-png.flaticon.com/512/145/145974.png',
-                                                      fit: BoxFit.cover,
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                            6, 0, 0, 0),
+                                                    child: Text(
+                                                      state.user.mobileNumber,
+                                                      style:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyText1
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Poppins',
+                                                                fontSize: 10,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                                useGoogleFonts:
+                                                                    false,
+                                                              ),
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                            6, 0, 0, 0),
+                                                    child: Text(
+                                                      state.user.country,
+                                                      style:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyText1
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Poppins',
+                                                                fontSize: 10,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                                useGoogleFonts:
+                                                                    false,
+                                                              ),
                                                     ),
                                                   ),
                                                 ],
                                               ),
-                                              Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(5, 0, 0, 0),
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Column(
-                                                      mainAxisSize:
-                                                          MainAxisSize.max,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Padding(
-                                                          padding:
-                                                              EdgeInsetsDirectional
-                                                                  .fromSTEB(6,
-                                                                      0, 0, 0),
-                                                          child: Text(
-                                                            state.user
-                                                                    .firstName +
-                                                                ' ' +
-                                                                state.user
-                                                                    .lastName,
-                                                            style: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .bodyText1
-                                                                .override(
-                                                                  fontFamily:
-                                                                      'Poppins',
-                                                                  color: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .primaryText,
-                                                                  fontSize: 14,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                  useGoogleFonts:
-                                                                      false,
-                                                                ),
-                                                          ),
-                                                        ),
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                  6, 0, 0, 0),
-                                                          child: Text(
-                                                            state.user
-                                                                .mobileNumber,
-                                                            style: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .bodyText1
-                                                                .override(
-                                                                  fontFamily:
-                                                                      'Poppins',
-                                                                  fontSize: 10,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .normal,
-                                                                  useGoogleFonts:
-                                                                      false,
-                                                                ),
-                                                          ),
-                                                        ),
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                  6, 0, 0, 0),
-                                                          child: Text(
-                                                            state.user.country,
-                                                            style: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .bodyText1
-                                                                .override(
-                                                                  fontFamily:
-                                                                      'Poppins',
-                                                                  fontSize: 10,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .normal,
-                                                                  useGoogleFonts:
-                                                                      false,
-                                                                ),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    GestureDetector(
-                                                      onTap: () {
-                                                        context.push(
-                                                            '/editProfile',
-                                                            extra: state.user);
-                                                      },
-                                                      child: Padding(
-                                                        padding:
-                                                            EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                    5, 0, 0, 0),
-                                                        child: Image.asset(
-                                                          'assets/images/pen.png',
-                                                          width: 16,
-                                                          height: 16,
-                                                          fit: BoxFit.cover,
-                                                        ),
-                                                      ),
-                                                    )
-                                                  ],
+                                              GestureDetector(
+                                                onTap: () {
+                                                  context.push('/editProfile',
+                                                      extra: state.user);
+                                                },
+                                                child: Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(5, 0, 0, 0),
+                                                  child: Image.asset(
+                                                    'assets/images/pen.png',
+                                                    width: 16,
+                                                    height: 16,
+                                                    fit: BoxFit.cover,
+                                                  ),
                                                 ),
                                               )
                                             ],
-                                          );
-                                        }
+                                          ),
+                                        )
+                                      ],
+                                    );
+                                  }
 
-                                        return Container();
-                                      },
-                                    ),
-                                    Column(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        Image.asset(
-                                          'assets/images/241528.png',
-                                          width: 50,
-                                          height: 50,
-                                          fit: BoxFit.cover,
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsetsDirectional
-                                              .fromSTEB(0, 6, 0, 0),
-                                          child: GestureDetector(
-                                            onTap: () {
-                                              BlocProvider.of<LogoutBloc>(
-                                                      context)
-                                                  .add(PostLoginOutEvent());
-                                            },
-                                            child: Text(
-                                              'Log Out',
-                                              style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyText1
-                                                      .override(
-                                                          fontFamily: 'Poppins',
-                                                          fontSize: 10,
-                                                          fontWeight:
-                                                              FontWeight.normal,
-                                                          useGoogleFonts: false,
-                                                          color:
-                                                              Colors.red[300]),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
+                                  return Container();
+                                },
                               ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
-                                15, 15, 15, 4),
-                            child: Container(
-                              width: MediaQuery.of(context).size.width,
-                              height: 50,
-                              decoration: BoxDecoration(
-                                color: FlutterFlowTheme.of(context).gray,
-                                borderRadius: BorderRadius.circular(5),
-                                shape: BoxShape.rectangle,
-                              ),
-                              child: Row(
+                              Column(
                                 mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  Container(
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.3,
-                                    decoration: const BoxDecoration(),
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          'My Requests',
-                                          textAlign: TextAlign.center,
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyText1
-                                              .override(
-                                                fontFamily: 'Poppins',
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primaryText,
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.bold,
-                                                useGoogleFonts: false,
-                                              ),
-                                        ),
-                                        Container(
-                                          width: 65,
-                                          height: 1,
-                                          decoration: BoxDecoration(
-                                            color: FlutterFlowTheme.of(context)
-                                                .primaryText,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                                  Image.asset(
+                                    'assets/images/241528.png',
+                                    width: 50,
+                                    height: 50,
+                                    fit: BoxFit.cover,
                                   ),
-                                  Container(
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.2,
-                                    decoration: const BoxDecoration(),
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          'My Offers',
-                                          textAlign: TextAlign.center,
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyText1
-                                              .override(
+                                  Padding(
+                                    padding:
+                                        const EdgeInsetsDirectional.fromSTEB(
+                                            0, 6, 0, 0),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        BlocProvider.of<LogoutBloc>(context)
+                                            .add(PostLoginOutEvent());
+                                      },
+                                      child: Text(
+                                        'Log Out',
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyText1
+                                            .override(
                                                 fontFamily: 'Poppins',
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .secondaryText,
-                                                fontSize: 14,
+                                                fontSize: 10,
                                                 fontWeight: FontWeight.normal,
                                                 useGoogleFonts: false,
-                                              ),
-                                        ),
-                                      ],
+                                                color: Colors.red[300]),
+                                      ),
                                     ),
                                   ),
                                 ],
                               ),
-                            ),
+                            ],
                           ),
-                          Container(
-                              height: MediaQuery.of(context).size.height * 0.64,
-                              child: RefreshIndicator(
-                                onRefresh: () => _onRefresh(context),
-                                child: ListView.builder(
-                                    itemCount: state.feeds.length,
-                                    itemBuilder: (context, index) {
-                                      return _feedCard(state.feeds[index]);
-                                    }),
-                              ))
-                        ],
+                        ),
                       ),
                     ),
                   ),
-                );
-              }
-              return Container();
-            },
-          );
-        },
-      ),
+                  Expanded(
+                    child: RefreshIndicator(
+                      onRefresh: () => _onRefresh(context),
+                      child: ListView.builder(
+                          itemCount: state.feeds.length,
+                          itemBuilder: (context, index) {
+                            return _feedCard(state.feeds[index]);
+                          }),
+                    ),
+                  ),
+                ],
+              );
+            }
+            return Container();
+          },
+        );
+      },
     );
   }
 
@@ -489,17 +393,19 @@ class _ProfilePageState extends State<ProfilePage> {
                         decoration: BoxDecoration(),
                         child: Text(
                           item.description,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                           style:
                               FlutterFlowTheme.of(context).bodyText1.override(
                                     fontFamily: 'Poppins',
-                                    fontSize: 14,
+                                    fontSize: 12,
                                     useGoogleFonts: false,
                                   ),
                         ),
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
+                      padding: EdgeInsetsDirectional.fromSTEB(8, 0, 8, 6),
                       child: Container(
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(),
@@ -558,7 +464,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     ),
                                     Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
-                                          4, 0, 0, 8),
+                                          4, 0, 0, 0),
                                       child: Container(
                                         decoration: BoxDecoration(
                                           color: FlutterFlowTheme.of(context)

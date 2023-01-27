@@ -4,6 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:karama/features/contacts/domain/repositories/contact_repository.dart';
 
 import '../../../../core/error/exceptions.dart';
+import '../../domain/entities/contacts.dart';
 import '../datasources/contact_local_data_source.dart';
 import '../datasources/contact_remote_data_source.dart';
 
@@ -31,8 +32,7 @@ class ContactRepositoryImpl implements ContactRepository {
   }
 
   @override
-  Future<Either<Failure, List<CustomContact>>> checkContacts(
-      List<String> contacts) async {
+  Future<Either<Failure, Contacts>> checkContacts(List<String> contacts) async {
     try {
       return Right(await remoteDataSource.checkContacts(contacts));
     } catch (e) {

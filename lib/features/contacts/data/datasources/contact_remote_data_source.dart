@@ -6,9 +6,10 @@ import 'package:karama/core/error/exceptions.dart';
 import 'package:karama/features/auth/data/datasources/user_local_data_source.dart';
 
 import '../../domain/entities/contact.dart';
+import '../../domain/entities/contacts.dart';
 
 abstract class ContactRemoteDataSource {
-  Future<List<CustomContact>> checkContacts(List<String> contacts);
+  Future<Contacts> checkContacts(List<String> contacts);
   Future<Unit> inviteContact(String mobileNumber);
 }
 
@@ -23,7 +24,7 @@ class ContactRemoteDataSourceImpl implements ContactRemoteDataSource {
       {required this.client, required this.localDataSource});
 
   @override
-  Future<List<CustomContact>> checkContacts(List<String> contacts) async {
+  Future<Contacts> checkContacts(List<String> contacts) async {
     try {
       final token = await localDataSource.getCachedToken();
 
@@ -48,18 +49,37 @@ class ContactRemoteDataSourceImpl implements ContactRemoteDataSource {
 
       if (response.statusCode == 200 && jsonObject['data']['status'] == true) {
         List<CustomContact> mobileNumbers = [];
-        for (var i = 0; i < jsonObject['data']['result'].length; i++) {
+
+        for (var i = 0;
+            i < jsonObject['data']['result']['contacts'].length;
+            i++) {
           CustomContact contact = CustomContact(
-              contactName: jsonObject['data']['result'][i]['first_name'] +
+              contactName: jsonObject['data']['result']['contacts'][i]
+                      ['first_name'] +
                   ' ' +
-                  jsonObject['data']['result'][i]['last_name'],
-              contactNumber: jsonObject['data']['result'][i]['phone'],
+                  jsonObject['data']['result']['contacts'][i]['last_name'],
+              contactNumber: jsonObject['data']['result']['contacts'][i]
+                  ['phone'],
               invited: true,
-              avatar: jsonObject['data']['result'][i]['avatar']['url']);
+              avatar: jsonObject['data']['result']['contacts'][i]['avatar']
+                  ['url'],
+              invitationSent: true);
+
           mobileNumbers.add(contact);
         }
 
-        return mobileNumbers;
+        List<String> invitedMobileNumbers = [];
+
+        for (var i = 0;
+            i < jsonObject['data']['result']['invited'].length;
+            i++) {
+          invitedMobileNumbers.add(jsonObject['data']['result']['invited'][i]);
+        }
+
+        Contacts contacts = Contacts(
+            contacts: mobileNumbers, invitedUsers: invitedMobileNumbers);
+
+        return contacts;
       } else {
         throw ServerException();
       }

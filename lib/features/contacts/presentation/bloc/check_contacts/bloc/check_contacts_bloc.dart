@@ -19,6 +19,7 @@ class CheckContactsBloc extends Bloc<CheckContactsEvent, CheckContactsState> {
         emit(CheckContactsLoadingState());
 
         List<String> listContactsNumbers = [];
+
         for (var i = 0; i < event.contacts.length; i++) {
           listContactsNumbers.add(event.contacts[i].contactNumber);
         }
@@ -31,14 +32,32 @@ class CheckContactsBloc extends Bloc<CheckContactsEvent, CheckContactsState> {
           (remoteContacts) {
             List<CustomContact> filteredContacts = event.contacts;
 
-            for (var contact in remoteContacts) {
+            for (var contact in remoteContacts.contacts) {
               filteredContacts = filteredContacts
                   .where((i) => i.contactNumber != contact.contactNumber)
                   .toList();
             }
 
+            bool checkInvitationSent(dynamic mobileNumber) {
+              for (var i = 0; i < remoteContacts.invitedUsers.length; i++) {
+                if (remoteContacts.invitedUsers[i] == mobileNumber) {
+                  return true;
+                }
+              }
+              return false;
+            }
+
+            for (var j = 0; j < filteredContacts.length; j++) {
+              filteredContacts[j] = CustomContact(
+                  contactName: filteredContacts[j].contactName,
+                  contactNumber: filteredContacts[j].contactNumber,
+                  invited: filteredContacts[j].invited,
+                  invitationSent:
+                      checkInvitationSent(filteredContacts[j].contactNumber));
+            }
+
             return CheckContactsLoadedState(
-                contacts: [...remoteContacts, ...filteredContacts]);
+                contacts: [...remoteContacts.contacts, ...filteredContacts]);
           },
         ));
       }
