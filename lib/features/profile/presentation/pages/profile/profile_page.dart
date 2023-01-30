@@ -325,13 +325,6 @@ class _ProfilePageState extends State<ProfilePage> {
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [],
-                    ),
-                  ),
                   Row(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -361,27 +354,62 @@ class _ProfilePageState extends State<ProfilePage> {
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(8, 8, 8, 0),
+                      padding: EdgeInsetsDirectional.fromSTEB(8, 8, 8, 8),
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         mainAxisSize: MainAxisSize.max,
                         children: [
-                          Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Text(
-                                item.title,
-                                style: FlutterFlowTheme.of(context)
-                                    .bodyText1
-                                    .override(
-                                      fontFamily: 'Poppins',
-                                      color: FlutterFlowTheme.of(context)
-                                          .primaryText,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                      useGoogleFonts: false,
+                          Text(
+                            item.title.replaceFirst(
+                                item.title[0], item.title[0].toUpperCase()),
+                            style: FlutterFlowTheme.of(context)
+                                .bodyText1
+                                .override(
+                                  fontFamily: 'Poppins',
+                                  color:
+                                      FlutterFlowTheme.of(context).primaryText,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                  useGoogleFonts: false,
+                                ),
+                          ),
+                          Padding(
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      4, 0, 0, 0),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: item.closed
+                                          ? FlutterFlowTheme.of(context)
+                                              .primaryColor
+                                          : Colors.white,
+                                      borderRadius: BorderRadius.circular(5),
                                     ),
-                              ),
-                            ],
+                                    child: Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          8, 2, 8, 2),
+                                      child: Text(
+                                        item.closed ? "Enabled" : "Disabled",
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyText1
+                                            .override(
+                                                fontFamily: 'Poppins',
+                                                fontSize: 12,
+                                                useGoogleFonts: false,
+                                                color: item.closed
+                                                    ? Colors.white
+                                                    : Colors.black),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
@@ -392,7 +420,8 @@ class _ProfilePageState extends State<ProfilePage> {
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(),
                         child: Text(
-                          item.description,
+                          item.description.replaceFirst(item.description[0],
+                              item.description[0].toUpperCase()),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style:
@@ -436,7 +465,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                         padding: EdgeInsetsDirectional.fromSTEB(
                                             4, 2, 4, 2),
                                         child: Text(
-                                          item.area,
+                                          item.area.replaceFirst(item.area[0],
+                                              item.area[0].toUpperCase()),
                                           style: FlutterFlowTheme.of(context)
                                               .bodyText1
                                               .override(
@@ -477,7 +507,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                               EdgeInsetsDirectional.fromSTEB(
                                                   4, 2, 4, 2),
                                           child: Text(
-                                            item.pereference,
+                                            item.pereference.replaceFirst(
+                                                item.pereference[0],
+                                                item.pereference[0]
+                                                    .toUpperCase()),
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyText1
                                                 .override(

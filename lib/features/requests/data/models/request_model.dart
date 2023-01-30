@@ -9,5 +9,6 @@ class RequestModel extends Request {
     required super.pereference,
     required super.tags,
     required super.area,
+    required super.closed,
   });
 }

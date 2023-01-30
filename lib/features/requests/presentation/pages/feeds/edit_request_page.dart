@@ -725,15 +725,15 @@ class _EditRequestPageState extends State<EditRequestPage> {
           message: 'Please fill out all required fields.', context: context);
     } else {
       Request req = Request(
-        id: widget.feed.id,
-        area: cityController?.text ?? '',
-        description: descriptionController?.text ?? '',
-        pereference: dropDownValue ?? '',
-        products: switchValue1.toString(),
-        services: switchValue2.toString(),
-        tags: submittedTags,
-        title: titleController?.text ?? '',
-      );
+          id: widget.feed.id,
+          area: cityController?.text ?? '',
+          description: descriptionController?.text ?? '',
+          pereference: dropDownValue ?? '',
+          products: switchValue1.toString(),
+          services: switchValue2.toString(),
+          tags: submittedTags,
+          title: titleController?.text ?? '',
+          closed: widget.feed.closed);
 
       BlocProvider.of<EditRequestBloc>(context)
           .add(PostEditRequestEvent(req: req));

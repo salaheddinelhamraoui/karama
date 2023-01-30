@@ -80,6 +80,7 @@ class FeedRemoteDataSourceImpl implements FeedRemoteDataSource {
             services: mergedArray[i]['services'].toString(),
             tags: tags,
             userId: mergedArray[i]['user_id'],
+            closed: mergedArray[i]['closed'],
           );
 
           feeds.add(feed);
@@ -158,6 +159,7 @@ class FeedRemoteDataSourceImpl implements FeedRemoteDataSource {
             services: jsonObject['data']['result'][i]['services'].toString(),
             tags: tags,
             userId: jsonObject['data']['result'][i]['user_id'],
+            closed: jsonObject['data']['result'][i]['closed'],
           );
           feeds.add(feed);
         }

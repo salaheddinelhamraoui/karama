@@ -15,5 +15,6 @@ class FeedModel extends Feed {
       required super.lastName,
       required super.avatar,
       required super.phone,
-      required super.createdDate});
+      required super.createdDate,
+      required super.closed});
 }

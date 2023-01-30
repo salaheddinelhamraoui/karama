@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:karama/core/widgets/loading_widget.dart';
 import 'package:karama/features/feeds/presentation/bloc/feeds/bloc/feed_bloc.dart';
-
+import '../../../../../core/util/string_casing.dart';
 import '../../../../../core/app_theme.dart';
 import '../../../../../core/util/snackbar_message.dart';
 import '../../../../../flutter_flow/flutter_flow_widgets.dart';
@@ -106,6 +106,36 @@ class _FeedsBodyState extends State<FeedsBody> {
                                           fontSize: 16,
                                           useGoogleFonts: false,
                                         ),
+                                  ),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsetsDirectional.fromSTEB(
+                                            0, 15, 0, 0),
+                                    child: FFButtonWidget(
+                                      onPressed: () {
+                                        BlocProvider.of<FeedBloc>(context)
+                                            .add(GetFeedsEvent());
+                                      },
+                                      text: 'Refresh',
+                                      options: FFButtonOptions(
+                                        width: 100,
+                                        height: 40,
+                                        color: FlutterFlowTheme.of(context)
+                                            .primaryColor,
+                                        textStyle: FlutterFlowTheme.of(context)
+                                            .subtitle2
+                                            .override(
+                                                fontFamily: 'Poppins',
+                                                color: Colors.white,
+                                                useGoogleFonts: false,
+                                                fontSize: 14),
+                                        borderSide: const BorderSide(
+                                          color: Colors.transparent,
+                                          width: 1,
+                                        ),
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                    ),
                                   ),
                                 ],
                               ),
@@ -219,7 +249,11 @@ class _FeedsBodyState extends State<FeedsBody> {
                         Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(4, 0, 0, 0),
                           child: Text(
-                            item.firstName + ' ' + item.lastName,
+                            item.firstName.replaceFirst(item.firstName[0],
+                                    item.firstName[0].toUpperCase()) +
+                                ' ' +
+                                item.lastName.replaceFirst(item.firstName[0],
+                                    item.firstName[0].toUpperCase()),
                             style: FlutterFlowTheme.of(context)
                                 .bodyText1
                                 .override(
@@ -272,7 +306,8 @@ class _FeedsBodyState extends State<FeedsBody> {
                             mainAxisSize: MainAxisSize.max,
                             children: [
                               Text(
-                                item.title,
+                                item.title.replaceFirst(
+                                    item.title[0], item.title[0].toUpperCase()),
                                 style: FlutterFlowTheme.of(context)
                                     .bodyText1
                                     .override(
@@ -295,7 +330,8 @@ class _FeedsBodyState extends State<FeedsBody> {
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(),
                         child: Text(
-                          item.description,
+                          item.description.replaceFirst(item.description[0],
+                              item.description[0].toUpperCase()),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style:
@@ -339,7 +375,8 @@ class _FeedsBodyState extends State<FeedsBody> {
                                         padding: EdgeInsetsDirectional.fromSTEB(
                                             4, 2, 4, 2),
                                         child: Text(
-                                          item.area,
+                                          item.area.replaceFirst(item.area[0],
+                                              item.area[0].toUpperCase()),
                                           style: FlutterFlowTheme.of(context)
                                               .bodyText1
                                               .override(
@@ -380,7 +417,10 @@ class _FeedsBodyState extends State<FeedsBody> {
                                               EdgeInsetsDirectional.fromSTEB(
                                                   4, 2, 4, 2),
                                           child: Text(
-                                            item.pereference,
+                                            item.pereference.replaceFirst(
+                                                item.pereference[0],
+                                                item.pereference[0]
+                                                    .toUpperCase()),
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyText1
                                                 .override(

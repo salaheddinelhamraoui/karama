@@ -712,14 +712,14 @@ class _NewRequestPageState extends State<NewRequestPage> {
           message: 'Please fill out all required fields.', context: context);
     } else {
       Request req = Request(
-        area: cityController?.text ?? '',
-        description: descriptionController?.text ?? '',
-        pereference: dropDownValue ?? '',
-        products: switchValue1.toString(),
-        services: switchValue2.toString(),
-        tags: submittedTags,
-        title: titleController?.text ?? '',
-      );
+          area: cityController?.text ?? '',
+          description: descriptionController?.text ?? '',
+          pereference: dropDownValue ?? '',
+          products: switchValue1.toString(),
+          services: switchValue2.toString(),
+          tags: submittedTags,
+          title: titleController?.text ?? '',
+          closed: false);
 
       BlocProvider.of<RequestBloc>(context).add(SubmitRequestEvent(req: req));
     }

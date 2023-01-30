@@ -10,6 +10,7 @@ class Request extends Equatable {
   final String pereference;
   final List<Tag> tags;
   final String area;
+  final bool closed;
 
   Request({
     this.id,
@@ -20,6 +21,7 @@ class Request extends Equatable {
     required this.pereference,
     required this.tags,
     required this.area,
+    required this.closed,
   });
 
   @override

@@ -149,7 +149,8 @@ class TagRemoteDataSourceImpl implements TagRemoteDataSource {
         'pereference': req.pereference,
         'tags': cleanedTags,
         'area': req.area,
-        'token': token
+        'token': token,
+        'closed': req.closed
       };
 
       final response = await client.post(

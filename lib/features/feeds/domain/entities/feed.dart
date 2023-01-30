@@ -16,6 +16,7 @@ class Feed extends Equatable {
   final String avatar;
   final String phone;
   final DateTime createdDate;
+  final bool closed;
 
   Feed(
       {required this.id,
@@ -31,7 +32,8 @@ class Feed extends Equatable {
       required this.lastName,
       required this.avatar,
       required this.phone,
-      required this.createdDate});
+      required this.createdDate,
+      required this.closed});
 
   @override
   List<Object?> get props => [

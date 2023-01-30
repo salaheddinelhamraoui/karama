@@ -223,27 +223,52 @@ class FriendsPage extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            FFButtonWidget(
-                              onPressed: () {},
-                              text: 'Accept',
-                              options: FFButtonOptions(
-                                width: 70,
-                                height: 30,
-                                color:
-                                    FlutterFlowTheme.of(context).primaryColor,
-                                textStyle: FlutterFlowTheme.of(context)
-                                    .subtitle2
-                                    .override(
-                                        fontFamily: 'Poppins',
-                                        color: Colors.white,
-                                        useGoogleFonts: false,
-                                        fontSize: 14),
-                                borderSide: const BorderSide(
-                                  color: Colors.transparent,
-                                  width: 1,
+                            Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 10),
+                                  child: FFButtonWidget(
+                                    onPressed: () {},
+                                    text: 'Accept',
+                                    options: FFButtonOptions(
+                                      width: 65,
+                                      height: 25,
+                                      color: FlutterFlowTheme.of(context)
+                                          .primaryColor,
+                                      textStyle: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          color: Colors.white,
+                                          fontSize: 4),
+                                      borderSide: const BorderSide(
+                                        color: Colors.transparent,
+                                        width: 1,
+                                      ),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                  ),
                                 ),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
+                                FFButtonWidget(
+                                  onPressed: () {},
+                                  text: 'Decline',
+                                  options: FFButtonOptions(
+                                    width: 65,
+                                    height: 25,
+                                    color: FlutterFlowTheme.of(context).gray,
+                                    textStyle: FlutterFlowTheme.of(context)
+                                        .subtitle2
+                                        .override(
+                                            fontFamily: 'Poppins',
+                                            color: Colors.black,
+                                            useGoogleFonts: false,
+                                            fontSize: 8),
+                                    borderSide: const BorderSide(
+                                      color: Colors.black,
+                                      width: 1,
+                                    ),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                )
+                              ],
                             )
                           ],
                         ),
