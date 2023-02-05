@@ -1,18 +1,38 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:karama/core/widgets/loading_widget.dart';
 import 'package:karama/features/contacts/domain/entities/contact.dart';
+import 'package:karama/features/friendsRequests/domain/entities/invitation.dart';
 
 import '../../../../../core/app_theme.dart';
 import '../../../../../flutter_flow/flutter_flow_widgets.dart';
+import '../../bloc/invitations/bloc/invitations_bloc.dart';
 
 class FriendsPage extends StatelessWidget {
   const FriendsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false, // disable back button
-      child: _body(context),
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: FlutterFlowTheme.of(context).primaryColor,
+      ),
+      body: SafeArea(
+          child: BlocConsumer<InvitationsBloc, InvitationsState>(
+        listener: (context, state) {},
+        builder: (context, state) {
+          if (state is InvitationsLoadingState) {
+            return LoadingWidget();
+          } else if (state is InvitationsLoadedState) {
+            return _body(context, state.invitations);
+          } else if (state is ErrorLoadingInvitationsState) {
+            return _errorWidget(context);
+          } else {
+            return _emptyListWidget(context);
+          }
+        },
+      )),
     );
   }
 
@@ -31,7 +51,7 @@ class FriendsPage extends StatelessWidget {
                   width: MediaQuery.of(context).size.width * 0.79,
                 ),
                 Text(
-                  'There was an error retrieving your friends requests list.',
+                  'There was an error retrieving your invitations list.',
                   textAlign: TextAlign.center,
                   style: FlutterFlowTheme.of(context).bodyText1.override(
                         fontFamily: 'Poppins',
@@ -42,7 +62,9 @@ class FriendsPage extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsetsDirectional.fromSTEB(0, 15, 0, 0),
                   child: FFButtonWidget(
-                    onPressed: () {},
+                    onPressed: () {
+                      _onRefresh(context);
+                    },
                     text: 'Refresh',
                     options: FFButtonOptions(
                       width: 100,
@@ -96,27 +118,17 @@ class FriendsPage extends StatelessWidget {
     );
   }
 
-  Future<void> _onRefresh(BuildContext context) async {}
+  Future<void> _onRefresh(BuildContext context) async {
+    BlocProvider.of<InvitationsBloc>(context).add(GetInvitationsEvent());
+  }
 
-  Widget _body(BuildContext context) {
-    List<CustomContact> contacts = [];
-
-    CustomContact c1 = CustomContact(
-        contactName: "Salaheddin El Hamraoui",
-        contactNumber: '+212672644416',
-        avatar:
-            'https://www.exibartstreet.com/wp-content/uploads/avatars/2465/5e0de52aeee8b-bpfull.jpg',
-        invitationSent: true,
-        invited: true);
-
-    contacts.add(c1);
-
+  Widget _body(BuildContext context, List<Invitation> invitations) {
     return Container(
       height: MediaQuery.of(context).size.height * 0.79,
       child: RefreshIndicator(
         onRefresh: () => _onRefresh(context),
         child: ListView.builder(
-            itemCount: contacts.length,
+            itemCount: invitations.length,
             itemBuilder: (context, index) {
               return Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(15, 10, 15, 0),
@@ -145,15 +157,15 @@ class FriendsPage extends StatelessWidget {
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                   ),
-                                  child: contacts[index].avatar == null ||
-                                          contacts[index].avatar == ''
+                                  child: invitations[index].avatar == null ||
+                                          invitations[index].avatar == ''
                                       ? Image.asset(
                                           'assets/images/user_avatar.png',
                                           fit: BoxFit.contain,
                                         )
                                       : CachedNetworkImage(
                                           fit: BoxFit.cover,
-                                          imageUrl: contacts[index].avatar!,
+                                          imageUrl: invitations[index].avatar!,
                                           placeholder: (context, url) =>
                                               new CircularProgressIndicator(
                                             color: FlutterFlowTheme.of(context)
@@ -181,7 +193,9 @@ class FriendsPage extends StatelessWidget {
                                               EdgeInsetsDirectional.fromSTEB(
                                                   6, 0, 0, 0),
                                           child: Text(
-                                            contacts[index].contactName,
+                                            invitations[index].first_name +
+                                                ' ' +
+                                                invitations[index].last_name,
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyText1
                                                 .override(
@@ -202,7 +216,7 @@ class FriendsPage extends StatelessWidget {
                                               padding: EdgeInsetsDirectional
                                                   .fromSTEB(6, 0, 0, 0),
                                               child: Text(
-                                                contacts[index].contactNumber,
+                                                invitations[index].phone,
                                                 style:
                                                     FlutterFlowTheme.of(context)
                                                         .bodyText1
@@ -228,7 +242,13 @@ class FriendsPage extends StatelessWidget {
                                 Padding(
                                   padding: const EdgeInsets.only(bottom: 10),
                                   child: FFButtonWidget(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      BlocProvider.of<InvitationsBloc>(context)
+                                          .add(InvitationActionEvent(
+                                              invitation: invitations[index],
+                                              invitations: invitations,
+                                              status: true));
+                                    },
                                     text: 'Accept',
                                     options: FFButtonOptions(
                                       width: 65,
@@ -248,7 +268,13 @@ class FriendsPage extends StatelessWidget {
                                   ),
                                 ),
                                 FFButtonWidget(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    BlocProvider.of<InvitationsBloc>(context)
+                                        .add(InvitationActionEvent(
+                                            invitation: invitations[index],
+                                            invitations: invitations,
+                                            status: false));
+                                  },
                                   text: 'Decline',
                                   options: FFButtonOptions(
                                     width: 65,

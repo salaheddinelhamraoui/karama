@@ -22,6 +22,8 @@ import './features/feeds/domain/entities/feed.dart';
 import 'features/contacts/presentation/bloc/check_contacts/bloc/check_contacts_bloc.dart';
 import 'features/contacts/presentation/bloc/contacts/bloc/contacts_bloc.dart';
 import 'features/feeds/presentation/bloc/feeds/bloc/feed_bloc.dart';
+import 'features/friendsRequests/presentation/bloc/invitations/bloc/invitations_bloc.dart';
+import 'features/friendsRequests/presentation/pages/feeds/friends _page.dart';
 import 'features/profile/presentation/bloc/bloc/my_feed_bloc.dart';
 import 'features/profile/presentation/bloc/editProfile/bloc/edit_profile_bloc.dart';
 import 'features/profile/presentation/pages/edit_profile/edit_profile.dart';
@@ -60,6 +62,9 @@ class MyApp extends StatelessWidget {
             create: (_) => di.sl<ContactsBloc>()..add(GetContactsEvent())),
         BlocProvider(create: (_) => di.sl<CheckContactsBloc>()),
         BlocProvider(create: (_) => di.sl<LogoutBloc>()),
+        BlocProvider(
+            create: (_) =>
+                di.sl<InvitationsBloc>()..add(GetInvitationsEvent())),
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
@@ -151,6 +156,12 @@ class MyApp extends StatelessWidget {
             builder: (BuildContext context, GoRouterState state) {
               User user = state.extra as User;
               return EditProfilePage(user: user);
+            },
+          ),
+          GoRoute(
+            path: 'invitations',
+            builder: (BuildContext context, GoRouterState state) {
+              return FriendsPage();
             },
           ),
         ],

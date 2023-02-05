@@ -39,6 +39,11 @@ import 'features/feeds/domain/repositories/feed_repository.dart';
 import 'features/feeds/domain/usecases/get_Feed.dart';
 import 'features/feeds/domain/usecases/get_Feed_By_User.dart';
 import 'features/feeds/presentation/bloc/feeds/bloc/feed_bloc.dart';
+import 'features/friendsRequests/data/datasources/invitations_remote_data_source.dart';
+import 'features/friendsRequests/data/repositories/invitation_repository_impl.dart';
+import 'features/friendsRequests/domain/repositories/invitation_repository.dart';
+import 'features/friendsRequests/domain/usecases/get_invitations.dart';
+import 'features/friendsRequests/presentation/bloc/invitations/bloc/invitations_bloc.dart';
 import 'features/profile/presentation/bloc/bloc/my_feed_bloc.dart';
 import 'features/profile/presentation/bloc/editProfile/bloc/edit_profile_bloc.dart';
 import 'features/requests/data/datasources/tag_remote_data_source.dart';
@@ -189,6 +194,29 @@ Future<void> init() async {
 
   sl.registerLazySingleton<ContactRemoteDataSource>(
       () => ContactRemoteDataSourceImpl(client: sl(), localDataSource: sl()));
+
+// -------------------------------------------------------------------------
+
+// Features - Invitations
+
+// Bloc
+
+  sl.registerFactory(() => InvitationsBloc(getInvitations: sl()));
+
+// Usecases
+
+  sl.registerLazySingleton(() => GetInvitationsUseCase(sl()));
+
+// Repository
+
+  sl.registerLazySingleton<InvitationRepository>(() => InvitationRepositoryImpl(
+        remoteDataSource: sl(),
+      ));
+
+// Datasources
+
+  sl.registerLazySingleton<InvitationRemoteDataSource>(() =>
+      InvitationRemoteDataSourceImpl(client: sl(), sharedPreferences: sl()));
 
 // -------------------------------------------------------------------------
 
