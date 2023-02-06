@@ -259,21 +259,28 @@ class _ContactsPageState extends State<ContactsPage> {
                                       ),
                                     ],
                                   ),
-                                  (!checkedContacts[index].invited &&
-                                          !checkedContacts[index]
-                                              .invitationSent)
+                                  (!checkedContacts[index].invited)
                                       ? FFButtonWidget(
                                           onPressed: () {
-                                            BlocProvider.of<ContactsBloc>(
-                                                    context)
-                                                .add(InviteContactEvent(
-                                                    mobileNumber:
-                                                        checkedContacts[index]
-                                                            .contactNumber));
-                                            Share.share(
-                                                'Dowanload Karama App https://kara.ma');
+                                            if (checkedContacts[index]
+                                                .invitationSent) {
+                                              Share.share(
+                                                  'Download Karama App https://kara.ma');
+                                            } else {
+                                              BlocProvider.of<ContactsBloc>(
+                                                      context)
+                                                  .add(InviteContactEvent(
+                                                      mobileNumber:
+                                                          checkedContacts[index]
+                                                              .contactNumber));
+                                              Share.share(
+                                                  'Download Karama App https://kara.ma');
+                                            }
                                           },
-                                          text: 'Invite',
+                                          text: !checkedContacts[index]
+                                                  .invitationSent
+                                              ? 'Invite'
+                                              : 'Share',
                                           options: FFButtonOptions(
                                             width: 70,
                                             height: 30,

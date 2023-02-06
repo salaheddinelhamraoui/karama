@@ -155,7 +155,7 @@ class _EditRequestPageState extends State<EditRequestPage> {
                                   children: [
                                     SelectionArea(
                                         child: Text(
-                                      'Edit Reaquest',
+                                      'Edit Request',
                                       textAlign: TextAlign.start,
                                       style: FlutterFlowTheme.of(context)
                                           .bodyText1
@@ -170,7 +170,7 @@ class _EditRequestPageState extends State<EditRequestPage> {
                                     )),
                                     SelectionArea(
                                         child: Text(
-                                      'Who Are You Looking For',
+                                      "I'm looking for ",
                                       textAlign: TextAlign.start,
                                       style: FlutterFlowTheme.of(context)
                                           .bodyText1,
@@ -502,27 +502,49 @@ class _EditRequestPageState extends State<EditRequestPage> {
                                             decoration: BoxDecoration(
                                               color:
                                                   FlutterFlowTheme.of(context)
-                                                      .primaryText,
+                                                      .primaryColor,
                                               borderRadius:
                                                   BorderRadius.circular(5),
                                             ),
                                             child: Padding(
                                               padding: EdgeInsetsDirectional
                                                   .fromSTEB(8, 4, 8, 4),
-                                              child: Text(
-                                                'Add Tag',
-                                                textAlign: TextAlign.center,
-                                                style:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyText1
-                                                        .override(
-                                                          fontFamily: 'Poppins',
-                                                          color: Colors.white,
-                                                          fontSize: 15,
-                                                          fontWeight:
-                                                              FontWeight.w300,
-                                                          useGoogleFonts: false,
-                                                        ),
+                                              child: Row(
+                                                children: [
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(),
+                                                    child: Icon(
+                                                      Icons.add,
+                                                      color: Colors.white,
+                                                      size: 22,
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        EdgeInsetsDirectional
+                                                            .fromSTEB(
+                                                                8, 2, 8, 2),
+                                                    child: Text(
+                                                      'Add Tag',
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: FlutterFlowTheme
+                                                              .of(context)
+                                                          .bodyText1
+                                                          .override(
+                                                            fontFamily:
+                                                                'Poppins',
+                                                            color: Colors.white,
+                                                            fontSize: 15,
+                                                            fontWeight:
+                                                                FontWeight.w300,
+                                                            useGoogleFonts:
+                                                                false,
+                                                          ),
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
                                             ),
                                           ),
@@ -558,7 +580,7 @@ class _EditRequestPageState extends State<EditRequestPage> {
                                             decoration: BoxDecoration(
                                               color:
                                                   FlutterFlowTheme.of(context)
-                                                      .gray,
+                                                      .primaryText,
                                               borderRadius:
                                                   BorderRadius.circular(5),
                                             ),
@@ -574,10 +596,7 @@ class _EditRequestPageState extends State<EditRequestPage> {
                                                       .bodyText1
                                                       .override(
                                                         fontFamily: 'Poppins',
-                                                        color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .primaryText,
+                                                        color: Colors.white,
                                                         fontSize: 15,
                                                         fontWeight:
                                                             FontWeight.w300,

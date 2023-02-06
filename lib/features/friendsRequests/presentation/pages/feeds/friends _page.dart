@@ -25,7 +25,11 @@ class FriendsPage extends StatelessWidget {
           if (state is InvitationsLoadingState) {
             return LoadingWidget();
           } else if (state is InvitationsLoadedState) {
-            return _body(context, state.invitations);
+            if (state.invitations.length == 0) {
+              return _emptyListWidget(context);
+            } else {
+              return _body(context, state.invitations);
+            }
           } else if (state is ErrorLoadingInvitationsState) {
             return _errorWidget(context);
           } else {
@@ -104,7 +108,7 @@ class FriendsPage extends StatelessWidget {
               width: MediaQuery.of(context).size.width * 0.7,
             ),
             Text(
-              'Your Friends Requests List Is Empty.',
+              'Your Invitations List Is Empty.',
               textAlign: TextAlign.center,
               style: FlutterFlowTheme.of(context).bodyText1.override(
                     fontFamily: 'Poppins',

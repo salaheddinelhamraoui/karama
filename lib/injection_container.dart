@@ -43,6 +43,7 @@ import 'features/friendsRequests/data/datasources/invitations_remote_data_source
 import 'features/friendsRequests/data/repositories/invitation_repository_impl.dart';
 import 'features/friendsRequests/domain/repositories/invitation_repository.dart';
 import 'features/friendsRequests/domain/usecases/get_invitations.dart';
+import 'features/friendsRequests/domain/usecases/invitation_actions.dart';
 import 'features/friendsRequests/presentation/bloc/invitations/bloc/invitations_bloc.dart';
 import 'features/profile/presentation/bloc/bloc/my_feed_bloc.dart';
 import 'features/profile/presentation/bloc/editProfile/bloc/edit_profile_bloc.dart';
@@ -201,11 +202,13 @@ Future<void> init() async {
 
 // Bloc
 
-  sl.registerFactory(() => InvitationsBloc(getInvitations: sl()));
+  sl.registerFactory(
+      () => InvitationsBloc(getInvitations: sl(), InvitationAction: sl()));
 
 // Usecases
 
   sl.registerLazySingleton(() => GetInvitationsUseCase(sl()));
+  sl.registerLazySingleton(() => InvitationActionUseCase(sl()));
 
 // Repository
 

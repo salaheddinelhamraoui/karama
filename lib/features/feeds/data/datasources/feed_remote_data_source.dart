@@ -46,6 +46,12 @@ class FeedRemoteDataSourceImpl implements FeedRemoteDataSource {
         throw UnauthorizedException();
       }
 
+      if (response.statusCode == 200 &&
+          jsonObject['data']['status'] == false &&
+          jsonObject['data']['result'] == 'unauthorized') {
+        throw UnauthorizedException();
+      }
+
       if (response.statusCode == 200 && jsonObject['data']['status'] == true) {
         final data = jsonDecode(response.body);
 

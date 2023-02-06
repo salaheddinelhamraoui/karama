@@ -217,7 +217,7 @@ class _ViewFeedBottomSheetState extends State<ViewFeedBottomSheet> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(15, 0, 15, 0),
+                      padding: EdgeInsetsDirectional.fromSTEB(15, 0, 15, 25),
                       child: Container(
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
@@ -360,25 +360,6 @@ class _ViewFeedBottomSheetState extends State<ViewFeedBottomSheet> {
                               ),
                             ],
                           ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(15, 15, 15, 15),
-                      child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Image.asset(
-                              'assets/images/send.png',
-                              width: 25,
-                              height: 25,
-                              fit: BoxFit.cover,
-                            ),
-                          ],
                         ),
                       ),
                     ),

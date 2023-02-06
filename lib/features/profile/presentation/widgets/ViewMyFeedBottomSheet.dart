@@ -129,12 +129,33 @@ class _ViewMyFeedBottomSheetState extends State<ViewMyFeedBottomSheet> {
                                           ],
                                         ),
                                       ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 15),
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            context.push('/editRequest',
+                                                extra: widget.feed);
+                                            Navigator.pop(context);
+                                          },
+                                          child: Padding(
+                                            padding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    0, 0, 0, 0),
+                                            child: Image.asset(
+                                              'assets/images/pen.png',
+                                              width: 18,
+                                              height: 18,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
                                     ],
                                   ),
                                   Row(
                                     mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
                                       SelectionArea(
                                           child: Text(
@@ -152,23 +173,6 @@ class _ViewMyFeedBottomSheetState extends State<ViewMyFeedBottomSheet> {
                                     ],
                                   ),
                                 ],
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  context.push('/editRequest',
-                                      extra: widget.feed);
-                                  Navigator.pop(context);
-                                },
-                                child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      5, 0, 0, 0),
-                                  child: Image.asset(
-                                    'assets/images/pen.png',
-                                    width: 20,
-                                    height: 20,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
                               ),
                             ],
                           ),
@@ -235,7 +239,7 @@ class _ViewMyFeedBottomSheetState extends State<ViewMyFeedBottomSheet> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(15, 10, 15, 0),
+                        padding: EdgeInsetsDirectional.fromSTEB(15, 10, 15, 10),
                         child: Container(
                           width: MediaQuery.of(context).size.width,
                           decoration: BoxDecoration(),
@@ -279,8 +283,9 @@ class _ViewMyFeedBottomSheetState extends State<ViewMyFeedBottomSheet> {
                           ),
                         ),
                       ),
+                      Divider(height: 2),
                       Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(15, 15, 15, 15),
+                        padding: EdgeInsetsDirectional.fromSTEB(15, 10, 15, 15),
                         child: Container(
                           width: MediaQuery.of(context).size.width,
                           decoration: BoxDecoration(),

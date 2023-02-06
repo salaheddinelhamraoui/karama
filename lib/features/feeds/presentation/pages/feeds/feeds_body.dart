@@ -31,6 +31,7 @@ class _FeedsBodyState extends State<FeedsBody> {
   void initState() {
     super.initState();
     textController = TextEditingController();
+    BlocProvider.of<FeedBloc>(context).add(GetFeedsEvent());
   }
 
   @override
@@ -60,12 +61,12 @@ class _FeedsBodyState extends State<FeedsBody> {
             builder: (context, state) {
               if (state is FeedLoadingState || state is FeedInitial) {
                 return Container(
-                  height: MediaQuery.of(context).size.height * 0.79,
+                  height: MediaQuery.of(context).size.height,
                   child: LoadingWidget(),
                 );
               } else if (state is FeedLoadedState) {
                 return Container(
-                  height: MediaQuery.of(context).size.height * 0.79,
+                  height: MediaQuery.of(context).size.height,
                   child: RefreshIndicator(
                     onRefresh: () => _onRefresh(context),
                     child: state.feeds.length > 0
@@ -86,7 +87,7 @@ class _FeedsBodyState extends State<FeedsBody> {
                             },
                           )
                         : Container(
-                            height: MediaQuery.of(context).size.height * 0.7,
+                            height: MediaQuery.of(context).size.height,
                             child: Center(
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -146,7 +147,7 @@ class _FeedsBodyState extends State<FeedsBody> {
               }
 
               return Container(
-                height: MediaQuery.of(context).size.height * 0.7,
+                height: MediaQuery.of(context).size.height,
                 child: Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,

@@ -47,18 +47,22 @@ class InvitationRemoteDataSourceImpl implements InvitationRemoteDataSource {
         body: jsonEncode(body),
       );
 
-      if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
+      final data = jsonDecode(response.body);
+
+      if (response.statusCode == 200 && data['data']['status'] == true) {
         List<Invitation> invitations = [];
-        for (var i = 0; i < data['data'].length; i++) {
+        for (var i = 0; i < data['data']['result'].length; i++) {
           Invitation invitation = Invitation(
-            id: data['data'][i]['id'].toString(),
-            request_id: data['data'][i]['request_id'].toString(),
-            phone: data['data'][i]['phone'].toString(),
-            first_name: data['data'][i]['sender']['first_name'].toString(),
-            last_name: data['data'][i]['sender']['last_name'].toString(),
-            sender_id: data['data'][i]['sender_id'].toString(),
-            avatar: data['data'][i]['sender']['avatar']['url'].toString(),
+            id: data['data']['result'][i]['id'].toString(),
+            request_id: data['data']['result'][i]['request_id'].toString(),
+            phone: data['data']['result'][i]['phone'].toString(),
+            first_name:
+                data['data']['result'][i]['sender']['first_name'].toString(),
+            last_name:
+                data['data']['result'][i]['sender']['last_name'].toString(),
+            sender_id: data['data']['result'][i]['sender_id'].toString(),
+            avatar:
+                data['data']['result'][i]['sender']['avatar']['url'].toString(),
           );
           invitations.add(invitation);
         }
