@@ -115,13 +115,13 @@ class _LoginWidgetState extends State<LoginWidget> {
             mainAxisSize: MainAxisSize.max,
             children: [
               Text(
-                'Enter your phone',
+                'Login',
                 style: FlutterFlowTheme.of(context).title3,
               ),
               Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(20, 10, 20, 0),
                 child: Text(
-                  'In publishing and graphic design, Lorem ipsum is a placeholder text commonly.',
+                  'Stay connected and never miss an opportunity with Karama.',
                   textAlign: TextAlign.center,
                   style: FlutterFlowTheme.of(context).bodyText1,
                 ),

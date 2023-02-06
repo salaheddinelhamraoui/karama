@@ -121,375 +121,544 @@ class _TagsSheetWidgetState extends State<TagsSheetWidget> {
                   ),
                 ),
               ),
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 20),
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(15, 0, 15, 10),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          shape: BoxShape.rectangle,
-                        ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              width: MediaQuery.of(context).size.width,
-                              decoration: BoxDecoration(),
+              filteredTags.length > 0
+                  ? Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 20),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Padding(
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(15, 0, 15, 10),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                shape: BoxShape.rectangle,
+                              ),
                               child: Column(
                                 mainAxisSize: MainAxisSize.max,
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        6, 0, 0, 0),
-                                    child: Text(
-                                      'PROFESSIONAL SERVICES',
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyText1
-                                          .override(
-                                            fontFamily: 'Poppins',
-                                            color: FlutterFlowTheme.of(context)
-                                                .primaryText,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600,
-                                            useGoogleFonts: false,
+                                  Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    decoration: BoxDecoration(),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.max,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  6, 0, 0, 0),
+                                          child: Text(
+                                            'Categories',
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyText1
+                                                .override(
+                                                  fontFamily: 'Poppins',
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .primaryText,
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w600,
+                                                  useGoogleFonts: false,
+                                                ),
                                           ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ],
                               ),
                             ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    filteredTags.length > 0
-                        ? Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(15, 0, 15, 0),
-                            child: Container(
-                              height: 32,
-                              width: MediaQuery.of(context).size.width,
-                              decoration: BoxDecoration(),
-                              child: ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                itemCount: filteredTags.length,
-                                itemBuilder: (context, index) {
-                                  if (filteredTags[index].type == 2) {
-                                    return Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          0, 0, 10, 0),
-                                      child: Container(
-                                        decoration: selectedProCategory !=
-                                                    null &&
-                                                selectedProCategory == index
-                                            ? BoxDecoration(
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .gray,
-                                                borderRadius:
-                                                    BorderRadius.circular(5),
-                                                border: Border.all(
-                                                  color: Colors.black,
-                                                  width: 1,
-                                                ),
-                                              )
-                                            : BoxDecoration(
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .gray,
-                                                borderRadius:
-                                                    BorderRadius.circular(5),
-                                              ),
-                                        child: Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  8, 4, 8, 4),
-                                          child: InkWell(
-                                            onTap: () {
-                                              setState(() {
-                                                selectedProCategory = index;
-                                              });
-                                            },
-                                            child: Text(
-                                              filteredTags[index].name,
-                                              textAlign: TextAlign.center,
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyText1
-                                                  .override(
-                                                    fontFamily: 'Poppins',
-                                                    color: FlutterFlowTheme.of(
+                          ),
+                          filteredTags.length > 0
+                              ? Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      15, 0, 15, 0),
+                                  child: Container(
+                                    height: 32,
+                                    width: MediaQuery.of(context).size.width,
+                                    decoration: BoxDecoration(),
+                                    child: ListView.builder(
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: filteredTags.length,
+                                      itemBuilder: (context, index) {
+                                        if (filteredTags[index].type == 2) {
+                                          return Padding(
+                                            padding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    0, 0, 10, 0),
+                                            child: Container(
+                                              decoration: selectedProCategory !=
+                                                          null &&
+                                                      selectedProCategory ==
+                                                          index
+                                                  ? BoxDecoration(
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .gray,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              5),
+                                                      border: Border.all(
+                                                        color: Colors.black,
+                                                        width: 1,
+                                                      ),
+                                                    )
+                                                  : BoxDecoration(
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .gray,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              5),
+                                                    ),
+                                              child: Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(8, 4, 8, 4),
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    setState(() {
+                                                      selectedProCategory =
+                                                          index;
+                                                    });
+                                                  },
+                                                  child: Text(
+                                                    filteredTags[index].name,
+                                                    textAlign: TextAlign.center,
+                                                    style: FlutterFlowTheme.of(
                                                             context)
-                                                        .primaryText,
-                                                    fontSize: 15,
-                                                    fontWeight: FontWeight.w300,
-                                                    useGoogleFonts: false,
+                                                        .bodyText1
+                                                        .override(
+                                                          fontFamily: 'Poppins',
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .primaryText,
+                                                          fontSize: 15,
+                                                          fontWeight:
+                                                              FontWeight.w300,
+                                                          useGoogleFonts: false,
+                                                        ),
                                                   ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    );
-                                  } else {
-                                    return SizedBox();
-                                  }
-                                },
-                              ),
-                            ),
-                          )
-                        : Container(),
-                    selectedProCategory != null
-                        ? filteredTags[selectedProCategory ?? 0].tags.length > 0
-                            ? Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    15, 10, 15, 0),
-                                child: Container(
-                                  height: 25,
-                                  width: MediaQuery.of(context).size.width,
-                                  decoration: BoxDecoration(),
-                                  child: ListView.builder(
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount:
-                                        filteredTags[selectedProCategory ?? 0]
-                                            .tags
-                                            .length,
-                                    itemBuilder: (context, index) {
-                                      return Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            0, 0, 6, 0),
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            color: FlutterFlowTheme.of(context)
-                                                .secondaryText,
-                                            borderRadius:
-                                                BorderRadius.circular(5),
-                                          ),
-                                          child: Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    8, 4, 8, 4),
-                                            child: InkWell(
-                                              onTap: () {
-                                                bool tagExists =
-                                                    selectedTags.any((tag) =>
-                                                        tag.id ==
-                                                        filteredTags[
-                                                                selectedProCategory ??
-                                                                    0]
-                                                            .tags[index]
-                                                            .id);
-
-                                                if (!tagExists) {
-                                                  Tag tag = Tag(
-                                                      id: filteredTags[
-                                                              selectedProCategory ??
-                                                                  0]
-                                                          .tags[index]
-                                                          .id,
-                                                      tagName: filteredTags[
-                                                              selectedProCategory ??
-                                                                  0]
-                                                          .tags[index]
-                                                          .tagName);
-                                                  setState(() {
-                                                    selectedTags.add(tag);
-                                                  });
-                                                }
-                                              },
-                                              child: Text(
-                                                filteredTags[
-                                                        selectedProCategory ??
-                                                            0]
-                                                    .tags[index]
-                                                    .tagName,
-                                                textAlign: TextAlign.center,
-                                                style:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyText1
-                                                        .override(
-                                                          fontFamily: 'Poppins',
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .primaryBtnText,
-                                                          fontSize: 12,
-                                                          fontWeight:
-                                                              FontWeight.w300,
-                                                          useGoogleFonts: false,
-                                                        ),
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                        ),
-                                      );
-                                    },
+                                          );
+                                        } else {
+                                          return SizedBox();
+                                        }
+                                      },
+                                    ),
                                   ),
-                                ),
-                              )
-                            : Container()
-                        : Container(),
-                    filteredTags2.length > 0
-                        ? Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(15, 25, 15, 0),
-                            child: Container(
-                              height: 25,
-                              width: MediaQuery.of(context).size.width,
-                              decoration: BoxDecoration(),
-                              child: ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                itemCount: filteredTags2.length,
-                                itemBuilder: (context, index) {
-                                  return Row(
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            0, 0, 6, 0),
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            color: FlutterFlowTheme.of(context)
-                                                .secondaryText,
-                                            borderRadius:
-                                                BorderRadius.circular(5),
-                                          ),
-                                          child: Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    8, 4, 8, 4),
-                                            child: InkWell(
-                                              onTap: () {
-                                                bool tagExists =
-                                                    selectedTags.any((tag) =>
-                                                        tag.id ==
-                                                        filteredTags2[index]
-                                                            .id);
+                                )
+                              : Container(),
+                          selectedProCategory != null
+                              ? filteredTags[selectedProCategory ?? 0]
+                                          .tags
+                                          .length >
+                                      0
+                                  ? Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          15, 10, 15, 0),
+                                      child: Container(
+                                        height: 25,
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        decoration: BoxDecoration(),
+                                        child: ListView.builder(
+                                          scrollDirection: Axis.horizontal,
+                                          itemCount: filteredTags[
+                                                  selectedProCategory ?? 0]
+                                              .tags
+                                              .length,
+                                          itemBuilder: (context, index) {
+                                            return Padding(
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(0, 0, 6, 0),
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .secondaryText,
+                                                  borderRadius:
+                                                      BorderRadius.circular(5),
+                                                ),
+                                                child: Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(8, 4, 8, 4),
+                                                  child: InkWell(
+                                                    onTap: () {
+                                                      bool tagExists =
+                                                          selectedTags.any((tag) =>
+                                                              tag.id ==
+                                                              filteredTags[
+                                                                      selectedProCategory ??
+                                                                          0]
+                                                                  .tags[index]
+                                                                  .id);
 
-                                                if (!tagExists) {
-                                                  Tag tag = Tag(
-                                                      id: filteredTags2[index]
-                                                          .id,
-                                                      tagName:
-                                                          filteredTags2[index]
-                                                              .tagName);
-                                                  setState(() {
-                                                    selectedTags.add(tag);
-                                                  });
-                                                }
-                                              },
-                                              child: Text(
-                                                filteredTags2[index].tagName,
-                                                textAlign: TextAlign.center,
-                                                style:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyText1
-                                                        .override(
-                                                          fontFamily: 'Poppins',
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .primaryBtnText,
-                                                          fontSize: 12,
-                                                          fontWeight:
-                                                              FontWeight.w300,
-                                                          useGoogleFonts: false,
-                                                        ),
+                                                      if (!tagExists) {
+                                                        Tag tag = Tag(
+                                                            id: filteredTags[
+                                                                    selectedProCategory ??
+                                                                        0]
+                                                                .tags[index]
+                                                                .id,
+                                                            tagName: filteredTags[
+                                                                    selectedProCategory ??
+                                                                        0]
+                                                                .tags[index]
+                                                                .tagName);
+                                                        setState(() {
+                                                          selectedTags.add(tag);
+                                                        });
+                                                      }
+                                                    },
+                                                    child: Text(
+                                                      filteredTags[
+                                                              selectedProCategory ??
+                                                                  0]
+                                                          .tags[index]
+                                                          .tagName,
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyText1
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Poppins',
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .primaryBtnText,
+                                                                fontSize: 12,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w300,
+                                                                useGoogleFonts:
+                                                                    false,
+                                                              ),
+                                                    ),
+                                                  ),
+                                                ),
                                               ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              ),
-                            ),
-                          )
-                        : Container(),
-                    selectedTags.length > 0
-                        ? Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(15, 25, 15, 0),
-                            child: Container(
-                              height: 25,
-                              width: MediaQuery.of(context).size.width,
-                              decoration: BoxDecoration(),
-                              child: ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                itemCount: selectedTags.length,
-                                itemBuilder: (context, index) {
-                                  return Row(
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            0, 0, 6, 0),
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            color: Colors.black,
-                                            borderRadius:
-                                                BorderRadius.circular(5),
-                                          ),
-                                          child: Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    8, 4, 8, 4),
-                                            child: InkWell(
-                                              child: Text(
-                                                selectedTags[index].tagName,
-                                                textAlign: TextAlign.center,
-                                                style:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyText1
-                                                        .override(
-                                                          fontFamily: 'Poppins',
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .primaryBtnText,
-                                                          fontSize: 12,
-                                                          fontWeight:
-                                                              FontWeight.w300,
-                                                          useGoogleFonts: false,
-                                                        ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            0, 0, 15, 0),
-                                        child: InkWell(
-                                          onTap: () {
-                                            List<Tag> filteredTags =
-                                                selectedTags
-                                                    .where((item) =>
-                                                        item.id !=
-                                                        selectedTags[index].id)
-                                                    .toList();
-                                            setState(() {
-                                              selectedTags = filteredTags;
-                                            });
+                                            );
                                           },
-                                          child: const Icon(
-                                            Icons.highlight_off_sharp,
-                                            color: Colors.black,
-                                            size: 22,
-                                          ),
                                         ),
-                                      )
-                                    ],
-                                  );
-                                },
-                              ),
-                            ),
-                          )
-                        : Container(),
-                  ],
-                ),
-              ),
+                                      ),
+                                    )
+                                  : Container()
+                              : Container(),
+                          filteredTags2.length > 0
+                              ? Column(
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          15, 15, 15, 10),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          shape: BoxShape.rectangle,
+                                        ),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Container(
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              decoration: BoxDecoration(),
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.max,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Padding(
+                                                    padding:
+                                                        EdgeInsetsDirectional
+                                                            .fromSTEB(
+                                                                6, 0, 0, 0),
+                                                    child: Text(
+                                                      'Tags',
+                                                      style:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyText1
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Poppins',
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .primaryText,
+                                                                fontSize: 16,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                                useGoogleFonts:
+                                                                    false,
+                                                              ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          15, 0, 15, 0),
+                                      child: Container(
+                                        height: 25,
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        decoration: BoxDecoration(),
+                                        child: ListView.builder(
+                                          scrollDirection: Axis.horizontal,
+                                          itemCount: filteredTags2.length,
+                                          itemBuilder: (context, index) {
+                                            return Row(
+                                              children: [
+                                                Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(0, 0, 6, 0),
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .secondaryText,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              5),
+                                                    ),
+                                                    child: Padding(
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  8, 4, 8, 4),
+                                                      child: InkWell(
+                                                        onTap: () {
+                                                          bool tagExists =
+                                                              selectedTags.any((tag) =>
+                                                                  tag.id ==
+                                                                  filteredTags2[
+                                                                          index]
+                                                                      .id);
+
+                                                          if (!tagExists) {
+                                                            Tag tag = Tag(
+                                                                id: filteredTags2[
+                                                                        index]
+                                                                    .id,
+                                                                tagName:
+                                                                    filteredTags2[
+                                                                            index]
+                                                                        .tagName);
+                                                            setState(() {
+                                                              selectedTags
+                                                                  .add(tag);
+                                                            });
+                                                          }
+                                                        },
+                                                        child: Text(
+                                                          filteredTags2[index]
+                                                              .tagName,
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .bodyText1
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Poppins',
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .primaryBtnText,
+                                                                fontSize: 12,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w300,
+                                                                useGoogleFonts:
+                                                                    false,
+                                                              ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              : Container(),
+                          selectedTags.length > 0
+                              ? Column(
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          15, 15, 15, 10),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          shape: BoxShape.rectangle,
+                                        ),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Container(
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              decoration: BoxDecoration(),
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.max,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Padding(
+                                                    padding:
+                                                        EdgeInsetsDirectional
+                                                            .fromSTEB(
+                                                                6, 0, 0, 0),
+                                                    child: Text(
+                                                      'Selected',
+                                                      style:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyText1
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Poppins',
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .primaryText,
+                                                                fontSize: 16,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                                useGoogleFonts:
+                                                                    false,
+                                                              ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          15, 0, 15, 0),
+                                      child: Container(
+                                        height: 25,
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        decoration: BoxDecoration(),
+                                        child: ListView.builder(
+                                          scrollDirection: Axis.horizontal,
+                                          itemCount: selectedTags.length,
+                                          itemBuilder: (context, index) {
+                                            return Row(
+                                              children: [
+                                                Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(0, 0, 6, 0),
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.black,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              5),
+                                                    ),
+                                                    child: Padding(
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  8, 4, 8, 4),
+                                                      child: InkWell(
+                                                        child: Text(
+                                                          selectedTags[index]
+                                                              .tagName,
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .bodyText1
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Poppins',
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .primaryBtnText,
+                                                                fontSize: 12,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w300,
+                                                                useGoogleFonts:
+                                                                    false,
+                                                              ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(0, 0, 15, 0),
+                                                  child: InkWell(
+                                                    onTap: () {
+                                                      List<Tag> filteredTags =
+                                                          selectedTags
+                                                              .where((item) =>
+                                                                  item.id !=
+                                                                  selectedTags[
+                                                                          index]
+                                                                      .id)
+                                                              .toList();
+                                                      setState(() {
+                                                        selectedTags =
+                                                            filteredTags;
+                                                      });
+                                                    },
+                                                    child: const Icon(
+                                                      Icons.highlight_off_sharp,
+                                                      color: Colors.black,
+                                                      size: 22,
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              : Container(),
+                        ],
+                      ),
+                    )
+                  : Container(),
               Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(15, 15, 15, 0),
                 child: Container(
@@ -538,7 +707,6 @@ class _TagsSheetWidgetState extends State<TagsSheetWidget> {
     for (TagCategory obj in widget.tags) {
       if (obj.name.toLowerCase().contains(value.toLowerCase())) {
         results.add(obj);
-        continue;
       }
 
       for (Tag tag in obj.tags) {

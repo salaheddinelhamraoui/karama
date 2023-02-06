@@ -115,45 +115,18 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
                             'assets/images/4627175.png',
                             width: 300,
                             height: 250,
-                            fit: BoxFit.cover,
+                            fit: BoxFit.contain,
                           ),
                         ),
                         Text(
-                          'Wolcome',
+                          "Let's get started",
                           style: FlutterFlowTheme.of(context).title3,
                         ),
                         Padding(
                           padding:
                               EdgeInsetsDirectional.fromSTEB(20, 10, 20, 0),
                           child: Text(
-                            'In publishing and graphic design, Lorem ipsum is a placeholder text commonly',
-                            textAlign: TextAlign.center,
-                            style: FlutterFlowTheme.of(context).bodyText1,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Column(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 20),
-                          child: Image.asset(
-                            'assets/images/4627175.png',
-                            width: 300,
-                            height: 250,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        Text(
-                          'Wolcome 2',
-                          style: FlutterFlowTheme.of(context).title3,
-                        ),
-                        Padding(
-                          padding:
-                              EdgeInsetsDirectional.fromSTEB(20, 10, 20, 0),
-                          child: Text(
-                            'In publishing and graphic design, Lorem ipsum is a placeholder text commonly',
+                            'Unlock the power of your network',
                             textAlign: TextAlign.center,
                             style: FlutterFlowTheme.of(context).bodyText1,
                           ),
@@ -170,7 +143,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
                   child: smooth_page_indicator.SmoothPageIndicator(
                     controller: pageViewController ??=
                         PageController(initialPage: 0),
-                    count: 2,
+                    count: 1,
                     axisDirection: Axis.horizontal,
                     onDotClicked: (i) {
                       pageViewController!.animateToPage(

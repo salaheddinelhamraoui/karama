@@ -13,6 +13,7 @@ import '../../../../../flutter_flow/flutter_flow_widgets.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 
 import '../../bloc/temp/bloc/temp_bloc.dart';
+import '../../widgets/LinkButton.dart';
 
 class RegistrationWidget extends StatefulWidget {
   const RegistrationWidget({Key? key}) : super(key: key);
@@ -112,13 +113,13 @@ class _RegistrationWidgetState extends State<RegistrationWidget> {
             mainAxisSize: MainAxisSize.max,
             children: [
               Text(
-                'Enter your phone',
+                'Sign Up',
                 style: FlutterFlowTheme.of(context).title3,
               ),
               Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(20, 10, 20, 0),
                 child: Text(
-                  'In publishing and graphic design, Lorem ipsum is a placeholder text commonly.',
+                  'Enter your phone number to receive a verification code.',
                   textAlign: TextAlign.center,
                   style: FlutterFlowTheme.of(context).bodyText1,
                 ),
@@ -196,7 +197,7 @@ class _RegistrationWidgetState extends State<RegistrationWidget> {
           ),
         ),
         Padding(
-          padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 10),
+          padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
           child: FFButtonWidget(
             onPressed: () {
               // context.go(
@@ -222,6 +223,44 @@ class _RegistrationWidgetState extends State<RegistrationWidget> {
             ),
           ),
         ),
+        Container(
+            padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 10),
+            width: MediaQuery.of(context).size.width,
+            child: Row(
+              children: [
+                Expanded(
+                  child: RichText(
+                    textAlign: TextAlign.center,
+                    text: TextSpan(
+                      text: 'By Registering, you accept our ',
+                      style: FlutterFlowTheme.of(context).bodyText1.override(
+                            fontFamily: 'Poppins',
+                            fontSize: 11,
+                          ),
+                      children: const <InlineSpan>[
+                        WidgetSpan(
+                          alignment: PlaceholderAlignment.baseline,
+                          baseline: TextBaseline.alphabetic,
+                          child: LinkButton(
+                              urlLabel: "Terms and Conditions",
+                              url: "https://example.com/terms-and-conditions"),
+                        ),
+                        TextSpan(
+                          text: ' and ',
+                        ),
+                        WidgetSpan(
+                          alignment: PlaceholderAlignment.baseline,
+                          baseline: TextBaseline.alphabetic,
+                          child: LinkButton(
+                              urlLabel: "Privacy Policy",
+                              url: "https://example.com/privacy-policy"),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            )),
       ],
     );
   }
