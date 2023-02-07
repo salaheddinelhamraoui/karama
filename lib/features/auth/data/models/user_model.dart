@@ -8,16 +8,17 @@ class UserModel extends User {
       required String city,
       required String country,
       required String mobileNumber,
+      required String uid,
       String? avatar})
       : super(
-          firstName: firstName,
-          lastName: lastName,
-          gender: gender,
-          city: city,
-          country: country,
-          mobileNumber: mobileNumber,
-          avatar: avatar,
-        );
+            firstName: firstName,
+            lastName: lastName,
+            gender: gender,
+            city: city,
+            country: country,
+            mobileNumber: mobileNumber,
+            avatar: avatar,
+            uid: uid);
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
@@ -27,7 +28,8 @@ class UserModel extends User {
         city: json['city'],
         country: json['country'],
         avatar: json['avatar'],
-        mobileNumber: json['mobileNumber']);
+        mobileNumber: json['mobileNumber'],
+        uid: json['uid']);
   }
 
   Map<String, dynamic> toJson() {
@@ -38,7 +40,8 @@ class UserModel extends User {
       'city': city,
       'country': country,
       'avatar': avatar,
-      'mobileNumber': mobileNumber
+      'mobileNumber': mobileNumber,
+      'uid': uid
     };
   }
 }

@@ -44,7 +44,8 @@ class UserLocalDataSourceImpl implements UserLocalDataSource {
           city: userMap['city'],
           country: userMap['country'],
           mobileNumber: userMap['mobileNumber'],
-          avatar: userMap['avatar']);
+          avatar: userMap['avatar'],
+          uid: userMap['uid']);
     }
   }
 

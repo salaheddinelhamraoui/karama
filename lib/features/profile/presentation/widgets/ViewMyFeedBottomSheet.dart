@@ -5,9 +5,12 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:karama/features/profile/presentation/bloc/bloc/my_feed_bloc.dart';
 import 'package:karama/features/requests/domain/entities/request.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../../core/app_theme.dart';
 import '../../../../core/util/snackbar_message.dart';
 import '../../../../flutter_flow/flutter_flow_widgets.dart';
+import '../../../auth/presentation/bloc/auth/bloc/auth_bloc.dart';
 import '../../../feeds/domain/entities/feed.dart';
 import '../../../requests/presentation/bloc/editeRequest/bloc/edit_request_bloc.dart';
 
@@ -336,20 +339,27 @@ class _ViewMyFeedBottomSheetState extends State<ViewMyFeedBottomSheet> {
                                   ),
                                 ),
                               ),
-                              Image.asset(
-                                'assets/images/send.png',
-                                width: 25,
-                                height: 25,
-                                fit: BoxFit.cover,
+                              BlocConsumer<AuthBloc, AuthState>(
+                                listener: (context, state) {},
+                                builder: (context, state) {
+                                  if (state is LoadedUserState) {
+                                    return GestureDetector(
+                                      onTap: () {
+                                        Share.share(
+                                            '${state.user.firstName} invite you to check this proposal https://registre.karama.io/id/${state.user.uid}/request/${widget.feed.id}');
+                                      },
+                                      child: Image.asset(
+                                        'assets/images/send.png',
+                                        width: 25,
+                                        height: 25,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    );
+                                  } else {
+                                    return Container();
+                                  }
+                                },
                               ),
-                              // Container(
-                              //   height: 20,
-                              //   width: 20,
-                              //   child: CircularProgressIndicator(
-                              //     color:
-                              //         FlutterFlowTheme.of(context).primaryColor,
-                              //   ),
-                              // )
                             ],
                           ),
                         ),

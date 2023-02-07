@@ -455,7 +455,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
             lastName: lastNameController!.text,
             gender: genderValue ?? '',
             mobileNumber: widget.user.mobileNumber,
-            avatar: 'data:image/png;base64,' + encodedImage);
+            avatar: 'data:image/png;base64,' + encodedImage,
+            uid: widget.user.uid);
 
         BlocProvider.of<EditProfileBloc>(context)
             .add(PostEditProfileEvent(user: user));
@@ -474,7 +475,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
             lastName: lastNameController!.text,
             gender: genderValue ?? '',
             mobileNumber: widget.user.mobileNumber,
-            avatar: null);
+            avatar: null,
+            uid: widget.user.uid);
 
         BlocProvider.of<EditProfileBloc>(context)
             .add(PostEditProfileEvent(user: user));

@@ -32,7 +32,8 @@ class InvitationsBloc extends Bloc<InvitationsEvent, InvitationsState> {
             await InvitationAction(event.invitation, event.status);
 
         var filteredInvitations = event.invitations
-            .where((invitation) => invitation.id == event.invitation.id)
+            .where((invitation) =>
+                int.parse(invitation.id) == int.parse(event.invitation.id))
             .toList();
 
         emit(failureOrDoneMessage.fold(

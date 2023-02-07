@@ -60,18 +60,19 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
         localDataSource.cacheToken(token);
 
         Map<String, dynamic> userData = jsonObject['data']['result']['user'];
+        String uid = jsonObject['data']['uid'];
 
         String city = userData['city'] ?? '';
 
         UserModel user = UserModel(
-          firstName: userData['first_name'],
-          lastName: userData['last_name'],
-          gender: userData['gender'],
-          city: city,
-          country: userData['country'],
-          avatar: userData['avatar']['url'],
-          mobileNumber: userData['phone'],
-        );
+            firstName: userData['first_name'],
+            lastName: userData['last_name'],
+            gender: userData['gender'],
+            city: city,
+            country: userData['country'],
+            avatar: userData['avatar']['url'],
+            mobileNumber: userData['phone'],
+            uid: uid);
 
         return user;
       } else {
@@ -231,14 +232,14 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
         Map<String, dynamic> userData = data['data']['result'];
 
         UserModel user = UserModel(
-          firstName: userData['first_name'],
-          lastName: userData['last_name'],
-          gender: userData['gender'],
-          city: userData['city'],
-          country: userData['country'],
-          avatar: userData['avatar']['url'],
-          mobileNumber: userData['phone'],
-        );
+            firstName: userData['first_name'],
+            lastName: userData['last_name'],
+            gender: userData['gender'],
+            city: userData['city'],
+            country: userData['country'],
+            avatar: userData['avatar']['url'],
+            mobileNumber: userData['phone'],
+            uid: userData['uid']);
 
         localDataSource.cacheUser(user);
       } else {

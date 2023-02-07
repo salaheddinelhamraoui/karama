@@ -7,6 +7,7 @@ import 'package:karama/features/friendsRequests/domain/entities/invitation.dart'
 
 import '../../../../../core/app_theme.dart';
 import '../../../../../flutter_flow/flutter_flow_widgets.dart';
+import '../../../../contacts/presentation/bloc/contacts/bloc/contacts_bloc.dart';
 import '../../bloc/invitations/bloc/invitations_bloc.dart';
 
 class FriendsPage extends StatelessWidget {
@@ -115,6 +116,31 @@ class FriendsPage extends StatelessWidget {
                     fontSize: 14,
                     useGoogleFonts: false,
                   ),
+            ),
+            Padding(
+              padding: const EdgeInsetsDirectional.fromSTEB(0, 15, 0, 0),
+              child: FFButtonWidget(
+                onPressed: () {
+                  BlocProvider.of<InvitationsBloc>(context)
+                      .add(GetInvitationsEvent());
+                },
+                text: 'Refresh',
+                options: FFButtonOptions(
+                  width: 100,
+                  height: 40,
+                  color: FlutterFlowTheme.of(context).primaryColor,
+                  textStyle: FlutterFlowTheme.of(context).subtitle2.override(
+                      fontFamily: 'Poppins',
+                      color: Colors.white,
+                      useGoogleFonts: false,
+                      fontSize: 14),
+                  borderSide: const BorderSide(
+                    color: Colors.transparent,
+                    width: 1,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
             ),
           ],
         ),
@@ -252,6 +278,8 @@ class FriendsPage extends StatelessWidget {
                                               invitation: invitations[index],
                                               invitations: invitations,
                                               status: true));
+                                      BlocProvider.of<InvitationsBloc>(context)
+                                          .add(GetInvitationsEvent());
                                     },
                                     text: 'Accept',
                                     options: FFButtonOptions(
@@ -278,6 +306,8 @@ class FriendsPage extends StatelessWidget {
                                             invitation: invitations[index],
                                             invitations: invitations,
                                             status: false));
+                                    BlocProvider.of<InvitationsBloc>(context)
+                                        .add(GetInvitationsEvent());
                                   },
                                   text: 'Decline',
                                   options: FFButtonOptions(
