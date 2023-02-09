@@ -242,8 +242,7 @@ class _RegistrationWidgetState extends State<RegistrationWidget> {
                           alignment: PlaceholderAlignment.baseline,
                           baseline: TextBaseline.alphabetic,
                           child: LinkButton(
-                              urlLabel: "Terms and Conditions",
-                              url: "https://example.com/terms-and-conditions"),
+                              urlLabel: "Terms and Conditions", url: "terms"),
                         ),
                         TextSpan(
                           text: ' and ',
@@ -252,8 +251,7 @@ class _RegistrationWidgetState extends State<RegistrationWidget> {
                           alignment: PlaceholderAlignment.baseline,
                           baseline: TextBaseline.alphabetic,
                           child: LinkButton(
-                              urlLabel: "Privacy Policy",
-                              url: "https://example.com/privacy-policy"),
+                              urlLabel: "Privacy Policy", url: "privacy"),
                         ),
                       ],
                     ),

@@ -51,6 +51,10 @@ dependencies:
   share_plus: ^6.3.0
   change_app_package_name: ^1.1.0
   cached_network_image: ^3.2.3
+  ionicons: ^0.2.2
+  ndialog: ^4.3.0
+  
+  
   
 
 dev_dependencies:

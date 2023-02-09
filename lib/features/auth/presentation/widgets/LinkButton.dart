@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/app_theme.dart';
@@ -36,7 +37,11 @@ class LinkButton extends StatelessWidget {
             ),
       ),
       onPressed: () {
-        _launchUrl(url);
+        if (url == 'terms') {
+          context.push('/termsOfUse');
+        } else if (url == 'privacy') {
+          context.push('/privacyPolicy');
+        }
       },
       child: Text(urlLabel),
     );

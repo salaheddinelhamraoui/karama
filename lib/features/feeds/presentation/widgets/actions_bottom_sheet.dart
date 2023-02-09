@@ -80,27 +80,30 @@ class _ActionsBottomSheetState extends State<ActionsBottomSheet> {
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      FFButtonWidget(
-                        onPressed: () {},
-                        text: 'New Offer',
-                        options: FFButtonOptions(
-                          width: 130,
-                          height: 40,
-                          color: FlutterFlowTheme.of(context).primaryColor,
-                          textStyle: FlutterFlowTheme.of(context)
-                              .subtitle2
-                              .override(
-                                  fontFamily: 'Poppins',
-                                  color: Colors.white,
-                                  useGoogleFonts: false,
-                                  fontSize: 14),
-                          borderSide: const BorderSide(
-                            color: Colors.transparent,
-                            width: 1,
-                          ),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
+                      // FFButtonWidget(
+                      //   onPressed: () {
+                      //     Navigator.pop(context);
+                      //     context.push('/termsOfUse');
+                      //   },
+                      //   text: 'New Offer',
+                      //   options: FFButtonOptions(
+                      //     width: 130,
+                      //     height: 40,
+                      //     color: FlutterFlowTheme.of(context).primaryColor,
+                      //     textStyle: FlutterFlowTheme.of(context)
+                      //         .subtitle2
+                      //         .override(
+                      //             fontFamily: 'Poppins',
+                      //             color: Colors.white,
+                      //             useGoogleFonts: false,
+                      //             fontSize: 14),
+                      //     borderSide: const BorderSide(
+                      //       color: Colors.transparent,
+                      //       width: 1,
+                      //     ),
+                      //     borderRadius: BorderRadius.circular(8),
+                      //   ),
+                      // ),
                       FFButtonWidget(
                         onPressed: () {
                           Navigator.pop(context);

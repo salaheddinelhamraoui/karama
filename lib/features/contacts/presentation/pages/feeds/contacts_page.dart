@@ -8,6 +8,7 @@ import 'package:karama/core/widgets/loading_widget.dart';
 import '../../../../../core/app_theme.dart';
 import '../../../../../core/util/snackbar_message.dart';
 import '../../../../../flutter_flow/flutter_flow_widgets.dart';
+import '../../../domain/entities/contact.dart';
 import '../../bloc/check_contacts/bloc/check_contacts_bloc.dart';
 import '../../bloc/contacts/bloc/contacts_bloc.dart';
 import 'package:share_plus/share_plus.dart';
@@ -20,68 +21,69 @@ class ContactsPage extends StatefulWidget {
 }
 
 class _ContactsPageState extends State<ContactsPage> {
+  List<CustomContact> contacts = [];
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CheckContactsBloc, CheckContactsState>(
       builder: (context, state) {
-        if (state is CheckContactsLoadingState) {
+        if (state is CheckContactsLoadedState) {
+          contacts = state.contacts;
+          return _body(contacts);
+        } else if (state is ErrorCheckContactsState) {
           return Container(
             height: MediaQuery.of(context).size.height,
-            child: LoadingWidget(),
-          );
-        } else if (state is CheckContactsLoadedState) {
-          return _body(state.contacts);
-        }
-        return Container(
-          height: MediaQuery.of(context).size.height,
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset(
-                  'assets/images/error.png',
-                  fit: BoxFit.fitWidth,
-                  width: MediaQuery.of(context).size.width,
-                ),
-                Text(
-                  'There was an error retrieving your contact list.',
-                  style: FlutterFlowTheme.of(context).bodyText1.override(
-                        fontFamily: 'Poppins',
-                        fontSize: 14,
-                        useGoogleFonts: false,
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    'assets/images/error.png',
+                    fit: BoxFit.fitWidth,
+                    width: MediaQuery.of(context).size.width,
+                  ),
+                  Text(
+                    'There was an error retrieving your contact list.',
+                    style: FlutterFlowTheme.of(context).bodyText1.override(
+                          fontFamily: 'Poppins',
+                          fontSize: 14,
+                          useGoogleFonts: false,
+                        ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsetsDirectional.fromSTEB(0, 15, 0, 0),
+                    child: FFButtonWidget(
+                      onPressed: () {
+                        BlocProvider.of<ContactsBloc>(context)
+                            .add(GetContactsEvent());
+                      },
+                      text: 'Refresh',
+                      options: FFButtonOptions(
+                        width: 100,
+                        height: 40,
+                        color: FlutterFlowTheme.of(context).primaryColor,
+                        textStyle: FlutterFlowTheme.of(context)
+                            .subtitle2
+                            .override(
+                                fontFamily: 'Poppins',
+                                color: Colors.white,
+                                useGoogleFonts: false,
+                                fontSize: 14),
+                        borderSide: const BorderSide(
+                          color: Colors.transparent,
+                          width: 1,
+                        ),
+                        borderRadius: BorderRadius.circular(8),
                       ),
-                ),
-                Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(0, 15, 0, 0),
-                  child: FFButtonWidget(
-                    onPressed: () {
-                      BlocProvider.of<ContactsBloc>(context)
-                          .add(GetContactsEvent());
-                    },
-                    text: 'Refresh',
-                    options: FFButtonOptions(
-                      width: 100,
-                      height: 40,
-                      color: FlutterFlowTheme.of(context).primaryColor,
-                      textStyle: FlutterFlowTheme.of(context)
-                          .subtitle2
-                          .override(
-                              fontFamily: 'Poppins',
-                              color: Colors.white,
-                              useGoogleFonts: false,
-                              fontSize: 14),
-                      borderSide: const BorderSide(
-                        color: Colors.transparent,
-                        width: 1,
-                      ),
-                      borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        );
+          );
+        }
+
+        return _body(contacts);
       },
     );
   }
@@ -139,7 +141,7 @@ class _ContactsPageState extends State<ContactsPage> {
                                                               .primaryText,
                                                           fontSize: 14,
                                                           fontWeight:
-                                                              FontWeight.w600,
+                                                              FontWeight.w500,
                                                           useGoogleFonts: false,
                                                         ),
                                               ),

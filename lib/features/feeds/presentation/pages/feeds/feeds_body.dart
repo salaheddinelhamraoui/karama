@@ -31,7 +31,7 @@ class _FeedsBodyState extends State<FeedsBody> {
   void initState() {
     super.initState();
     textController = TextEditingController();
-    BlocProvider.of<FeedBloc>(context).add(GetFeedsEvent());
+    // BlocProvider.of<FeedBloc>(context).add(GetFeedsEvent());
   }
 
   @override

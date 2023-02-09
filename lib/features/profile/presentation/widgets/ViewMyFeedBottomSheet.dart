@@ -66,8 +66,14 @@ class _ViewMyFeedBottomSheetState extends State<ViewMyFeedBottomSheet> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      SelectionArea(
+                                      Container(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.6,
                                         child: Text(
                                           widget.feed.title,
                                           textAlign: TextAlign.start,
@@ -86,7 +92,7 @@ class _ViewMyFeedBottomSheetState extends State<ViewMyFeedBottomSheet> {
                                       ),
                                       Padding(
                                         padding: EdgeInsetsDirectional.fromSTEB(
-                                            10, 0, 0, 0),
+                                            10, 8, 0, 0),
                                         child: Row(
                                           mainAxisSize: MainAxisSize.max,
                                           children: [
@@ -133,8 +139,8 @@ class _ViewMyFeedBottomSheetState extends State<ViewMyFeedBottomSheet> {
                                         ),
                                       ),
                                       Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 15),
+                                        padding: const EdgeInsets.only(
+                                            left: 15, top: 8),
                                         child: GestureDetector(
                                           onTap: () {
                                             context.push('/editRequest',

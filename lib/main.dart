@@ -33,6 +33,9 @@ import 'features/requests/presentation/bloc/editeRequest/bloc/edit_request_bloc.
 import 'features/requests/presentation/bloc/request/bloc/request_bloc.dart';
 import 'features/requests/presentation/pages/feeds/edit_request_page.dart';
 import 'features/requests/presentation/pages/feeds/new_request_page.dart';
+import 'features/settings/presentation/pages/privacy_policy/privacy_policy.dart';
+import 'features/settings/presentation/pages/settings/settings.dart';
+import 'features/settings/presentation/pages/terms_of_use/terms_of_use.dart';
 import 'injection_container.dart' as di;
 
 void main() async {
@@ -162,6 +165,24 @@ class MyApp extends StatelessWidget {
             path: 'invitations',
             builder: (BuildContext context, GoRouterState state) {
               return FriendsPage();
+            },
+          ),
+          GoRoute(
+            path: 'termsOfUse',
+            builder: (BuildContext context, GoRouterState state) {
+              return TermsOfUsePage();
+            },
+          ),
+          GoRoute(
+            path: 'privacyPolicy',
+            builder: (BuildContext context, GoRouterState state) {
+              return PrivacyPolicyPage();
+            },
+          ),
+          GoRoute(
+            path: 'settings',
+            builder: (BuildContext context, GoRouterState state) {
+              return SettingsScreen();
             },
           ),
         ],

@@ -52,21 +52,26 @@ class _ViewFeedBottomSheetState extends State<ViewFeedBottomSheet> {
                               mainAxisSize: MainAxisSize.max,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                SelectionArea(
-                                    child: Text(
-                                  widget.feed.title,
-                                  textAlign: TextAlign.start,
-                                  style: FlutterFlowTheme.of(context)
-                                      .bodyText1
-                                      .override(
-                                        fontFamily: 'Poppins',
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryText,
-                                        fontSize: 22,
-                                        fontWeight: FontWeight.bold,
-                                        useGoogleFonts: false,
-                                      ),
-                                )),
+                                Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.9,
+                                  child: Text(
+                                    widget.feed.title.replaceFirst(
+                                        widget.feed.title[0],
+                                        widget.feed.title[0].toUpperCase()),
+                                    textAlign: TextAlign.start,
+                                    style: FlutterFlowTheme.of(context)
+                                        .bodyText1
+                                        .override(
+                                          fontFamily: 'Poppins',
+                                          color: FlutterFlowTheme.of(context)
+                                              .primaryText,
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.bold,
+                                          useGoogleFonts: false,
+                                        ),
+                                  ),
+                                ),
                                 Row(
                                   mainAxisSize: MainAxisSize.max,
                                   mainAxisAlignment:
@@ -74,7 +79,10 @@ class _ViewFeedBottomSheetState extends State<ViewFeedBottomSheet> {
                                   children: [
                                     SelectionArea(
                                         child: Text(
-                                      widget.feed.pereference,
+                                      widget.feed.pereference.replaceFirst(
+                                          widget.feed.pereference[0],
+                                          widget.feed.pereference[0]
+                                              .toUpperCase()),
                                       textAlign: TextAlign.start,
                                       style: FlutterFlowTheme.of(context)
                                           .subtitle1
@@ -100,7 +108,9 @@ class _ViewFeedBottomSheetState extends State<ViewFeedBottomSheet> {
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            widget.feed.description,
+                            widget.feed.description.replaceFirst(
+                                widget.feed.description[0],
+                                widget.feed.description[0].toUpperCase()),
                             style:
                                 FlutterFlowTheme.of(context).bodyText1.override(
                                       fontFamily: 'Poppins',
@@ -178,7 +188,9 @@ class _ViewFeedBottomSheetState extends State<ViewFeedBottomSheet> {
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       10, 5, 10, 5),
                                   child: Text(
-                                    widget.feed.area,
+                                    widget.feed.area.replaceFirst(
+                                        widget.feed.area[0],
+                                        widget.feed.area[0].toUpperCase()),
                                     style: FlutterFlowTheme.of(context)
                                         .bodyText1
                                         .override(

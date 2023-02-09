@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ionicons/ionicons.dart';
 import 'package:karama/core/widgets/loading_widget.dart';
 import 'package:karama/features/auth/presentation/bloc/logout/bloc/logout_bloc.dart';
 
@@ -220,22 +221,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                                   ),
                                                 ],
                                               ),
-                                              GestureDetector(
-                                                onTap: () {
-                                                  context.push('/editProfile',
-                                                      extra: state.user);
-                                                },
-                                                child: Padding(
-                                                  padding: EdgeInsetsDirectional
-                                                      .fromSTEB(5, 0, 0, 0),
-                                                  child: Image.asset(
-                                                    'assets/images/pen.png',
-                                                    width: 16,
-                                                    height: 16,
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                ),
-                                              )
                                             ],
                                           ),
                                         )
@@ -251,8 +236,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                 children: [
                                   Image.asset(
                                     'assets/images/241528.png',
-                                    width: 50,
-                                    height: 50,
+                                    width: 40,
+                                    height: 40,
                                     fit: BoxFit.cover,
                                   ),
                                   Padding(
@@ -261,19 +246,11 @@ class _ProfilePageState extends State<ProfilePage> {
                                             0, 6, 0, 0),
                                     child: GestureDetector(
                                       onTap: () {
-                                        BlocProvider.of<LogoutBloc>(context)
-                                            .add(PostLoginOutEvent());
+                                        context.push('/settings');
                                       },
-                                      child: Text(
-                                        'Log Out',
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyText1
-                                            .override(
-                                                fontFamily: 'Poppins',
-                                                fontSize: 10,
-                                                fontWeight: FontWeight.normal,
-                                                useGoogleFonts: false,
-                                                color: Colors.red[300]),
+                                      child: Icon(
+                                        Ionicons.settings_outline,
+                                        color: Colors.black,
                                       ),
                                     ),
                                   ),

@@ -17,7 +17,22 @@ class FriendsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: FlutterFlowTheme.of(context).primaryColor,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        centerTitle: false,
+        iconTheme: IconThemeData(
+          color: Colors.black,
+        ),
+        title: Text(
+          "Invitations",
+          style: FlutterFlowTheme.of(context).bodyText1.override(
+                fontFamily: 'Poppins',
+                color: Colors.black,
+                fontSize: 20,
+                fontWeight: FontWeight.w400,
+                useGoogleFonts: false,
+              ),
+        ),
       ),
       body: SafeArea(
           child: BlocConsumer<InvitationsBloc, InvitationsState>(
