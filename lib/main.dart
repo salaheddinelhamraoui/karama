@@ -33,6 +33,7 @@ import 'features/requests/presentation/bloc/editeRequest/bloc/edit_request_bloc.
 import 'features/requests/presentation/bloc/request/bloc/request_bloc.dart';
 import 'features/requests/presentation/pages/feeds/edit_request_page.dart';
 import 'features/requests/presentation/pages/feeds/new_request_page.dart';
+import 'features/settings/presentation/bloc/delete_account/bloc/delete_account_bloc.dart';
 import 'features/settings/presentation/pages/privacy_policy/privacy_policy.dart';
 import 'features/settings/presentation/pages/settings/settings.dart';
 import 'features/settings/presentation/pages/terms_of_use/terms_of_use.dart';
@@ -65,6 +66,7 @@ class MyApp extends StatelessWidget {
             create: (_) => di.sl<ContactsBloc>()..add(GetContactsEvent())),
         BlocProvider(create: (_) => di.sl<CheckContactsBloc>()),
         BlocProvider(create: (_) => di.sl<LogoutBloc>()),
+        BlocProvider(create: (_) => di.sl<DeleteAccountBloc>()),
         BlocProvider(
             create: (_) =>
                 di.sl<InvitationsBloc>()..add(GetInvitationsEvent())),

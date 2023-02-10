@@ -57,6 +57,11 @@ import 'features/requests/domain/usecases/post_request.dart';
 import 'features/requests/presentation/bloc/bloc/tags_bloc.dart';
 import 'features/requests/presentation/bloc/editeRequest/bloc/edit_request_bloc.dart';
 import 'features/requests/presentation/bloc/request/bloc/request_bloc.dart';
+import 'features/settings/data/datasources/settings_remote_data_source.dart';
+import 'features/settings/data/repositories/settings_repository_impl.dart';
+import 'features/settings/domain/repositories/settings_repository.dart';
+import 'features/settings/domain/usecases/delete_use_case.dart';
+import 'features/settings/presentation/bloc/delete_account/bloc/delete_account_bloc.dart';
 
 final sl = GetIt.instance;
 
@@ -220,6 +225,31 @@ Future<void> init() async {
 
   sl.registerLazySingleton<InvitationRemoteDataSource>(() =>
       InvitationRemoteDataSourceImpl(client: sl(), sharedPreferences: sl()));
+
+// -------------------------------------------------------------------------
+
+// Features - Settings
+
+// Bloc
+
+  sl.registerFactory(() => DeleteAccountBloc(
+        deleteUseCase: sl(),
+      ));
+
+// Usecases
+
+  sl.registerLazySingleton(() => DeleteUseCase(sl()));
+
+// Repository
+
+  sl.registerLazySingleton<SettingsRepository>(() => SettingsRepositoryIml(
+        remoteDataSource: sl(),
+      ));
+
+// Datasources
+
+  sl.registerLazySingleton<SettingsRemoteDataSource>(
+      () => SettingsDataSourceImpl(client: sl(), sharedPreferences: sl()));
 
 // -------------------------------------------------------------------------
 

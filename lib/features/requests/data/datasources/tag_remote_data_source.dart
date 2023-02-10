@@ -1,10 +1,8 @@
 import 'dart:convert';
-
 import 'package:dartz/dartz.dart';
 import 'package:karama/features/requests/domain/entities/tag.dart';
 import 'package:karama/features/requests/domain/entities/tag_category.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../../../core/error/exceptions.dart';
 import '../../../feeds/domain/entities/feed.dart';
 import '../../domain/entities/request.dart';
