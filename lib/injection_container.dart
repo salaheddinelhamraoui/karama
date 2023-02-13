@@ -4,8 +4,10 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:karama/features/auth/domain/usecases/get_temp_data.dart';
 import 'package:karama/features/auth/domain/usecases/get_token.dart';
 import 'package:karama/features/auth/domain/usecases/get_verify_state.dart';
+import 'package:karama/features/auth/presentation/bloc/delete_account/bloc/delete_account_bloc.dart';
 import 'package:karama/features/contacts/domain/usecases/check_contacts.dart';
 import 'package:karama/features/requests/domain/usecases/get_tags.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/network/network_info.dart';
@@ -13,6 +15,7 @@ import 'features/auth/data/datasources/user_local_data_source.dart';
 import 'features/auth/data/datasources/user_remote_data_source.dart';
 import 'features/auth/data/repositories/user_repository_impl.dart';
 import 'features/auth/domain/repositories/user_repository.dart';
+import 'features/auth/domain/usecases/delete_user.dart';
 import 'features/auth/domain/usecases/edit_profile.dart';
 import 'features/auth/domain/usecases/get_user.dart';
 import 'features/auth/domain/usecases/log_out.dart';
@@ -57,11 +60,6 @@ import 'features/requests/domain/usecases/post_request.dart';
 import 'features/requests/presentation/bloc/bloc/tags_bloc.dart';
 import 'features/requests/presentation/bloc/editeRequest/bloc/edit_request_bloc.dart';
 import 'features/requests/presentation/bloc/request/bloc/request_bloc.dart';
-import 'features/settings/data/datasources/settings_remote_data_source.dart';
-import 'features/settings/data/repositories/settings_repository_impl.dart';
-import 'features/settings/domain/repositories/settings_repository.dart';
-import 'features/settings/domain/usecases/delete_use_case.dart';
-import 'features/settings/presentation/bloc/delete_account/bloc/delete_account_bloc.dart';
 
 final sl = GetIt.instance;
 
@@ -82,6 +80,8 @@ Future<void> init() async {
     ),
   );
 
+  sl.registerFactory(() => DeleteAccountBloc(deleteUser: sl()));
+
   sl.registerFactory(() => LogoutBloc(logOut: sl()));
 
 // Usecases
@@ -96,6 +96,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetTempDataUseCase(sl()));
   sl.registerLazySingleton(() => SubmitOnboardingDataUseCase(sl()));
   sl.registerLazySingleton(() => LogOutUseCase(sl()));
+  sl.registerLazySingleton(() => DeleteUserUseCase(sl()));
 
 // Repository
 
@@ -225,31 +226,6 @@ Future<void> init() async {
 
   sl.registerLazySingleton<InvitationRemoteDataSource>(() =>
       InvitationRemoteDataSourceImpl(client: sl(), sharedPreferences: sl()));
-
-// -------------------------------------------------------------------------
-
-// Features - Settings
-
-// Bloc
-
-  sl.registerFactory(() => DeleteAccountBloc(
-        deleteUseCase: sl(),
-      ));
-
-// Usecases
-
-  sl.registerLazySingleton(() => DeleteUseCase(sl()));
-
-// Repository
-
-  sl.registerLazySingleton<SettingsRepository>(() => SettingsRepositoryIml(
-        remoteDataSource: sl(),
-      ));
-
-// Datasources
-
-  sl.registerLazySingleton<SettingsRemoteDataSource>(
-      () => SettingsDataSourceImpl(client: sl(), sharedPreferences: sl()));
 
 // -------------------------------------------------------------------------
 

@@ -345,27 +345,29 @@ class _ViewMyFeedBottomSheetState extends State<ViewMyFeedBottomSheet> {
                                   ),
                                 ),
                               ),
-                              BlocConsumer<AuthBloc, AuthState>(
-                                listener: (context, state) {},
-                                builder: (context, state) {
-                                  if (state is LoadedUserState) {
-                                    return GestureDetector(
-                                      onTap: () {
-                                        Share.share(
-                                            '${state.user.firstName} invite you to check this proposal https://registre.karama.io/id/${state.user.uid}/request/${widget.feed.id}');
+                              widget.feed.closed
+                                  ? BlocConsumer<AuthBloc, AuthState>(
+                                      listener: (context, state) {},
+                                      builder: (context, state) {
+                                        if (state is LoadedUserState) {
+                                          return GestureDetector(
+                                            onTap: () {
+                                              Share.share(
+                                                  '${state.user.firstName} invite you to check this proposal https://registre.karama.io/id/${state.user.uid}/request/${widget.feed.id}');
+                                            },
+                                            child: Image.asset(
+                                              'assets/images/send.png',
+                                              width: 25,
+                                              height: 25,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          );
+                                        } else {
+                                          return Container();
+                                        }
                                       },
-                                      child: Image.asset(
-                                        'assets/images/send.png',
-                                        width: 25,
-                                        height: 25,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    );
-                                  } else {
-                                    return Container();
-                                  }
-                                },
-                              ),
+                                    )
+                                  : Container(),
                             ],
                           ),
                         ),

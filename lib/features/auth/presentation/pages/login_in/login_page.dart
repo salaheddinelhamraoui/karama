@@ -68,7 +68,12 @@ class _LoginWidgetState extends State<LoginWidget> {
               color: FlutterFlowTheme.of(context).secondaryBackground,
             ),
             child: BlocConsumer<AuthBloc, AuthState>(
-              listener: (context, state) {},
+              listener: (context, state) {
+                if (state is ErrorUserState) {
+                  SnackBarMessage().showErrorSnackBar(
+                      message: state.message, context: context);
+                }
+              },
               builder: (context, state) {
                 if (state is LoadingUserState) {
                   return LoadingWidget();

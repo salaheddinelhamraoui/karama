@@ -475,7 +475,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
             lastName: lastNameController!.text,
             gender: genderValue ?? '',
             mobileNumber: widget.user.mobileNumber,
-            avatar: null,
+            avatar: "",
             uid: widget.user.uid);
 
         BlocProvider.of<EditProfileBloc>(context)

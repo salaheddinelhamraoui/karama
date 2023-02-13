@@ -25,6 +25,7 @@ abstract class UserRemoteDataSource {
       String password);
   Future<Unit> editProfile(User user);
   Future<Unit> refreshToken();
+  Future<Unit> deleteUser();
 }
 
 const BASE_URL = "https://xyxm-adm5-et4s.n7.xano.io/api:BG09bi8f";
@@ -288,6 +289,32 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
     } catch (e) {
       print(e);
       throw ServerException();
+    }
+  }
+
+  @override
+  Future<Unit> deleteUser() async {
+    try {
+      String token = await localDataSource.getCachedToken();
+      final Map<String, dynamic> body = {'token': token, 'status': false};
+
+      final response = await client.post(
+        Uri.parse(BASE_URL + 'api:BG09bi8f:v1/user_status'),
+        headers: {
+          "Authorization": "Bearer $token",
+        },
+        body: jsonEncode(body),
+      );
+
+      Map<String, dynamic> jsonObject = jsonDecode(response.body);
+
+      if (response.statusCode == 200 && jsonObject['data']['status'] == true) {
+        return unit;
+      } else {
+        throw ServerException();
+      }
+    } catch (e) {
+      throw e;
     }
   }
 }

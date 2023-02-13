@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../../core/util/snackbar_message.dart';
+import '../../../../../flutter_flow/flutter_flow_widgets.dart';
 import '../../../../auth/presentation/bloc/auth/bloc/auth_bloc.dart';
 import '../../bloc/bloc/my_feed_bloc.dart';
 
@@ -262,16 +263,18 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                   ),
-                  Expanded(
-                    child: RefreshIndicator(
-                      onRefresh: () => _onRefresh(context),
-                      child: ListView.builder(
-                          itemCount: state.feeds.length,
-                          itemBuilder: (context, index) {
-                            return _feedCard(state.feeds[index]);
-                          }),
-                    ),
-                  ),
+                  state.feeds.length == 0
+                      ? _emptyListWidget(context)
+                      : Expanded(
+                          child: RefreshIndicator(
+                            onRefresh: () => _onRefresh(context),
+                            child: ListView.builder(
+                                itemCount: state.feeds.length,
+                                itemBuilder: (context, index) {
+                                  return _feedCard(state.feeds[index]);
+                                }),
+                          ),
+                        ),
                 ],
               );
             }
@@ -284,6 +287,57 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Future<void> _onRefresh(BuildContext context) async {
     BlocProvider.of<MyFeedBloc>(context).add(GetMyFeedEvent());
+  }
+
+  Widget _emptyListWidget(BuildContext context) {
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.7,
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              'assets/images/contacts.png',
+              fit: BoxFit.fitWidth,
+              width: MediaQuery.of(context).size.width * 0.7,
+            ),
+            Text(
+              'Your Requests List Is Empty.',
+              textAlign: TextAlign.center,
+              style: FlutterFlowTheme.of(context).bodyText1.override(
+                    fontFamily: 'Poppins',
+                    fontSize: 14,
+                    useGoogleFonts: false,
+                  ),
+            ),
+            Padding(
+              padding: const EdgeInsetsDirectional.fromSTEB(0, 15, 0, 0),
+              child: FFButtonWidget(
+                onPressed: () {
+                  BlocProvider.of<MyFeedBloc>(context).add(GetMyFeedEvent());
+                },
+                text: 'Refresh',
+                options: FFButtonOptions(
+                  width: 100,
+                  height: 40,
+                  color: FlutterFlowTheme.of(context).primaryColor,
+                  textStyle: FlutterFlowTheme.of(context).subtitle2.override(
+                      fontFamily: 'Poppins',
+                      color: Colors.white,
+                      useGoogleFonts: false,
+                      fontSize: 14),
+                  borderSide: const BorderSide(
+                    color: Colors.transparent,
+                    width: 1,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _feedCard(item) {

@@ -193,6 +193,35 @@ class _RegistrationWidgetState extends State<RegistrationWidget> {
                   },
                 ),
               ),
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(15, 20, 15, 0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'I already have a KARAMA account,',
+                      textAlign: TextAlign.center,
+                      style: FlutterFlowTheme.of(context).bodyText1,
+                    ),
+                    InkWell(
+                      onTap: () => {context.go('/login')},
+                      child: Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
+                        child: Text(
+                          'Login',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Poppins',
+                            color: FlutterFlowTheme.of(context).secondaryText,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )
             ],
           ),
         ),

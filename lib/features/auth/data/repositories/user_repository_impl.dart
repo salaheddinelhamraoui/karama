@@ -148,4 +148,14 @@ class UserRepositoryImpl implements UserRepository {
   Future<Either<Failure, Unit>> refreshToken() async {
     throw UnimplementedError();
   }
+
+  @override
+  Future<Either<Failure, Unit>> deleteUser() async {
+    try {
+      final data = await remoteDataSource.deleteUser();
+      return Right(unit);
+    } on ServerException {
+      return Left(ServerFailure());
+    }
+  }
 }
