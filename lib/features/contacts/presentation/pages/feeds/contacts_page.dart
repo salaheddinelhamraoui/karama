@@ -22,6 +22,36 @@ class ContactsPage extends StatefulWidget {
 
 class _ContactsPageState extends State<ContactsPage> {
   List<CustomContact> contacts = [];
+  List<CustomContact> checkedContacts = [];
+  TextEditingController? textController;
+
+  @override
+  void initState() {
+    super.initState();
+    textController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    textController?.dispose();
+    super.dispose();
+  }
+
+  _filterContacts(searchText) {
+    if (searchText == '') {
+      setState(() {
+        checkedContacts = contacts;
+      });
+    } else {
+      setState(() {
+        checkedContacts = contacts
+            .where((element) =>
+                element.contactName.toLowerCase().contains(searchText) ||
+                element.contactNumber.toLowerCase().contains(searchText))
+            .toList();
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +59,8 @@ class _ContactsPageState extends State<ContactsPage> {
       builder: (context, state) {
         if (state is CheckContactsLoadedState) {
           contacts = state.contacts;
-          return _body(contacts);
+          return _body(
+              checkedContacts.length == 0 ? contacts : checkedContacts);
         } else if (state is ErrorCheckContactsState) {
           return Container(
             height: MediaQuery.of(context).size.height,
@@ -83,7 +114,7 @@ class _ContactsPageState extends State<ContactsPage> {
           );
         }
 
-        return _body(contacts);
+        return _body(checkedContacts.length == 0 ? contacts : checkedContacts);
       },
     );
   }
@@ -104,35 +135,39 @@ class _ContactsPageState extends State<ContactsPage> {
                 return Column(
                   children: [
                     index == 0
-                        ? GestureDetector(
-                            onTap: () {
-                              context.push('/invitations');
-                            },
-                            child: Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    15, 10, 15, 0),
-                                child: Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  decoration: BoxDecoration(
-                                    color: FlutterFlowTheme.of(context).gray,
-                                    borderRadius: BorderRadius.circular(5),
-                                    shape: BoxShape.rectangle,
-                                  ),
-                                  child: Padding(
+                        ? Column(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  context.push('/invitations');
+                                },
+                                child: Padding(
                                     padding: EdgeInsetsDirectional.fromSTEB(
-                                        15, 10, 15, 10),
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        Row(
-                                            mainAxisSize: MainAxisSize.max,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                'Invitations',
-                                                style:
-                                                    FlutterFlowTheme.of(context)
+                                        15, 10, 15, 0),
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      decoration: BoxDecoration(
+                                        color:
+                                            FlutterFlowTheme.of(context).gray,
+                                        borderRadius: BorderRadius.circular(5),
+                                        shape: BoxShape.rectangle,
+                                      ),
+                                      child: Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            15, 10, 15, 10),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: [
+                                            Row(
+                                                mainAxisSize: MainAxisSize.max,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    'Invitations',
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
                                                         .bodyText1
                                                         .override(
                                                           fontFamily: 'Poppins',
@@ -144,12 +179,82 @@ class _ContactsPageState extends State<ContactsPage> {
                                                               FontWeight.w500,
                                                           useGoogleFonts: false,
                                                         ),
-                                              ),
-                                            ])
-                                      ],
-                                    ),
+                                                  ),
+                                                ])
+                                          ],
+                                        ),
+                                      ),
+                                    )),
+                              ),
+                              Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    15, 15, 15, 0),
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  decoration: BoxDecoration(
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryBackground,
                                   ),
-                                )),
+                                  child: TextFormField(
+                                    controller: textController,
+                                    onChanged: (value) {
+                                      _filterContacts(value);
+                                    },
+                                    autofocus: false,
+                                    obscureText: false,
+                                    decoration: InputDecoration(
+                                      hintText: 'Contact Name',
+                                      hintStyle: FlutterFlowTheme.of(context)
+                                          .bodyText1,
+                                      enabledBorder: UnderlineInputBorder(
+                                        borderSide: const BorderSide(
+                                          color: Color(0x00000000),
+                                          width: 1,
+                                        ),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      focusedBorder: UnderlineInputBorder(
+                                        borderSide: const BorderSide(
+                                          color: Color(0x00000000),
+                                          width: 1,
+                                        ),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      errorBorder: UnderlineInputBorder(
+                                        borderSide: const BorderSide(
+                                          color: Color(0x00000000),
+                                          width: 1,
+                                        ),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      focusedErrorBorder: UnderlineInputBorder(
+                                        borderSide: const BorderSide(
+                                          color: Color(0x00000000),
+                                          width: 1,
+                                        ),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      filled: true,
+                                      fillColor:
+                                          FlutterFlowTheme.of(context).gray,
+                                      suffixIcon: IconButton(
+                                        onPressed: () {
+                                          textController?.clear();
+                                          _filterContacts('');
+                                        },
+                                        icon: Icon(
+                                          Icons.highlight_off_sharp,
+                                          color: Color(0xFF757575),
+                                          size: 22,
+                                        ),
+                                      ),
+                                    ),
+                                    style:
+                                        FlutterFlowTheme.of(context).bodyText1,
+                                  ),
+                                ),
+                              )
+                            ],
                           )
                         : Container(),
                     Padding(
